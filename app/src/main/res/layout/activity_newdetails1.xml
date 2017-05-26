@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <LinearLayout
+        android:layout_below="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <com.jaydenxiao.common.commonwidget.details.DetailScrollView
+            android:id="@+id/scrollView"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+            <LinearLayout
+                android:id="@+id/llContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <com.jaydenxiao.common.commonwidget.details.DetailWebView
+                    android:id="@+id/webview"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent"
+                    android:scrollbars="none"/>
+
+                <com.jaydenxiao.common.commonwidget.details.DetailListView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+        </com.jaydenxiao.common.commonwidget.details.DetailScrollView>
+        <TextView
+            android:id="@+id/tvReply"
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:text="回复栏"
+            android:visibility="gone"
+            android:background="#ffffffff"
+            android:gravity="center"
+            />
+    </LinearLayout>
+    <Button
+        android:onClick="onBtnScroll"
+        android:visibility="gone"
+        android:text="滚动咯"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

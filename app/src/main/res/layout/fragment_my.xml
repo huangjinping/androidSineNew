@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.jaydenxiao.common.commonwidget.NormalTitleBar
+        android:id="@+id/ntb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_unlogin"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/gray_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        >
+
+        <ImageView
+            android:id="@+id/img_login_phone"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_login_type"
+            android:padding="10dp"
+            android:src="@drawable/ic_phone" />
+
+        <ImageView
+            android:id="@+id/img_login_wechat"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_login_type"
+            android:padding="10dp"
+            android:src="@drawable/ic_wechat" />
+
+        <ImageView
+            android:id="@+id/img_login_qq"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_login_type"
+            android:padding="10dp"
+            android:src="@drawable/ic_qq" />
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:rotation="180"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_arrow_left" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/background"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_user_icon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_after_login"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="米其林"
+                android:textColor="@color/black"
+                android:textSize="20px" />
+        </LinearLayout>
+
+        <include layout="@layout/layout_login_message"></include>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_curriculum_vitae"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        style="@style/layout_bottom_line"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="我的简历"
+            android:textColor="?attr/dayNightTwoTextColor" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:text="清除缓存"
+                android:textColor="?attr/dayNightTwoTextColor" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_arrow_right" />
+        </RelativeLayout>
+
+        <TextView
+         style="@style/line"
+            ></TextView>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_browse_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:text="浏览历史"
+                android:textColor="?attr/dayNightTwoTextColor" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_arrow_right" />
+        </RelativeLayout>
+
+        <TextView
+            style="@style/line"
+            ></TextView>
+        <RelativeLayout
+            android:id="@+id/rl_feed_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:text="反馈"
+                android:textColor="?attr/dayNightTwoTextColor" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_arrow_right" />
+        </RelativeLayout>
+
+        <TextView
+            style="@style/line"
+            ></TextView>
+        <RelativeLayout
+            android:id="@+id/rl_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="8dp"
+                android:text="关于新加坡万事通"
+                android:textColor="?attr/dayNightTwoTextColor" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_arrow_right" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/zone_friend_add" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="添加更多感兴趣的内容"
+            android:textColor="?attr/dayNightTwoTextColor" />
+    </RelativeLayout>
+
+</LinearLayout>
