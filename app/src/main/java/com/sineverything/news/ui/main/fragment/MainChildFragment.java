@@ -177,8 +177,14 @@ public class MainChildFragment extends BaseFragment {
                     @Override
                     public void onAfter() {
                         super.onAfter();
-                        xrFreshview.stopRefresh();
-                        xrFreshview.stopLoadMore();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                xrFreshview.stopRefresh();
+                                xrFreshview.stopLoadMore();
+                            }
+                        });
+
                     }
 
                     @Override
