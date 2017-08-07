@@ -19,7 +19,7 @@ import com.jaydenxiao.common.commonutils.LogUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.app.AppConstant;
 import com.sineverything.news.comm.TabEntity;
-import com.sineverything.news.ui.city.fragment.CityFragment;
+import com.sineverything.news.ui.commodity.fragment.CommodityFragment;
 import com.sineverything.news.ui.main.fragment.MainFragment;
 import com.sineverything.news.ui.my.fragment.MyFragment;
 import com.sineverything.news.ui.service.fragment.ServiceFragment;
@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_layout)
     CommonTabLayout tabLayout;
 
-    private String[] mTitles = {"新闻", "同城", "服务", "我的"};
+    private String[] mTitles = {"新闻", "商城", "服务", "我的"};
     private int[] mIconUnselectIds = {
             R.mipmap.ic_home_normal, R.mipmap.ic_girl_normal, R.mipmap.ic_video_normal, R.mipmap.ic_care_normal};
     private int[] mIconSelectIds = {
@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     private MainFragment mainFragment;
-    private CityFragment cityFragment;
+    private CommodityFragment commodityFragment;
     private ServiceFragment serviceFragment;
     private MyFragment myFragment;
     private static int tabLayoutHeight;
@@ -100,18 +100,18 @@ public class MainActivity extends BaseActivity {
         int currentTabPosition = 0;
         if (savedInstanceState != null) {
             mainFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("mainFragment");
-            cityFragment = (CityFragment) getSupportFragmentManager().findFragmentByTag("cityFragment");
+            commodityFragment = (CommodityFragment) getSupportFragmentManager().findFragmentByTag("commodityFragment");
             serviceFragment = (ServiceFragment) getSupportFragmentManager().findFragmentByTag("serviceFragment");
             myFragment = (MyFragment) getSupportFragmentManager().findFragmentByTag("myFragment");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             mainFragment = new MainFragment();
-            cityFragment = new CityFragment();
+            commodityFragment = new CommodityFragment();
             serviceFragment = new ServiceFragment();
             myFragment = new MyFragment();
 
             transaction.add(R.id.fl_body, mainFragment, "mainFragment");
-            transaction.add(R.id.fl_body, cityFragment, "cityFragment");
+            transaction.add(R.id.fl_body, commodityFragment, "commodityFragment");
             transaction.add(R.id.fl_body, serviceFragment, "serviceFragment");
             transaction.add(R.id.fl_body, myFragment, "myFragment");
         }
@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             //首页
             case 0:
-                transaction.hide(cityFragment);
+                transaction.hide(commodityFragment);
                 transaction.hide(myFragment);
                 transaction.hide(serviceFragment);
                 transaction.show(mainFragment);
@@ -140,13 +140,13 @@ public class MainActivity extends BaseActivity {
                 transaction.hide(mainFragment);
                 transaction.hide(myFragment);
                 transaction.hide(serviceFragment);
-                transaction.show(cityFragment);
+                transaction.show(commodityFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             //视频
             case 2:
                 transaction.hide(mainFragment);
-                transaction.hide(cityFragment);
+                transaction.hide(commodityFragment);
                 transaction.hide(myFragment);
                 transaction.show(serviceFragment);
                 transaction.commitAllowingStateLoss();
@@ -154,7 +154,7 @@ public class MainActivity extends BaseActivity {
             //关注
             case 3:
                 transaction.hide(mainFragment);
-                transaction.hide(cityFragment);
+                transaction.hide(commodityFragment);
                 transaction.hide(serviceFragment);
                 transaction.show(myFragment);
                 transaction.commitAllowingStateLoss();

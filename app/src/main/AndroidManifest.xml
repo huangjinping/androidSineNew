@@ -22,5 +22,11 @@
         <activity android:name=".ui.my.activity.PhoneLoginActivity"></activity>
         <activity android:name=".ui.main.activity.SearchNewsActivity"></activity>
         <activity android:name=".ui.main.activity.EditActivity"></activity>
+        <activity android:name=".ui.commodity.CommodityActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            ></activity>
+
+        <activity android:name=".ui.commodity.CommodityDetailsActivity">
+        </activity>
     </application>
 </manifest>

@@ -10,6 +10,11 @@ public class Classify {
     private int icon;
     private String title;
 
+    public Classify( String title,int icon) {
+        this.icon = icon;
+        this.title = title;
+    }
+
     public int getIcon() {
         return icon;
     }

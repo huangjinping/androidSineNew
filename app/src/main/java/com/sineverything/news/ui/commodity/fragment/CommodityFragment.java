@@ -1,9 +1,21 @@
 package com.sineverything.news.ui.commodity.fragment;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.jaydenxiao.common.base.BaseFragment;
 import com.sineverything.news.R;
+import com.sineverything.news.ui.commodity.CommodityActivity;
+import com.sineverything.news.ui.commodity.adapter.CommodityAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * author Created by harrishuang on 2017/8/5.
@@ -13,7 +25,22 @@ import com.sineverything.news.R;
 public class CommodityFragment extends BaseFragment {
 
 
-    private RecyclerView rec_commodity;
+    @Bind(R.id.ic_left_icon)
+    ImageView icLeftIcon;
+    @Bind(R.id.edt_search)
+    EditText edtSearch;
+    @Bind(R.id.layout_search)
+    LinearLayout layoutSearch;
+    @Bind(R.id.rec_commodity)
+    RecyclerView recCommodity;
+    private List<String> dataList;
+    private CommodityAdapter adapter;
+
+
+    public static BaseFragment getInstance() {
+        CommodityFragment fragment = new CommodityFragment();
+        return fragment;
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -27,7 +54,27 @@ public class CommodityFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        dataList = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            dataList.add("");
+        }
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
 
+                return position == 0 ? 2 : 1;
+            }
+        });
+        recCommodity.setLayoutManager(layoutManager);
+        adapter = new CommodityAdapter(dataList);
+        recCommodity.setAdapter(adapter);
+    }
+
+
+    @OnClick(R.id.layout_search)
+    public void onSearch() {
+        CommodityActivity.startAction(getActivity());
     }
 
 

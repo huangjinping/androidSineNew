@@ -4,11 +4,10 @@
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/hd_common_bg_selector"
+    android:background="@drawable/ic_common_bg_selector"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".controller.home.MainActivity">
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/iv_pic"

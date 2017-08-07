@@ -1,21 +1,18 @@
-package com.sineverything.news.ui.main.activity;
+package com.sineverything.news.ui.my.activity;
 
 import com.jaydenxiao.common.base.BaseActivity;
 import com.sineverything.news.R;
 
 /**
- * author Created by harrishuang on 2017/8/5.
+ * author Created by harrishuang on 2017/8/6.
  * email : huangjinping@hdfex.com
  */
 
-public class IndexActivity extends BaseActivity {
-
-
+public class LoginActivity extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-
-        return R.layout.activity_index;
+        return R.layout.activity_login;
     }
 
     @Override

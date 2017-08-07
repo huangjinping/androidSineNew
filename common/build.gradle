@@ -61,6 +61,8 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'//友盟统计
     compile 'org.jsoup:jsoup:1.10.2'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
+    compile 'com.joanzapata.android:base-adapter-helper:1.1.11'
+
 
 
 }

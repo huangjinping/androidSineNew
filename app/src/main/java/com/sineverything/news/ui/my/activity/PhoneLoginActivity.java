@@ -18,14 +18,6 @@ import butterknife.Bind;
  */
 
 public class PhoneLoginActivity extends BaseActivity {
-    @Bind(R.id.ntb)
-    NormalTitleBar ntb;
-    @Bind(R.id.edit_login_phone)
-    EditText editLoginPhone;
-    @Bind(R.id.bt_verification_code)
-    Button btVerificationCode;
-    @Bind(R.id.edit_verification_code)
-    EditText editVerificationCode;
 
     @Override
     public int getLayoutId() {
@@ -39,13 +31,7 @@ public class PhoneLoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        ntb.setTitleText(R.string.phone_login_title);
-        ntb.setOnBackListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
 

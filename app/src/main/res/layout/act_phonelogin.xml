@@ -14,6 +14,39 @@
 
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账号："
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="100dp"
+            android:inputType="phone"
+            android:hint="请输入手机号"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:background="@color/transparent"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            style="@style/line"
+            />
+
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +62,7 @@
             android:inputType="phone"
             android:background="@color/transparent"
             android:maxLength="11"
-            android:hint="手机号码"
+            android:hint="验证码"
             style="@style/input_comm"
 
             />
@@ -54,26 +87,36 @@
         />
 
 
-    <LinearLayout
+
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
+        android:padding="10dp"
+
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密码："
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            />
 
         <EditText
-            android:id="@+id/edit_verification_code"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:maxLength="11"
-            style="@style/input_comm"
-            android:hint="请输入验证码"
-
+            android:paddingLeft="100dp"
+            android:inputType="phone"
+            android:hint="请输入登录密码"
             />
-    </LinearLayout>
+    </RelativeLayout>
+
+
+
     <TextView
         android:layout_marginTop="5dp"
        style="@style/line"
