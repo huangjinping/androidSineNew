@@ -25,8 +25,14 @@
         <activity android:name=".ui.commodity.CommodityActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             ></activity>
-
+        <activity android:name=".ui.my.activity.AddressActivity"></activity>
+        <activity android:name=".ui.order.activity.ConfirmOrderActivity"></activity>
         <activity android:name=".ui.commodity.CommodityDetailsActivity">
         </activity>
+        <activity android:name=".ui.my.activity.ShopCarActivity"></activity>
+        <activity android:name=".ui.my.activity.EditAddressActivity"></activity>
+        <activity android:name=".ui.my.activity.CollectionActivity"></activity>
+        <activity android:name=".ui.my.activity.FeedbackActivity"></activity>
+        <activity android:name=".ui.my.activity.HelpCenterActivity"></activity>
     </application>
 </manifest>

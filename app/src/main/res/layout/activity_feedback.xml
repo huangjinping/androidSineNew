@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+    <com.jaydenxiao.common.commonwidget.NormalTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jaydenxiao.common.commonwidget.NormalTitleBar>
+
+
+    <EditText
+        android:id="@+id/edt_feed_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="10"
+        android:textSize="14sp"
+        android:background="@color/white"
+        android:hint="请留下您的宝贵意见和建议"
+        android:gravity="top|left"
+        android:padding="10dp"
+        />
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:textSize="14sp"
+        android:background="@color/white"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:hint="请留下您的联系方式QQ/手机/邮箱，便于我们与您联系"
+        />
+
+
+
+
+</LinearLayout>

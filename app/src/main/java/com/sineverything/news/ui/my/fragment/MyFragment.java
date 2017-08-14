@@ -1,5 +1,9 @@
 package com.sineverything.news.ui.my.fragment;
 
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -7,9 +11,14 @@ import android.widget.RelativeLayout;
 import com.jaydenxiao.common.base.BaseFragment;
 import com.jaydenxiao.common.commonwidget.NormalTitleBar;
 import com.sineverything.news.R;
+import com.sineverything.news.ui.my.activity.CollectionActivity;
+import com.sineverything.news.ui.my.activity.FeedbackActivity;
+import com.sineverything.news.ui.my.activity.HelpCenterActivity;
 import com.sineverything.news.ui.my.activity.PhoneLoginActivity;
+import com.sineverything.news.ui.my.activity.ShopCarActivity;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -42,6 +51,12 @@ public class MyFragment extends BaseFragment {
     RelativeLayout rlFeedBack;
     @Bind(R.id.rl_about)
     RelativeLayout rlAbout;
+    @Bind(R.id.rl_shop_car)
+    RelativeLayout rlShopCar;
+    @Bind(R.id.rl_my_conllection)
+    RelativeLayout rlMyConllection;
+    @Bind(R.id.rl_help_center)
+    RelativeLayout rlHelpCenter;
 
     @Override
     protected int getLayoutResource() {
@@ -60,8 +75,31 @@ public class MyFragment extends BaseFragment {
     }
 
     @OnClick(R.id.img_login_phone)
-    public void  phoneLogin(){
+    public void phoneLogin() {
         PhoneLoginActivity.startAction(getActivity());
     }
+
+
+    @OnClick(R.id.rl_shop_car)
+    public void openShopCar() {
+        ShopCarActivity.startAction(getActivity());
+    }
+
+
+    @OnClick(R.id.rl_my_conllection)
+    public void openMyConllection() {
+        CollectionActivity.startAction(getActivity());
+    }
+
+    @OnClick(R.id.rl_feed_back)
+    public void openFeedBack() {
+        FeedbackActivity.startAction(getActivity());
+    }
+
+    @OnClick(R.id.rl_help_center)
+    public void openHelpCenter(){
+        HelpCenterActivity.startAction(getActivity());
+    }
+
 
 }
