@@ -1,5 +1,8 @@
 package com.sineverything.news.ui.my.activity;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.jaydenxiao.common.base.BaseActivity;
 import com.sineverything.news.R;
 
@@ -23,5 +26,10 @@ public class EditAddressActivity extends BaseActivity {
     @Override
     public void initView() {
 
+    }
+
+    public static void startAction(Context context){
+        Intent intent=new Intent(context,EditAddressActivity.class);
+        context.startActivity(intent);
     }
 }

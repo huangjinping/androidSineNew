@@ -1,5 +1,7 @@
 package com.sineverything.news.ui.my.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -38,10 +40,17 @@ public class AddressActivity extends BaseActivity {
     @Override
     public void initView() {
         dataList=new ArrayList<>();
+        for (int i = 0; i <10 ; i++) {
+            dataList.add("");
+        }
         adapter=new AddressAdapter(dataList);
         recAddress.setLayoutManager(new LinearLayoutManager(this));
         recAddress.setAdapter(adapter);
     }
 
 
+    public static void startAction(Context context) {
+        Intent intent=new Intent(context,AddressActivity.class);
+        context.startActivity(intent);
+    }
 }

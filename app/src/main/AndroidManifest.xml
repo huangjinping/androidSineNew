@@ -34,5 +34,8 @@
         <activity android:name=".ui.my.activity.CollectionActivity"></activity>
         <activity android:name=".ui.my.activity.FeedbackActivity"></activity>
         <activity android:name=".ui.my.activity.HelpCenterActivity"></activity>
+        <activity android:name=".ui.my.activity.LogisticsInformationActivity">
+        </activity>
+        <activity android:name=".ui.commodity.SearchCommodityActivity"></activity>
     </application>
 </manifest>

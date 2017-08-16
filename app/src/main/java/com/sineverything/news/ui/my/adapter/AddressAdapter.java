@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sineverything.news.R;
+import com.sineverything.news.comm.MyItemClickListener;
+import com.sineverything.news.ui.my.activity.EditAddressActivity;
 
 import java.util.List;
 
@@ -17,10 +19,16 @@ import java.util.List;
 
 public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String>  dataList;
+    private List<String> dataList;
 
     public AddressAdapter(List<String> dataList) {
         this.dataList = dataList;
+    }
+
+    public MyItemClickListener itemClickListener;
+
+    public void setItemClickListener(MyItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -32,7 +40,13 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        ViewHolder viewHolder = (ViewHolder) holder;
+        viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditAddressActivity.startAction(v.getContext());
+            }
+        });
     }
 
     @Override
@@ -40,7 +54,7 @@ public class AddressAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return dataList.size();
     }
 
-    public static class ViewHolder  extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public TextView txt_address;
         public TextView txt_address_edit;

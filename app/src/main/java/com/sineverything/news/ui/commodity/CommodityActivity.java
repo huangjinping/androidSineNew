@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * author Created by harrishuang on 2017/8/5.
@@ -81,6 +82,11 @@ public class CommodityActivity extends BaseActivity {
         recCommodityList.setAdapter(adapter);
     }
 
+    @OnClick(R.id.txt_action)
+    public void search(){
+
+        SearchCommodityActivity.startAction(this);
+    }
 
     public static void startAction(Context context) {
         Intent intent = new Intent(context, CommodityActivity.class);

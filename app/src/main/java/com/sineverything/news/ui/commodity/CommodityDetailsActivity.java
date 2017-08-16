@@ -20,11 +20,13 @@ import com.jaydenxiao.common.view.details.StatusBarUtil;
 import com.joanzapata.android.BaseAdapterHelper;
 import com.joanzapata.android.QuickAdapter;
 import com.sineverything.news.R;
+import com.sineverything.news.ui.my.activity.ShopCarActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * author Created by harrishuang on 2017/8/6.
@@ -200,6 +202,12 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         } else {    //滑动到banner下面设置普通颜色
             llGoodDetail.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
         }
+    }
+
+
+    @OnClick(R.id.tv_good_detail_shop_cart)
+    public void toShopCar(){
+        ShopCarActivity.startAction(this);
     }
 
 }

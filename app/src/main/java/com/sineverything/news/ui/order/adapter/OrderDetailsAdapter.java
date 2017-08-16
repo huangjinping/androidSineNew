@@ -8,23 +8,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sineverything.news.R;
-import com.sineverything.news.ui.my.activity.AddressActivity;
 
 import java.util.List;
 
 /**
- * author Created by harrishuang on 2017/8/7.
+ * author Created by harrishuang on 2017/8/15.
  * email : huangjinping@hdfex.com
  */
 
-public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int HEADER = 1;
     private final int ITEM = 2;
     private final int FOOTER = 3;
     private List<String> dataList;
 
-    public ConfirmOrderAdapter(List<String> dataList) {
+    public OrderDetailsAdapter(List<String> dataList) {
         this.dataList = dataList;
     }
 
@@ -32,29 +31,19 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if (HEADER == viewType) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_confirmorder_header, parent, false);
-            return new ViewHeaderHolder(view);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_order_header, parent, false);
+            return new ConfirmOrderAdapter.ViewHeaderHolder(view);
         } else if (FOOTER == viewType) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_confirmorder_footer, parent, false);
-            return new ViewFooterHolder(view);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_order_footer, parent, false);
+            return new ConfirmOrderAdapter.ViewFooterHolder(view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_confirmorder_item, parent, false);
-            return new ViewHolder(view);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_order_item, parent, false);
+            return new ConfirmOrderAdapter.ViewHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        if (position==0){
-            ViewHeaderHolder viewHeaderHolder= (ViewHeaderHolder) holder;
-            viewHeaderHolder.rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AddressActivity.startAction(v.getContext());
-                }
-            });
-        }
 
     }
 
