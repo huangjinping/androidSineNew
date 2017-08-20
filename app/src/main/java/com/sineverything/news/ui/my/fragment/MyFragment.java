@@ -11,11 +11,13 @@ import android.widget.RelativeLayout;
 import com.jaydenxiao.common.base.BaseFragment;
 import com.jaydenxiao.common.commonwidget.NormalTitleBar;
 import com.sineverything.news.R;
+import com.sineverything.news.ui.commodity.ClassifyActivity;
 import com.sineverything.news.ui.my.activity.CollectionActivity;
 import com.sineverything.news.ui.my.activity.FeedbackActivity;
 import com.sineverything.news.ui.my.activity.HelpCenterActivity;
 import com.sineverything.news.ui.my.activity.PhoneLoginActivity;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
+import com.sineverything.news.ui.order.activity.OrderListActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,6 +59,8 @@ public class MyFragment extends BaseFragment {
     RelativeLayout rlMyConllection;
     @Bind(R.id.rl_help_center)
     RelativeLayout rlHelpCenter;
+    @Bind(R.id.rl_order_list)
+    RelativeLayout rlOrderList;
 
     @Override
     protected int getLayoutResource() {
@@ -97,9 +101,13 @@ public class MyFragment extends BaseFragment {
     }
 
     @OnClick(R.id.rl_help_center)
-    public void openHelpCenter(){
+    public void openHelpCenter() {
         HelpCenterActivity.startAction(getActivity());
     }
 
 
+    @OnClick(R.id.rl_order_list)
+   public void  onOrderList(){
+        ClassifyActivity.startAction(getActivity());
+   }
 }

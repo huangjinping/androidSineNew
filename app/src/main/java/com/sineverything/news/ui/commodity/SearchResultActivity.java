@@ -1,4 +1,4 @@
-package com.sineverything.news.ui.order.activity;
+package com.sineverything.news.ui.commodity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jaydenxiao.common.base.BaseActivity;
 import com.sineverything.news.R;
-import com.sineverything.news.ui.order.adapter.ConfirmOrderAdapter;
+import com.sineverything.news.ui.commodity.adapter.CommodityListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,42 +15,42 @@ import java.util.List;
 import butterknife.Bind;
 
 /**
- * author Created by harrishuang on 2017/8/7.
+ * author Created by harrishuang on 2017/8/15.
  * email : huangjinping@hdfex.com
  */
 
-public class ConfirmOrderActivity extends BaseActivity {
+public class SearchResultActivity extends BaseActivity {
 
-    @Bind(R.id.rec_confirm_order)
-    RecyclerView recConfirmOrder;
+
+    @Bind(R.id.rec_search_commodity)
+    RecyclerView recSearchCommodity;
+    private CommodityListAdapter adapter;
     private List<String> dataList;
-    private ConfirmOrderAdapter adapter;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_confirmorder;
+        return R.layout.activity_resultcommodity;
     }
 
     @Override
     public void initPresenter() {
-        
+
     }
 
     @Override
     public void initView() {
+
         dataList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 100; i++) {
             dataList.add("");
         }
-        adapter = new ConfirmOrderAdapter(dataList);
-        recConfirmOrder.setLayoutManager(new LinearLayoutManager(this));
-        recConfirmOrder.setAdapter(adapter);
+        adapter = new CommodityListAdapter(dataList);
+        recSearchCommodity.setLayoutManager(new LinearLayoutManager(this));
+        recSearchCommodity.setAdapter(adapter);
     }
 
     public static void startAction(Context context) {
-
-        Intent intent = new Intent(context, ConfirmOrderActivity.class);
+        Intent intent = new Intent(context, SearchResultActivity.class);
         context.startActivity(intent);
     }
-
 }

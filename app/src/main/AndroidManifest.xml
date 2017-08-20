@@ -22,20 +22,29 @@
         <activity android:name=".ui.my.activity.PhoneLoginActivity"></activity>
         <activity android:name=".ui.main.activity.SearchNewsActivity"></activity>
         <activity android:name=".ui.main.activity.EditActivity"></activity>
-        <activity android:name=".ui.commodity.CommodityActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            ></activity>
+        <activity
+            android:name=".ui.commodity.CommodityActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"></activity>
         <activity android:name=".ui.my.activity.AddressActivity"></activity>
         <activity android:name=".ui.order.activity.ConfirmOrderActivity"></activity>
-        <activity android:name=".ui.commodity.CommodityDetailsActivity">
-        </activity>
+        <activity android:name=".ui.commodity.CommodityDetailsActivity"></activity>
         <activity android:name=".ui.my.activity.ShopCarActivity"></activity>
         <activity android:name=".ui.my.activity.EditAddressActivity"></activity>
         <activity android:name=".ui.my.activity.CollectionActivity"></activity>
         <activity android:name=".ui.my.activity.FeedbackActivity"></activity>
         <activity android:name=".ui.my.activity.HelpCenterActivity"></activity>
-        <activity android:name=".ui.my.activity.LogisticsInformationActivity">
-        </activity>
+        <activity android:name=".ui.my.activity.LogisticsInformationActivity"></activity>
         <activity android:name=".ui.commodity.SearchCommodityActivity"></activity>
+        <activity android:name=".ui.order.activity.OrderListActivity"></activity>
+        <activity
+            android:name=".WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden"
+
+            ></activity>
+        <activity android:name=".ui.commodity.ClassifyActivity"></activity>
     </application>
 </manifest>

@@ -210,6 +210,30 @@
                 </RelativeLayout>
 
                 <TextView style="@style/line"></TextView>
+                <RelativeLayout
+                    android:id="@+id/rl_order_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:text="我的订单"
+                        android:textColor="?attr/dayNightTwoTextColor" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+
+                <TextView style="@style/line"></TextView>
 
                 <RelativeLayout
                     android:id="@+id/rl_my_conllection"

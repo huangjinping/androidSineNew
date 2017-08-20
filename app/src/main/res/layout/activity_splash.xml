@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
+    android:gravity="bottom|center_horizontal"
     android:orientation="vertical">
+
+
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -21,5 +24,7 @@
         android:layout_centerInParent="true"
         android:padding="10dp"
         android:text="@string/app_name"
-        android:textColor="@color/gray_deep" />
-</RelativeLayout>
+        android:textColor="@color/gray_deep"
+        android:layout_marginBottom="100dp"
+        />
+</LinearLayout>

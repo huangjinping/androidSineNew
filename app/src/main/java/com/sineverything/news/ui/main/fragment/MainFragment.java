@@ -35,7 +35,7 @@ public class MainFragment extends BaseFragment {
     private List<BaseFragment> fragmentList;
 
     private final String[] mTitles = {
-            "国内", "国外"
+            "新加坡", "天下"
     };
 
     private NewsPagerAdapter adapter;

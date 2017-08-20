@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import com.bumptech.glide.Glide;
+import com.cameroon.banner.Banner;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.main.NewsItem;
 import com.sineverything.news.comm.GlideImageLoader;
 import com.sineverything.news.ui.main.activity.NewsDetailsActivity;
-import com.youth.banner.Banner;
 
 import java.util.List;
 

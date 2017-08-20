@@ -6,8 +6,8 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.cameroon.banner.loader.ImageLoader;
 import com.sineverything.news.bean.main.NewsItem;
-import com.youth.banner.loader.ImageLoader;
 
 /**
  * author Created by harrishuang on 2017/5/15.

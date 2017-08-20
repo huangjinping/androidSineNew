@@ -27,8 +27,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     testCompile 'junit:junit:4.12'
-    compile 'com.youth.banner:banner:1.4.9'  //最新版本
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
 
     compile project(':common')
 }
