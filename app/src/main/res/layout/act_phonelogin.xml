@@ -40,11 +40,7 @@
             android:layout_centerVertical="true"
             android:background="@color/transparent"
             />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            style="@style/line"
-            />
+
 
     </RelativeLayout>
     <LinearLayout
@@ -82,9 +78,6 @@
             android:background="@color/transparent"
             />
     </LinearLayout>
-    <TextView
-        style="@style/line"
-        />
 
 
 
@@ -111,16 +104,14 @@
             android:layout_height="wrap_content"
             android:paddingLeft="100dp"
             android:inputType="phone"
+            android:background="@color/transparent"
             android:hint="请输入登录密码"
             />
     </RelativeLayout>
 
 
 
-    <TextView
-        android:layout_marginTop="5dp"
-       style="@style/line"
-        />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"

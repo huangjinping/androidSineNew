@@ -1,9 +1,5 @@
 package com.sineverything.news.ui.my.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,10 +13,8 @@ import com.sineverything.news.ui.my.activity.FeedbackActivity;
 import com.sineverything.news.ui.my.activity.HelpCenterActivity;
 import com.sineverything.news.ui.my.activity.PhoneLoginActivity;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
-import com.sineverything.news.ui.order.activity.OrderListActivity;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -107,7 +101,7 @@ public class MyFragment extends BaseFragment {
 
 
     @OnClick(R.id.rl_order_list)
-   public void  onOrderList(){
+    public void onOrderList() {
         ClassifyActivity.startAction(getActivity());
-   }
+    }
 }
