@@ -2,12 +2,15 @@ package com.sineverything.news.ui.commodity.fragment;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.jaydenxiao.common.base.BaseFragment;
 import com.sineverything.news.R;
+import com.sineverything.news.comm.MyItemClickListener;
+import com.sineverything.news.ui.commodity.ClassifyActivity;
 import com.sineverything.news.ui.commodity.CommodityActivity;
 import com.sineverything.news.ui.commodity.adapter.CommodityAdapter;
 
@@ -42,6 +45,7 @@ public class CommodityFragment extends BaseFragment {
         return fragment;
     }
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_commodity;
@@ -55,6 +59,7 @@ public class CommodityFragment extends BaseFragment {
     @Override
     protected void initView() {
         dataList = new ArrayList<>();
+
         for (int i = 0; i < 100; i++) {
             dataList.add("");
         }
@@ -68,6 +73,14 @@ public class CommodityFragment extends BaseFragment {
         });
         recCommodity.setLayoutManager(layoutManager);
         adapter = new CommodityAdapter(dataList);
+        adapter.setItemHeaderClickListener(new MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                if (postion==7){
+                    ClassifyActivity.startAction(getActivity());
+                }
+            }
+        });
         recCommodity.setAdapter(adapter);
     }
 

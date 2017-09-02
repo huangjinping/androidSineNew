@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_color"
+        android:background="@color/white"
 
         >
 
@@ -27,10 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_centerInParent="true"
-            tl:tl_indicator_color="@color/white"
+            tl:tl_indicator_color="@color/blue_bar"
             tl:tl_textAllCaps="true"
-            tl:tl_textSelectColor="@color/white"
-            tl:tl_textUnselectColor="@color/background"
+            tl:tl_textSelectColor="@color/blue_bar"
+            tl:tl_textUnselectColor="@color/grey_text_color_normal"
             tl:tl_textsize="14sp" />
         <ImageView
             android:id="@+id/img_edit"

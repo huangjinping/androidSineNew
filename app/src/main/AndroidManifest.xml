@@ -10,7 +10,17 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
     <application
         android:name=".app.AppApplication"
         android:allowBackup="true"
@@ -49,7 +59,12 @@
         <activity android:name=".ui.order.activity.OrderListActivity"></activity>
 
         <activity
-            android:name=".WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"></activity>
@@ -63,15 +78,20 @@
                 <category android:name="android.intent.category.BROWSABLE"></category>
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="58c3d9fbe88bad7394000131">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng">
+        </meta-data>
         <activity android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             >
-
         </activity>
-
-
-
         <activity android:name=".ui.commodity.ClassifyActivity"></activity>
     </application>
 </manifest>

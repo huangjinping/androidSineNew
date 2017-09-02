@@ -26,4 +26,9 @@
     <color name="original_border_color">#F18459</color>
     <color name="grey_normal_bg">#EEEEEE</color>
 
+    <color name="service_red">#EB4444</color>
+    <color name="service_yellow">#FF9125</color>
+    <color name="service_green">#52B651</color>
+    <color name="service_blue">#2D7CE1</color>
+
 </resources>

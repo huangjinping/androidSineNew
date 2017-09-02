@@ -1,4 +1,4 @@
-package com.sineverything.news;
+package com.sineverything.news.wxapi;
 
 import com.jaydenxiao.common.base.BaseActivity;
 import com.sineverything.news.comm.WXConstants;

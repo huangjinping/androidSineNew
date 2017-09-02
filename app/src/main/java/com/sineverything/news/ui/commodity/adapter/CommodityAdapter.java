@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Classify;
+import com.sineverything.news.comm.MyItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,17 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int ITEM = 2;
     final List<Classify> mClassify = new ArrayList<>();
 
+    private MyItemClickListener itemHeaderClickListener;
 
+    public MyItemClickListener getItemHeaderClickListener() {
+        return itemHeaderClickListener;
+    }
 
-    public CommodityAdapter( List<String> dataList) {
+    public void setItemHeaderClickListener(MyItemClickListener itemHeaderClickListener) {
+        this.itemHeaderClickListener = itemHeaderClickListener;
+    }
+
+    public CommodityAdapter(List<String> dataList) {
         this.dataList = dataList;
         mClassify.add(new Classify("超市", R.mipmap.menu_1));
         mClassify.add(new Classify("化妆品", R.mipmap.menu_2));
@@ -60,13 +69,15 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
-            HeaderViewHolder headerViewHolder= (HeaderViewHolder) holder;
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             Context context = headerViewHolder.rec_commodity_header.getContext();
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 4);
             headerViewHolder.rec_commodity_header.setLayoutManager(mLayoutManager);
             HomeTopMenuAdapter mAdapter = new HomeTopMenuAdapter(context, mClassify);
             headerViewHolder.rec_commodity_header.setAdapter(mAdapter);
-
+            if (itemHeaderClickListener != null) {
+                mAdapter.setmListener(itemHeaderClickListener);
+            }
         } else {
 
 

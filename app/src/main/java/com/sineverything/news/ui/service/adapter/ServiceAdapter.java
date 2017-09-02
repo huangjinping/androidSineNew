@@ -1,15 +1,21 @@
 package com.sineverything.news.ui.service.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Classify;
+import com.sineverything.news.bean.service.ChildMenu;
+import com.sineverything.news.bean.service.ServiceMenu;
 import com.sineverything.news.ui.commodity.adapter.HomeTopMenuAdapter;
 
 import java.util.ArrayList;
@@ -29,21 +35,26 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private static final int MENU_Three = 3;
 
-    private List<String> dataList;
+    private List<ServiceMenu> dataList;
     final List<Classify> mClassify = new ArrayList<>();
+    private Context context;
+    private Resources resources;
 
-    public ServiceAdapter(List<String> dataList) {
+
+    public ServiceAdapter(List<ServiceMenu> dataList) {
         this.dataList = dataList;
-        mClassify.add(new Classify("超市", R.mipmap.menu_1));
-        mClassify.add(new Classify("化妆品", R.mipmap.menu_2));
-        mClassify.add(new Classify("服装", R.mipmap.menu_3));
-        mClassify.add(new Classify("手机数码", R.mipmap.menu_4));
+        mClassify.add(new Classify("餐厅推荐", R.mipmap.ic_service_menu1));
+        mClassify.add(new Classify("热门景点", R.mipmap.ic_service_menu2));
+        mClassify.add(new Classify("热门院校", R.mipmap.ic_service_menu3));
+        mClassify.add(new Classify("创业指南", R.mipmap.ic_service_menu4));
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         if (MENU_ONE == viewType) {
+            context = parent.getContext();
+            resources = context.getResources();
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_menu_one, parent, false);
             return new ViewHolderOne(view);
         } else if (MENU_TWO == viewType) {
@@ -61,14 +72,65 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolderOne) {
-            ViewHolderOne viewHolderOne= (ViewHolderOne) holder;
+            ViewHolderOne viewHolderOne = (ViewHolderOne) holder;
             Context context = viewHolderOne.rec_service_menu.getContext();
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(context, 4);
             viewHolderOne.rec_service_menu.setLayoutManager(mLayoutManager);
             HomeTopMenuAdapter mAdapter = new HomeTopMenuAdapter(context, mClassify);
             viewHolderOne.rec_service_menu.setAdapter(mAdapter);
-
         }
+
+        if (holder instanceof ViewHolderTwo) {
+            ServiceMenu serviceMenu = dataList.get(position - 1);
+            Log.d("hjp","======>>>>>>>>"+position);
+            ViewHolderTwo viewholder = (ViewHolderTwo) holder;
+            viewholder.layout_service_menu.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+            viewholder.txt_service_title.setText(serviceMenu.getTitle());
+            viewholder.img_icon.setImageResource(serviceMenu.getIcon());
+            List<ChildMenu> list = serviceMenu.getList();
+            if (list.size()==3){
+                ChildMenu childMenu = list.get(0);
+                viewholder.txt_child_menu1.setText(childMenu.getTitle());
+                viewholder.txt_child_menu1.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+
+                viewholder.txt_child_menu2.setVisibility(View.GONE);
+
+
+                ChildMenu childMenu1 = list.get(1);
+                viewholder.txt_child_menu3.setText(childMenu1.getTitle());
+                viewholder.txt_child_menu3.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+
+                ChildMenu childMenu2= list.get(2);
+                viewholder.txt_child_menu4.setText(childMenu2.getTitle());
+                viewholder.txt_child_menu4.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+
+
+            }else if (list.size()==4){
+                ChildMenu childMenu = list.get(0);
+                viewholder.txt_child_menu1.setText(childMenu.getTitle());
+                viewholder.txt_child_menu1.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+
+
+                ChildMenu childMenu1 = list.get(1);
+                viewholder.txt_child_menu2.setText(childMenu1.getTitle());
+                viewholder.txt_child_menu2.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+
+
+                viewholder.txt_child_menu2.setVisibility(View.VISIBLE);
+
+
+                ChildMenu childMenu2 = list.get(2);
+                viewholder.txt_child_menu3.setText(childMenu2.getTitle());
+                viewholder.txt_child_menu3.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+
+
+                ChildMenu childMenu3= list.get(3);
+                viewholder.txt_child_menu4.setText(childMenu3.getTitle());
+                viewholder.txt_child_menu4.setBackgroundColor(resources.getColor(serviceMenu.getBackgroundColor()));
+
+            }
+        }
+
     }
 
 
@@ -76,7 +138,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int getItemViewType(int position) {
         if (position == 0) {
             return MENU_ONE;
-        } else if (position == dataList.size() - 1) {
+        } else if (position == dataList.size() +1) {
             return MENU_Three;
         } else {
             return MENU_TWO;
@@ -85,7 +147,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return dataList.size()+2;
     }
 
     public static class ViewHolderOne extends RecyclerView.ViewHolder {
@@ -100,17 +162,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public static class ViewHolderTwo extends RecyclerView.ViewHolder {
-        public View rootView;
-        public ImageView img_icon;
-
-        public ViewHolderTwo(View rootView) {
-            super(rootView);
-            this.rootView = rootView;
-            this.img_icon = (ImageView) rootView.findViewById(R.id.img_icon);
-        }
-
-    }
 
     public static class ViewHolderThree extends RecyclerView.ViewHolder {
         public View rootView;
@@ -120,6 +171,32 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(rootView);
             this.rootView = rootView;
             this.img_bannner = (ImageView) rootView.findViewById(R.id.img_bannner);
+        }
+
+    }
+
+    public static class ViewHolderTwo extends RecyclerView.ViewHolder {
+        public View rootView;
+        public TextView txt_service_title;
+        public ImageView img_icon;
+        public TextView txt_child_menu1;
+        public TextView txt_child_menu2;
+        public TextView txt_child_menu3;
+        public TextView txt_child_menu4;
+        public RelativeLayout layout_service_menu;
+
+
+        public ViewHolderTwo(View rootView) {
+            super(rootView);
+
+            this.rootView = rootView;
+            this.txt_service_title = (TextView) rootView.findViewById(R.id.txt_service_title);
+            this.img_icon = (ImageView) rootView.findViewById(R.id.img_icon);
+            this.txt_child_menu1 = (TextView) rootView.findViewById(R.id.txt_child_menu1);
+            this.txt_child_menu2 = (TextView) rootView.findViewById(R.id.txt_child_menu2);
+            this.txt_child_menu3 = (TextView) rootView.findViewById(R.id.txt_child_menu3);
+            this.txt_child_menu4 = (TextView) rootView.findViewById(R.id.txt_child_menu4);
+            this.layout_service_menu = (RelativeLayout) rootView.findViewById(R.id.layout_service_menu);
         }
 
     }

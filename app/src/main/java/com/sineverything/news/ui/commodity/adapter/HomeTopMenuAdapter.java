@@ -68,7 +68,10 @@ public class HomeTopMenuAdapter  extends RecyclerView.Adapter<HomeTopMenuAdapter
             viewHolder.llRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.onItemClick(v, position);
+                    if (mListener!=null){
+                        mListener.onItemClick(v, position);
+                    }
+
                 }
             });
         }

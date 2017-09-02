@@ -42,6 +42,8 @@ public class MainActivity extends BaseActivity {
     private String[] mTitles = {"新闻", "商城", "服务", "我的"};
     private int[] mIconUnselectIds = {
             R.mipmap.ic_home_normal, R.mipmap.ic_girl_normal, R.mipmap.ic_video_normal, R.mipmap.ic_care_normal};
+
+
     private int[] mIconSelectIds = {
             R.mipmap.ic_home_selected, R.mipmap.ic_girl_selected, R.mipmap.ic_video_selected, R.mipmap.ic_care_selected};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();

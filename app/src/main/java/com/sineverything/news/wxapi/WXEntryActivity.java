@@ -1,4 +1,4 @@
-package com.sineverything.news;
+package com.sineverything.news.wxapi;
 
 
 //import com.umeng.weixin.callback.WXCallbackActivity;
