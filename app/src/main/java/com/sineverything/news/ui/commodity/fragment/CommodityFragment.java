@@ -2,23 +2,35 @@ package com.sineverything.news.ui.commodity.fragment;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.andview.refreshview.XRefreshView;
 import com.jaydenxiao.common.base.BaseFragment;
+import com.jaydenxiao.common.okhttp.LoadMode;
+import com.jaydenxiao.common.okhttp.OkHttpUtils;
+import com.jaydenxiao.common.okhttp.callback.StringCallback;
+import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
+import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.commodity.Goods;
+import com.sineverything.news.bean.commodity.GoodsResponse;
 import com.sineverything.news.comm.MyItemClickListener;
 import com.sineverything.news.ui.commodity.ClassifyActivity;
 import com.sineverything.news.ui.commodity.CommodityActivity;
 import com.sineverything.news.ui.commodity.adapter.CommodityAdapter;
+import com.sineverything.news.ui.my.activity.SelectAreaActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * author Created by harrishuang on 2017/8/5.
@@ -36,7 +48,9 @@ public class CommodityFragment extends BaseFragment {
     LinearLayout layoutSearch;
     @Bind(R.id.rec_commodity)
     RecyclerView recCommodity;
-    private List<String> dataList;
+    @Bind(R.id.xr_freshview)
+    XRefreshView xrFreshview;
+    private List<Goods> dataList;
     private CommodityAdapter adapter;
 
 
@@ -60,9 +74,6 @@ public class CommodityFragment extends BaseFragment {
     protected void initView() {
         dataList = new ArrayList<>();
 
-        for (int i = 0; i < 100; i++) {
-            dataList.add("");
-        }
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -76,12 +87,52 @@ public class CommodityFragment extends BaseFragment {
         adapter.setItemHeaderClickListener(new MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                if (postion==7){
+                if (postion == 7) {
                     ClassifyActivity.startAction(getActivity());
+                } else {
+                    SelectAreaActivity.startAction(getActivity());
                 }
             }
         });
         recCommodity.setAdapter(adapter);
+
+
+        xrFreshview.setPullRefreshEnable(true);
+        xrFreshview.setPullLoadEnable(true);
+        xrFreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+            @Override
+            public void onRefresh() {
+                super.onRefresh();
+                Log.d("zajiaxiaozi", "onRefresh");
+
+            }
+
+            @Override
+            public void onRefresh(boolean isPullDown) {
+                super.onRefresh(isPullDown);
+                loadGoods(LoadMode.NOMAL);
+
+
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                super.onLoadMore(isSilence);
+                loadGoods(LoadMode.PULL_REFRSH);
+
+            }
+
+            @Override
+            public void onRelease(float direction) {
+                super.onRelease(direction);
+
+            }
+
+            @Override
+            public void onHeaderMove(double offset, int offsetY) {
+                super.onHeaderMove(offset, offsetY);
+            }
+        });
     }
 
 
@@ -89,6 +140,116 @@ public class CommodityFragment extends BaseFragment {
     public void onSearch() {
         CommodityActivity.startAction(getActivity());
     }
+
+
+    /**
+     * 文件的
+     */
+    private void loadIndexHots() {
+        startProgressDialog();
+        OkHttpUtils.post().url(HostConstants.INDEX_HOTS)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                Log.d("okhttp", response);
+            }
+        });
+    }
+
+
+    private int page = 0;
+
+    /**
+     * 文件的
+     */
+    private void loadGoods(final LoadMode loadMode) {
+
+        if (loadMode == LoadMode.NOMAL) {
+
+        }
+        if (loadMode != LoadMode.UP_REFRESH) {
+            page = 0;
+        }
+        startProgressDialog();
+
+        OkHttpUtils.post()
+                .url(HostConstants.INDEX_HOTS)
+                .addParams("pageSize", "30")
+                .addParams("pageIndex", page + "")
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        xrFreshview.stopRefresh();
+                        xrFreshview.stopLoadMore();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+                GoodsResponse goodsResponse = GsonUtil.changeGsonToBean(response, GoodsResponse.class);
+                if (goodsResponse != null) {
+                    if (isOkCode(goodsResponse.getCode(), goodsResponse.getMessage())) {
+                        // 成功
+                        if (loadMode != LoadMode.UP_REFRESH) {
+                            dataList.clear();
+                        }
+                        page++;
+                        if (goodsResponse.getResult() != null) {
+                            dataList.addAll(goodsResponse.getResult());
+                            adapter.notifyDataSetChanged();
+                        } else {
+//                            onEmpty();
+                        }
+
+                        if (dataList.size() > 16) {
+//                            xr_freshview.setPullLoadEnable(true);
+                        } else {
+//                            xr_freshview.setPullLoadEnable(false);
+                        }
+                    }
+
+
+                }
+
+            }
+        });
+    }
+
 
 
 }

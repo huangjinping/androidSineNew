@@ -20,7 +20,7 @@
             />
 
         <TextView
-            android:id="@+id/txt_commodity_name"
+            android:id="@+id/txt_goodsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -28,7 +28,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/txt_price"
+            android:id="@+id/txt_goodsPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sineverything.news.R;
+import com.sineverything.news.bean.order.Order;
+import com.sineverything.news.comm.MyItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,15 @@ import java.util.List;
 
 public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> dataList;
+    private List<Order> dataList;
 
-    public OrderListAdapter(List<String> dataList) {
+    private MyItemClickListener itemClickListener;
+
+    public void setItemClickListener(MyItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public OrderListAdapter(List<Order> dataList) {
         this.dataList = dataList;
     }
 
@@ -33,14 +41,28 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        List<String> data = new ArrayList<>();
-        data.add("");
-        data.add("");
-        OrderChildAdapter childAdapter = new OrderChildAdapter(data);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
+        Order order = dataList.get(position);
+
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.rec_order_child.setLayoutManager(new LinearLayoutManager(viewHolder.rec_order_child.getContext()));
-        viewHolder.rec_order_child.setAdapter(childAdapter);
+
+        if (order.getGoodsInfo()!=null){
+
+            OrderChildAdapter childAdapter = new OrderChildAdapter(order.getGoodsInfo());
+            viewHolder.rec_order_child.setLayoutManager(new LinearLayoutManager(viewHolder.rec_order_child.getContext()));
+            viewHolder.rec_order_child.setAdapter(childAdapter);
+
+        }
+
+        viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener!=null){
+                    itemClickListener.onItemClick(v,position);
+                }
+            }
+        });
     }
 
     @Override

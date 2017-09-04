@@ -13,6 +13,7 @@ import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.sineverything.news.R;
+import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.comm.TabEntity;
 import com.sineverything.news.ui.commodity.adapter.CommodityListAdapter;
 
@@ -41,7 +42,7 @@ public class CommodityActivity extends BaseActivity {
     RecyclerView recCommodityList;
     private String[] mTitles = {"综合", "销量", "价格"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-    private List<String> dataList;
+    private List<Goods> dataList;
     private CommodityListAdapter adapter;
 
 
@@ -70,13 +71,8 @@ public class CommodityActivity extends BaseActivity {
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
-
         layoutFilter.setTabData(mTabEntities);
-
         dataList=new ArrayList<>();
-        for (int i = 0; i <100 ; i++) {
-            dataList.add("");
-        }
         adapter=new CommodityListAdapter(dataList);
         recCommodityList.setLayoutManager(new LinearLayoutManager(this));
         recCommodityList.setAdapter(adapter);

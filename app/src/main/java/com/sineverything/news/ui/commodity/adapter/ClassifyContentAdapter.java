@@ -1,7 +1,6 @@
 package com.sineverything.news.ui.commodity.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sineverything.news.R;
+import com.sineverything.news.bean.commodity.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +22,13 @@ import java.util.List;
 
 public class ClassifyContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> dataList;
+    private List<MenuItem> dataList;
     private static final int HEADER = 1;
     private static final int ITEM = 2;
     final List<String> mClassify = new ArrayList<>();
 
-    public ClassifyContentAdapter(List<String> dataList) {
+    public ClassifyContentAdapter(List<MenuItem> dataList) {
         this.dataList = dataList;
-        mClassify.add("");
-        mClassify.add("");
-        mClassify.add("");
 
     }
 

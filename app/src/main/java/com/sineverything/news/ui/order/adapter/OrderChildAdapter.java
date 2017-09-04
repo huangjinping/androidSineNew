@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sineverything.news.R;
+import com.sineverything.news.bean.order.GoodsInfo;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ import java.util.List;
 public class OrderChildAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<String>  dataList;
+    private List<GoodsInfo>  dataList;
 
-    public OrderChildAdapter(List<String> dataList) {
+    public OrderChildAdapter(List<GoodsInfo> dataList) {
         this.dataList = dataList;
     }
 

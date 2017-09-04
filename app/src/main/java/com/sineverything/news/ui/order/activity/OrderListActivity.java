@@ -3,14 +3,12 @@ package com.sineverything.news.ui.order.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.base.BaseFragmentAdapter;
 import com.sineverything.news.R;
-import com.sineverything.news.ui.main.fragment.MainChildFragment;
 import com.sineverything.news.ui.order.fragment.OrderListFragment;
 
 import java.util.ArrayList;
@@ -47,9 +45,9 @@ public class OrderListActivity extends BaseActivity {
     public void initView() {
         titleList = new ArrayList<>();
         fragmentList = new ArrayList<>();
-        for (int i = 0; i <10 ; i++) {
-            titleList.add("d"+i);
-            fragmentList.add(new OrderListFragment());
+        for (int i = 0; i < 10; i++) {
+            titleList.add("d" + i);
+            fragmentList.add(OrderListFragment.getInstance("10"));
         }
         mAdapter = new BaseFragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         vipOrder.setAdapter(mAdapter);
@@ -58,7 +56,7 @@ public class OrderListActivity extends BaseActivity {
 
 
     public static void startAction(Context context) {
-        Intent intent=new Intent(context,OrderListActivity.class);
+        Intent intent = new Intent(context, OrderListActivity.class);
         context.startActivity(intent);
     }
 }

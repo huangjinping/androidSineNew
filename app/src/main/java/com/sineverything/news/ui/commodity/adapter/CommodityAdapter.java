@@ -10,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Classify;
+import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.comm.MyItemClickListener;
 
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ import java.util.List;
 public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ViewHolder viewHolder;
-    private List<String> dataList;
+    private List<Goods> dataList;
 
     private static final int HEADER = 1;
     private static final int ITEM = 2;
@@ -41,7 +44,7 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.itemHeaderClickListener = itemHeaderClickListener;
     }
 
-    public CommodityAdapter(List<String> dataList) {
+    public CommodityAdapter(List<Goods> dataList) {
         this.dataList = dataList;
         mClassify.add(new Classify("超市", R.mipmap.menu_1));
         mClassify.add(new Classify("化妆品", R.mipmap.menu_2));
@@ -68,6 +71,7 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
         if (position == 0) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             Context context = headerViewHolder.rec_commodity_header.getContext();
@@ -79,8 +83,10 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 mAdapter.setmListener(itemHeaderClickListener);
             }
         } else {
-
-
+            ViewHolder viewHolder= (ViewHolder) holder;
+            Context context=viewHolder.img_item.getContext();
+            Goods goods = dataList.get(position - 1);
+            ImageLoaderUtils.display(context,viewHolder.img_item,goods.getGoodsMainPhoto());
         }
     }
 
@@ -99,21 +105,6 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public View rootView;
-        public ImageView img_item;
-        public TextView txt_commodity_name;
-        public TextView txt_price;
-
-        public ViewHolder(View rootView) {
-            super(rootView);
-            this.rootView = rootView;
-            this.img_item = (ImageView) rootView.findViewById(R.id.img_item);
-            this.txt_commodity_name = (TextView) rootView.findViewById(R.id.txt_commodity_name);
-            this.txt_price = (TextView) rootView.findViewById(R.id.txt_price);
-        }
-    }
-
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public LinearLayout layout_header_view;
@@ -126,6 +117,25 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.layout_header_view = (LinearLayout) rootView.findViewById(R.id.layout_header_view);
             this.txt_new_title = (TextView) rootView.findViewById(R.id.txt_new_title);
             this.rec_commodity_header = (RecyclerView) rootView.findViewById(R.id.rec_commodity_header);
+        }
+
+    }
+
+
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public View rootView;
+        public ImageView img_item;
+        public TextView txt_goodsName;
+        public TextView txt_goodsPrice;
+        public ViewHolder(View rootView) {
+            super(rootView);
+
+            this.rootView = rootView;
+            this.img_item = (ImageView) rootView.findViewById(R.id.img_item);
+            this.txt_goodsName = (TextView) rootView.findViewById(R.id.txt_goodsName);
+            this.txt_goodsPrice = (TextView) rootView.findViewById(R.id.txt_goodsPrice);
         }
 
     }

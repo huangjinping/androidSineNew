@@ -40,6 +40,33 @@ public interface HostConstants {
      *收取收取信息
      */
     String SEND_SMS_CODE = HOME_HOST + "/login/sendSmsCode";
-
+    /**
+     * 登录界面
+     */
+    String     LOGIN =HOME_HOST+"/login/";
+    /**
+     * 热门分类
+     */
+    String       INDEX_HOTS=HOME_HOST+"/mobile/index/hots";
+    /**
+     * 获取首页banner
+     */
+    String   GET_INDEX_BANNDER=HOME_HOST+"/cms/getIndexBanner";
+    /**
+     * 1.05新闻详情
+     */
+    String  CMS_DETAIL=HOME_HOST+"/cms/detail";
+    /**
+     * 相关热点新闻
+     */
+    String  RELATE_HOST =HOME_HOST+"/cms/relateHots";
+    /**
+     *问题
+     */
+    String  VERSION_CHECK=HOME_HOST+"/version/check";
+    /**
+     * 列表
+     */
+    String  SERVICE_INFO_LIST=HOME_HOST+"/cms/getServiceInfoList";
 
 }

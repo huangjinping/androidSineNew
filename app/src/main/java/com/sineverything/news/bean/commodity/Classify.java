@@ -1,11 +1,13 @@
 package com.sineverything.news.bean.commodity;
 
+import com.sineverything.news.bean.BaseBean.BaseBean;
+
 /**
  * author Created by harrishuang on 2017/8/5.
  * email : huangjinping@hdfex.com
  */
 
-public class Classify {
+public class Classify  extends BaseBean{
 
     private int icon;
     private String title;

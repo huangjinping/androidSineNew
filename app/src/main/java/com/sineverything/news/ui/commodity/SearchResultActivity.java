@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jaydenxiao.common.base.BaseActivity;
 import com.sineverything.news.R;
+import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.ui.commodity.adapter.CommodityListAdapter;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class SearchResultActivity extends BaseActivity {
     @Bind(R.id.rec_search_commodity)
     RecyclerView recSearchCommodity;
     private CommodityListAdapter adapter;
-    private List<String> dataList;
+    private List<Goods> dataList;
 
     @Override
     public int getLayoutId() {
@@ -41,8 +42,8 @@ public class SearchResultActivity extends BaseActivity {
     public void initView() {
 
         dataList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            dataList.add("");
+        for (int i = 0; i <100 ; i++) {
+            dataList.add(new Goods());
         }
         adapter = new CommodityListAdapter(dataList);
         recSearchCommodity.setLayoutManager(new LinearLayoutManager(this));

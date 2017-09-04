@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jaydenxiao.common.base.BaseFragment;
 import com.sineverything.news.R;
+import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.ui.commodity.adapter.CommodityListAdapter;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CollectionCommodityFragment extends BaseFragment {
     @Bind(R.id.rec_collection)
     RecyclerView recCollection;
     private CommodityListAdapter mAdapter;
-    private List<String> dataList;
+    private List<Goods> dataList;
     public static BaseFragment getInstance(){
         CollectionCommodityFragment fragment=new CollectionCommodityFragment();
         return fragment;
@@ -42,7 +43,7 @@ public class CollectionCommodityFragment extends BaseFragment {
     protected void initView() {
         dataList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            dataList.add("");
+            dataList.add(new Goods());
         }
         mAdapter = new CommodityListAdapter(dataList);
         recCollection.setLayoutManager(new LinearLayoutManager(getActivity()));

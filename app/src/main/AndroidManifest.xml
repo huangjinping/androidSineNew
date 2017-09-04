@@ -24,9 +24,9 @@
     <application
         android:name=".app.AppApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -58,6 +58,9 @@
         <activity android:name=".ui.commodity.SearchCommodityActivity"></activity>
         <activity android:name=".ui.order.activity.OrderListActivity"></activity>
 
+        <activity android:name=".ui.my.activity.SelectAreaActivity">
+        </activity>
+
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -68,6 +71,22 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".ui.my.activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <activity android:name=".ui.order.activity.OrderDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"

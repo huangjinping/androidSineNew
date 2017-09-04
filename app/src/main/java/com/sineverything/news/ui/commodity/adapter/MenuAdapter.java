@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sineverything.news.R;
+import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.comm.MyItemClickListener;
 
 import java.util.List;
@@ -18,14 +19,14 @@ import java.util.List;
  */
 
 public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<String> dataList;
+    private List<MenuItem> dataList;
     private MyItemClickListener itemClickListener;
 
     public void setItemClickListener(MyItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
-    public MenuAdapter(List<String> dataList) {
+    public MenuAdapter(List<MenuItem> dataList) {
         this.dataList = dataList;
     }
 
@@ -38,9 +39,9 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder= (ViewHolder) holder;
-        String name= dataList.get(position);
-        if (!TextUtils.isEmpty(name)){
-            viewHolder.txt_menu.setText(name);
+        MenuItem item= dataList.get(position);
+        if (!TextUtils.isEmpty(item.getClassName())){
+            viewHolder.txt_className.setText(item.getClassName());
         }
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +61,12 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
-        public TextView txt_menu;
+        public TextView txt_className;
 
         public ViewHolder(View rootView) {
             super(rootView);
             this.rootView = rootView;
-            this.txt_menu = (TextView) rootView.findViewById(R.id.txt_menu);
+            this.txt_className = (TextView) rootView.findViewById(R.id.txt_className);
         }
 
     }

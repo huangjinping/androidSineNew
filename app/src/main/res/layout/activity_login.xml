@@ -49,13 +49,14 @@
                 android:background="@color/transparent"
                 android:hint="请输入手机号"
                 android:inputType="phone"
-                android:paddingLeft="100dp" />
+                android:maxLength="11"
+                android:paddingLeft="10dp" />
         </RelativeLayout>
 
         <ImageView
             style="@style/line"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0.3dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
@@ -64,7 +65,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp"
-
             >
 
             <EditText
@@ -74,7 +74,7 @@
                 android:background="@color/transparent"
                 android:hint="请输入登录密码"
                 android:inputType="phone"
-                android:paddingLeft="100dp"
+                android:paddingLeft="10dp"
 
                 />
         </RelativeLayout>
@@ -82,7 +82,7 @@
         <ImageView
             style="@style/line"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0.2dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 

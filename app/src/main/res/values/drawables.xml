@@ -1,0 +1,18 @@
+<resources>
+    <item name="ic_menu_camera" type="drawable">@android:drawable/ic_menu_camera</item>
+    <item name="ic_menu_gallery" type="drawable">@android:drawable/ic_menu_gallery</item>
+    <item name="ic_menu_slideshow" type="drawable">@android:drawable/ic_menu_slideshow</item>
+    <item name="ic_menu_manage" type="drawable">@android:drawable/ic_menu_manage</item>
+    <item name="ic_menu_share" type="drawable">@android:drawable/ic_menu_share</item>
+    <item name="ic_menu_send" type="drawable">@android:drawable/ic_menu_send</item>
+
+    <!--城市选择-->
+    <drawable name="citylist_fbutton_color_turquoise">#1abc9c</drawable>
+    <drawable name="citylist_fbutton_color_turquoise_p">#138871</drawable>
+    <drawable name="citylist_fbutton_color_emerald">#2ecc71</drawable>
+    <drawable name="citylist_line">#BEBEBE</drawable>
+    <drawable name="citylist_bg_center">#f0f0f0</drawable>
+    <drawable name="citylist_mycenter_item_n">#ffffff</drawable>
+    <drawable name="citylist_mycenter_item_p">#cecece</drawable>
+
+</resources>

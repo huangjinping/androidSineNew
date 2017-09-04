@@ -6,11 +6,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.okhttp.LoadMode;
+import com.jaydenxiao.common.okhttp.OkHttpUtils;
+import com.jaydenxiao.common.okhttp.callback.StringCallback;
+import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
+import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.commodity.GoodsResponse;
+import com.sineverything.news.bean.commodity.MenuItem;
+import com.sineverything.news.bean.commodity.MenuResponse;
 import com.sineverything.news.comm.MyItemClickListener;
 import com.sineverything.news.ui.commodity.adapter.MenuAdapter;
 import com.sineverything.news.ui.commodity.fragment.ClassifyFragment;
@@ -19,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * author Created by harrishuang on 2017/8/19.
@@ -33,7 +44,7 @@ public class ClassifyActivity extends BaseActivity {
     @Bind(R.id.layout_menu_content)
     LinearLayout layoutMenuContent;
     private MenuAdapter menuAdapter;
-    private List<String> menuList;
+    private List<MenuItem> menuList;
     private FragmentManager supportFragmentManager;
 
     @Override
@@ -51,9 +62,7 @@ public class ClassifyActivity extends BaseActivity {
     public void initView() {
         supportFragmentManager = getSupportFragmentManager();
         menuList = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            menuList.add("=" + i);
-        }
+
         menuAdapter = new MenuAdapter(menuList);
         recMenu.setLayoutManager(new LinearLayoutManager(this));
         recMenu.setAdapter(menuAdapter);
@@ -64,7 +73,12 @@ public class ClassifyActivity extends BaseActivity {
             }
         });
 
+        loadMenu();
     }
+
+
+
+
 
 
     private void setFragmentByType(String type) {
@@ -79,4 +93,46 @@ public class ClassifyActivity extends BaseActivity {
         Intent intent = new Intent(context, ClassifyActivity.class);
         context.startActivity(intent);
     }
+
+
+
+    /**
+     * 一级菜单
+     */
+    private void loadMenu() {
+        startProgressDialog();
+        OkHttpUtils.post().url(HostConstants.INDEX_HOTS)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                MenuResponse menuResponse = GsonUtil.changeGsonToBean(response, MenuResponse.class);
+                if (menuResponse != null) {
+                    if (isOkCode(menuResponse.getCode(), menuResponse.getMessage())) {
+                        // 成功
+                        menuList.clear();
+                        menuList.addAll(menuResponse.getResult());
+                        menuAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
+
 }

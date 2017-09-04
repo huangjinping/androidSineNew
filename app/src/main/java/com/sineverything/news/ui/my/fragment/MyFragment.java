@@ -11,6 +11,7 @@ import com.sineverything.news.ui.commodity.ClassifyActivity;
 import com.sineverything.news.ui.my.activity.CollectionActivity;
 import com.sineverything.news.ui.my.activity.FeedbackActivity;
 import com.sineverything.news.ui.my.activity.HelpCenterActivity;
+import com.sineverything.news.ui.my.activity.LoginActivity;
 import com.sineverything.news.ui.my.activity.PhoneLoginActivity;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
 
@@ -74,7 +75,9 @@ public class MyFragment extends BaseFragment {
 
     @OnClick(R.id.img_login_phone)
     public void phoneLogin() {
-        PhoneLoginActivity.startAction(getActivity());
+        LoginActivity.startAction(getActivity());
+
+//        PhoneLoginActivity.startAction(getActivity());
     }
 
 

@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.okhttp.OkHttpUtils;
+import com.jaydenxiao.common.okhttp.callback.StringCallback;
+import com.jaydenxiao.common.utils.GsonUtil;
 import com.jaydenxiao.common.view.details.GradationScrollView;
 import com.jaydenxiao.common.view.details.MyImageLoader;
 import com.jaydenxiao.common.view.details.NoScrollListView;
@@ -20,6 +23,8 @@ import com.jaydenxiao.common.view.details.StatusBarUtil;
 import com.joanzapata.android.BaseAdapterHelper;
 import com.joanzapata.android.QuickAdapter;
 import com.sineverything.news.R;
+import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.commodity.GoodsDetailsResponse;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
 
 import java.util.ArrayList;
@@ -27,6 +32,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * author Created by harrishuang on 2017/8/6.
@@ -88,10 +95,9 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     LinearLayout llGoodDetailBottom;
     private QuickAdapter<String> imgAdapter;
     private List<String> imgsUrl;
-
     private int height;
     private int width;
-
+    private String goodsId;
     @Override
     public int getLayoutId() {
         return R.layout.activity_commoditydetails;
@@ -113,17 +119,22 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ivGoodDetaiImg.getLayoutParams();
         params.height = getScreenHeight(this) * 2 / 3;
         ivGoodDetaiImg.setLayoutParams(params);
-
         svContainer = new ScrollViewContainer(getApplicationContext());
-
-
         initImgDatas();
-
         initListeners();
+        Intent intent = getIntent();
+         goodsId = intent.getStringExtra("goodsId");
+        loadGoodDetails();
+
     }
 
-    public static void startAction(Context context) {
+    /**
+     * @param context
+     * @param goodsId
+     */
+    public static void startAction(Context context, String goodsId) {
         Intent intent = new Intent(context, CommodityDetailsActivity.class);
+        intent.putExtra("goodsId", goodsId);
         context.startActivity(intent);
     }
 
@@ -206,8 +217,46 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
 
 
     @OnClick(R.id.tv_good_detail_shop_cart)
-    public void toShopCar(){
+    public void toShopCar() {
         ShopCarActivity.startAction(this);
+    }
+
+    /**
+     * 一级菜单
+     */
+    private void loadGoodDetails() {
+        startProgressDialog();
+        OkHttpUtils.post()
+                .url(HostConstants.INDEX_HOTS)
+                .addParams("goodsId", goodsId)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                GoodsDetailsResponse detailsResponse = GsonUtil.changeGsonToBean(response, GoodsDetailsResponse.class);
+                if (detailsResponse != null) {
+                    if (isOkCode(detailsResponse.getCode(), detailsResponse.getMessage())) {
+
+                    }
+                }
+            }
+        });
     }
 
 }

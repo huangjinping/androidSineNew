@@ -25,6 +25,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/txt_goodsName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="asdasdasdasd"
@@ -43,6 +44,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:id="@+id/txt_goodsPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -50,6 +52,7 @@
                     android:textColor="@color/red" />
 
                 <TextView
+                    android:id="@+id/txt_goodsSaleNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

@@ -16,8 +16,12 @@ import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.main.BannerResponse;
 import com.sineverything.news.bean.main.NewsItem;
+import com.sineverything.news.bean.order.OrderDetails;
+import com.sineverything.news.bean.order.OrderDetailsResponse;
 import com.sineverything.news.ui.main.adpater.MainNewsAdapter;
+import com.sineverything.news.ui.order.activity.OrderDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +105,9 @@ public class MainChildFragment extends BaseFragment {
         recMain.setLayoutManager(new LinearLayoutManager(getContext()));
         recMain.setAdapter(adapter);
         loadData(LoadMode.NOMAL);
-        loadBannder();
+//        loadBannder();
+        getIndexBanner();
+
     }
 
 
@@ -209,6 +215,45 @@ public class MainChildFragment extends BaseFragment {
 
                     }
                 });
+    }
+
+    /**
+     * 获取banner表
+     */
+    private void getIndexBanner(){
+        startProgressDialog();
+        OkHttpUtils.post()
+                .url(HostConstants.GET_INDEX_BANNDER)
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                BannerResponse bannerResponse = GsonUtil.changeGsonToBean(response, BannerResponse.class);
+                if (bannerResponse != null) {
+                    if (isOkCode(bannerResponse.getCode(), bannerResponse.getMessage())) {
+                        // 成功
+
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
