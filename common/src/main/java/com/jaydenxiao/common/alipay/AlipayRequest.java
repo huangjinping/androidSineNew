@@ -12,6 +12,11 @@ import com.alipay.sdk.app.PayTask;
 public class AlipayRequest {
 
     public static void StartAlipay(final Activity activity, final String payInfo,final PayCallback payCallback){
+
+
+
+
+
         // 必须异步调用
        new Thread(new Runnable() {
             @Override

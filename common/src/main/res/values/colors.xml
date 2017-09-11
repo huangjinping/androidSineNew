@@ -14,7 +14,7 @@
     <color name="night_two_text_color">#8A9599</color>
     <color name="night_there_text_color">#8A9599</color>
     <!-- app主色调-->
-    <color name="main_color">#FFFF0000</color>
+    <color name="main_color">#2E7EE5</color>
     <color name="orange">#FA8C20</color>
     <color name="wheel_divider_line_color">#FF000000</color>
     <color name="wheel_item_text_color_selected">#FF0288ce</color>
@@ -41,6 +41,8 @@
     <color name="blue_check">#3493d4</color>
     <color name="toast_white">#ffffff</color>
     <color name="toast_stroke_gray">#99d4d4d4</color>
+
+    <color name="gray_light">#F5F5F5</color>
 
 
     <color name="alpha_05_white">#0DFFFFFF</color>

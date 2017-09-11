@@ -268,4 +268,19 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         ButterKnife.unbind(this);
         AppManager.getAppManager().finishActivity(this);
     }
+
+    public boolean isOkCode(int Code, String msg) {
+        if (0 == Code) {
+            return true;
+        }else {
+            showLongToast(msg);
+        }
+
+        return false;
+    }
+
+
+
+
+
 }
