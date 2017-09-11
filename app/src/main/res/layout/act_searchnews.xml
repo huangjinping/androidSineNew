@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_girl_selected" />
+            android:src="@mipmap/ic_back" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -61,9 +61,15 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rl_search"
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xr_freshview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.andview.refreshview.XRefreshView>
 
 </LinearLayout>

@@ -4,6 +4,8 @@
     <dimen name="alphabet_size">12dip</dimen>
     <dimen name="umeng_socialize_pad_window_height">350dip</dimen>
     <dimen name="umeng_socialize_pad_window_width">580dip</dimen>
+
+    <string name="facebook_app_id">asde123123</string>
     <!-- 平台名称 -->
     <string name="umeng_socialize_text_tencent_key">腾讯微博</string>
     <string name="umeng_socialize_text_wenxin_fav">微信收藏</string>

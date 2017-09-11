@@ -12,9 +12,27 @@ public class Classify  extends BaseBean{
     private int icon;
     private String title;
 
-    public Classify( String title,int icon) {
+    private String type;
+
+
+
+    public Classify(String title, int icon) {
         this.icon = icon;
         this.title = title;
+    }
+
+    public Classify(String title,int icon,  String type) {
+        this.icon = icon;
+        this.title = title;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getIcon() {

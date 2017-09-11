@@ -1,10 +1,16 @@
 package com.sineverything.news.ui.main.fragment;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jaydenxiao.common.base.BaseFragment;
@@ -16,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -32,6 +39,10 @@ public class MainFragment extends BaseFragment {
     ImageView imgSearch;
     @Bind(R.id.img_edit)
     ImageView imgEdit;
+    @Bind(R.id.edt_search)
+    EditText edtSearch;
+    @Bind(R.id.layout_search)
+    LinearLayout layoutSearch;
     private List<BaseFragment> fragmentList;
 
     private final String[] mTitles = {
@@ -50,33 +61,31 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.img_search)
-    public void onSearch(){
+    @OnClick(R.id.layout_search)
+    public void onSearch() {
         SearchNewsActivity.startAction(getActivity());
     }
 
 
     @OnClick(R.id.img_edit)
-    public void onEdit(){
+    public void onEdit() {
         EditActivity.startAction(getActivity());
     }
-
-
-
-
-
-
 
 
     @Override
     protected void initView() {
         fragmentList = new ArrayList<>();
-        fragmentList.add(MainChildFragment.getInstance("1"));
+        fragmentList.add(MainChildFragment.getInstance("0"));
         fragmentList.add(MainChildFragment.getInstance("1"));
         adapter = new NewsPagerAdapter(getChildFragmentManager());
         vipNews.setAdapter(adapter);
         tabLayoutHeader.setViewPager(vipNews, mTitles);
     }
+
+
+
+
 
 
     /**

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -61,30 +62,31 @@
     </LinearLayout>
 
 
-
-
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/layout_filter"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/white"
-        tl:tl_iconVisible="false"
         tl:tl_bar_color="@color/blue_bar"
+        tl:tl_iconVisible="false"
         tl:tl_indicator_color="@color/transparent"
         tl:tl_indicator_corner_radius="1.5dp"
         tl:tl_indicator_height="3dp"
-        tl:tl_textSelectColor="@color/blue_bar"
-        tl:tl_textUnselectColor="@color/black"
         tl:tl_indicator_style="TRIANGLE"
         tl:tl_indicator_width="10dp"
-        tl:tl_textsize="14sp"/>
+        tl:tl_textSelectColor="@color/blue_bar"
+        tl:tl_textUnselectColor="@color/black"
+        tl:tl_textsize="14sp" />
 
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rec_commodity_list"
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xr_freshview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_commodity_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </com.andview.refreshview.XRefreshView>
 
 </LinearLayout>

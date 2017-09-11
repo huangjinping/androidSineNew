@@ -3,6 +3,7 @@ package com.sineverything.news.ui.commodity.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Classify;
 import com.sineverything.news.bean.commodity.Goods;
+import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.comm.MyItemClickListener;
 
 import java.util.ArrayList;
@@ -32,28 +34,32 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private static final int HEADER = 1;
     private static final int ITEM = 2;
-    final List<Classify> mClassify = new ArrayList<>();
+    private List<MenuItem> mClassify ;
+
 
     private MyItemClickListener itemHeaderClickListener;
+
+    private MyItemClickListener itemClickListener;
+
+    public void setItemClickListener(MyItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     public MyItemClickListener getItemHeaderClickListener() {
         return itemHeaderClickListener;
     }
 
+
+
     public void setItemHeaderClickListener(MyItemClickListener itemHeaderClickListener) {
         this.itemHeaderClickListener = itemHeaderClickListener;
     }
 
-    public CommodityAdapter(List<Goods> dataList) {
+    public CommodityAdapter(List<MenuItem> menuList, List<Goods> dataList) {
         this.dataList = dataList;
-        mClassify.add(new Classify("超市", R.mipmap.menu_1));
-        mClassify.add(new Classify("化妆品", R.mipmap.menu_2));
-        mClassify.add(new Classify("服装", R.mipmap.menu_3));
-        mClassify.add(new Classify("手机数码", R.mipmap.menu_4));
-        mClassify.add(new Classify("家居家纺", R.mipmap.menu_5));
-        mClassify.add(new Classify("生鲜水果", R.mipmap.menu_6));
-        mClassify.add(new Classify("充值", R.mipmap.menu_7));
-        mClassify.add(new Classify("分类", R.mipmap.menu_8));
+        mClassify=menuList;
+
+
 
     }
 
@@ -85,8 +91,28 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else {
             ViewHolder viewHolder= (ViewHolder) holder;
             Context context=viewHolder.img_item.getContext();
-            Goods goods = dataList.get(position - 1);
+           final int i = position - 1;
+            Goods goods = dataList.get(i);
             ImageLoaderUtils.display(context,viewHolder.img_item,goods.getGoodsMainPhoto());
+
+            if (!TextUtils.isEmpty(goods.getGoodsName())){
+                viewHolder.txt_goodsName.setText(goods.getGoodsName());
+            }
+            if (!TextUtils.isEmpty(goods.getGoodsPrice())){
+                viewHolder.txt_goodsPrice.setText("S$"+goods.getGoodsPrice());
+
+            }
+
+
+            viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener!=null){
+                        itemClickListener.onItemClick(v,i);
+                    }
+                }
+            });
+
         }
     }
 

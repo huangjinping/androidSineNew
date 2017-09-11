@@ -3,14 +3,21 @@ package com.sineverything.news.ui.commodity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cameroon.banner.Banner;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
 import com.jaydenxiao.common.okhttp.callback.StringCallback;
@@ -24,13 +31,21 @@ import com.joanzapata.android.BaseAdapterHelper;
 import com.joanzapata.android.QuickAdapter;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.commodity.Goods;
+import com.sineverything.news.bean.commodity.GoodsDetails;
 import com.sineverything.news.bean.commodity.GoodsDetailsResponse;
+import com.sineverything.news.bean.main.User;
+import com.sineverything.news.comm.GlideImageLoader;
+import com.sineverything.news.comm.ShareProcess;
+import com.sineverything.news.comm.UserManager;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
+import com.sineverything.news.ui.order.activity.ConfirmOrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -93,11 +108,30 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     TextView tvGoodDetailBuy;
     @Bind(R.id.ll_good_detail_bottom)
     LinearLayout llGoodDetailBottom;
+    @Bind(R.id.txt_goodsName)
+    TextView txt_goodsName;
+    @Bind(R.id.txt_storePrice)
+    TextView txt_storePrice;
+    @Bind(R.id.web_details)
+    WebView web_details;
+    @Bind(R.id.txt_details)
+    TextView txt_details;
+    @Bind(R.id.ban_good_detai)
+    Banner ban_good_detai;
+    @Bind(R.id.roov_view)
+    LinearLayout roovView;
+
+
+    private GoodsDetails goodDetails;
+
     private QuickAdapter<String> imgAdapter;
     private List<String> imgsUrl;
     private int height;
     private int width;
-    private String goodsId;
+    private User user;
+    private Goods goods;
+    private ShareProcess process;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_commoditydetails;
@@ -108,9 +142,18 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
 
     }
 
+    @OnClick(R.id.iv_good_detai_share)
+    public void sharePic() {
+        process.shotAllView(this, roovView, new View[]{scrollview});
+    }
+
     @Override
     public void initView() {
 //透明状态栏
+        user = UserManager.getUser(mContext);
+        process = new ShareProcess(this);
+
+
         StatusBarUtil.setTranslucentForImageView(this, llOffset);
         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) llOffset.getLayoutParams();
         params1.setMargins(0, -StatusBarUtil.getStatusBarHeight(this) / 4, 0, 0);
@@ -123,18 +166,19 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         initImgDatas();
         initListeners();
         Intent intent = getIntent();
-         goodsId = intent.getStringExtra("goodsId");
+        goods = (Goods) intent.getSerializableExtra(Goods.class.getSimpleName());
+
         loadGoodDetails();
 
     }
 
     /**
      * @param context
-     * @param goodsId
+     * @param goods
      */
-    public static void startAction(Context context, String goodsId) {
+    public static void startAction(Context context, Goods goods) {
         Intent intent = new Intent(context, CommodityDetailsActivity.class);
-        intent.putExtra("goodsId", goodsId);
+        intent.putExtra(Goods.class.getSimpleName(), goods);
         context.startActivity(intent);
     }
 
@@ -227,8 +271,8 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     private void loadGoodDetails() {
         startProgressDialog();
         OkHttpUtils.post()
-                .url(HostConstants.INDEX_HOTS)
-                .addParams("goodsId", goodsId)
+                .url(HostConstants.GOODS_DETAILS)
+                .addParams("goodsId", goods.getGoodsId())
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -252,11 +296,58 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
                 GoodsDetailsResponse detailsResponse = GsonUtil.changeGsonToBean(response, GoodsDetailsResponse.class);
                 if (detailsResponse != null) {
                     if (isOkCode(detailsResponse.getCode(), detailsResponse.getMessage())) {
-
+                        GoodsDetails result = detailsResponse.getResult();
+                        goodDetails = result;
+                        setViewByData(result);
                     }
                 }
             }
         });
     }
+
+
+    @OnClick(R.id.tv_good_detail_buy)
+    public void onSubmitOrder() {
+
+        ConfirmOrderActivity.startAction(this, goodDetails, goods);
+
+
+    }
+
+    /**
+     * 商品详情
+     *
+     * @param result
+     */
+    private void setViewByData(GoodsDetails result) {
+
+        if (result == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(result.getGoodsName())) {
+            txt_goodsName.setText(result.getGoodsName());
+        }
+        GlideImageLoader glideImageLoader = new GlideImageLoader();
+        ban_good_detai.setImageLoader(glideImageLoader);
+        ban_good_detai.setImages(result.getGoodsPhotos());
+        ban_good_detai.isAutoPlay(true);
+        //设置轮播时间
+        ban_good_detai.setDelayTime(1500);
+        ban_good_detai.start();
+        tvGoodDetailDiscount.setText(result.getGoodsPrice());
+        txt_storePrice.setText(result.getStorePrice());
+
+        Log.d("hjp", "====>>>>>>" + result.getGoodsDetailsMobile());
+        web_details.loadData(getHtmlData(result.getGoodsDetailsMobile()), "text/html; charset=UTF-8", null);//这种写法可以正确解码
+//        txt_details.setMovementMethod(ScrollingMovementMethod.getInstance());//滚动
+//        txt_details.setText(Html.fromHtml(result.getGoodsDetailsMobile()));
+    }
+
+
+    private String getHtmlData(String bodyHTML) {
+        String head = "<head><style>img{max-width: 100%; width:auto; height: auto;}</style></head>";
+        return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
+    }
+
 
 }

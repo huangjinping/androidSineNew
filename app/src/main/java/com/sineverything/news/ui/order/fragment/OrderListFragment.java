@@ -1,10 +1,12 @@
 package com.sineverything.news.ui.order.fragment;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.andview.refreshview.XRefreshView;
 import com.jaydenxiao.common.base.BaseFragment;
@@ -19,13 +21,16 @@ import com.sineverything.news.bean.order.OrderDetails;
 import com.sineverything.news.bean.order.OrderDetailsResponse;
 import com.sineverything.news.bean.order.OrderListResponse;
 import com.sineverything.news.comm.MyItemClickListener;
+import com.sineverything.news.comm.widget.MultiStateView;
 import com.sineverything.news.ui.order.activity.OrderDetailsActivity;
+import com.sineverything.news.ui.order.activity.PaymentActivity;
 import com.sineverything.news.ui.order.adapter.OrderListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -41,6 +46,8 @@ public class OrderListFragment extends BaseFragment {
     RecyclerView recOrderList;
     @Bind(R.id.xr_freshview)
     XRefreshView xrFreshview;
+    @Bind(R.id.multiStateView)
+    MultiStateView multiStateView;
     private OrderListAdapter orderListAdapter;
     private List<Order> dataList;
     private String status;
@@ -65,16 +72,19 @@ public class OrderListFragment extends BaseFragment {
     @Override
     public void initView() {
         dataList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            dataList.add(new Order());
-        }
         orderListAdapter = new OrderListAdapter(dataList);
         recOrderList.setLayoutManager(new LinearLayoutManager(getContext()));
         recOrderList.setAdapter(orderListAdapter);
         orderListAdapter.setItemClickListener(new MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
+
+
                 loadOrderDetals(dataList.get(postion).getId());
+
+//                Order order = dataList.get(postion);
+//
+//                PaymentActivity.startAction(getActivity(),order.getId(),order.getTotalPrice());
             }
         });
         xrFreshview.setPullRefreshEnable(true);
@@ -83,7 +93,7 @@ public class OrderListFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 super.onRefresh();
-                Log.d("zajiaxiaozi", "onRefresh");
+
 
             }
 
@@ -110,31 +120,32 @@ public class OrderListFragment extends BaseFragment {
                 super.onHeaderMove(offset, offsetY);
             }
         });
+        loadOrder(LoadMode.NOMAL);
+
     }
 
-    private int page = 0;
+    private int page = 1;
 
     /**
      * 文件的
      */
     private void loadOrder(final LoadMode loadMode) {
 
-        if (loadMode == LoadMode.NOMAL) {
 
-        }
         if (loadMode != LoadMode.UP_REFRESH) {
-            page = 0;
+            page = 1;
         }
-        startProgressDialog();
+
 
         OkHttpUtils.post()
-                .url(HostConstants.INDEX_HOTS)
+                .url(HostConstants.ORDER_LIST)
                 .addParams("pageSize", "30")
                 .addParams("pageIndex", page + "")
                 .addParams("status", status)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
+                multiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
 
             }
 
@@ -146,7 +157,7 @@ public class OrderListFragment extends BaseFragment {
             @Override
             public void onAfter() {
                 super.onAfter();
-                stopProgressDialog();
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -185,18 +196,26 @@ public class OrderListFragment extends BaseFragment {
 
                 }
 
+                if (dataList.size() == 0) {
+                    multiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+
+                } else {
+                    multiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                }
+
             }
         });
     }
 
 
     /**
-     *下载详情
+     * 下载详情
      */
     private void loadOrderDetals(final String orderId) {
         startProgressDialog();
         OkHttpUtils.post()
-                .url(HostConstants.INDEX_HOTS)
+                .url(HostConstants.ORDER_DETAIL)
+                .addParams("orderId", orderId)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -222,10 +241,25 @@ public class OrderListFragment extends BaseFragment {
                     if (isOkCode(menuResponse.getCode(), menuResponse.getMessage())) {
                         // 成功
                         OrderDetails result = menuResponse.getResult();
+                        result.setOrderId(orderId);
                         OrderDetailsActivity.startAction(getContext(), result);
                     }
                 }
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

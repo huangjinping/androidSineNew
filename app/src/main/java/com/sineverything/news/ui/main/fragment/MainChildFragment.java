@@ -3,7 +3,6 @@ package com.sineverything.news.ui.main.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,11 @@ import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.main.Banner;
 import com.sineverything.news.bean.main.BannerResponse;
 import com.sineverything.news.bean.main.NewsItem;
-import com.sineverything.news.bean.order.OrderDetails;
-import com.sineverything.news.bean.order.OrderDetailsResponse;
+import com.sineverything.news.bean.main.NewsItemResponse;
 import com.sineverything.news.ui.main.adpater.MainNewsAdapter;
-import com.sineverything.news.ui.order.activity.OrderDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +43,9 @@ public class MainChildFragment extends BaseFragment {
     @Bind(R.id.xr_freshview)
     XRefreshView xrFreshview;
     private List<NewsItem> dataList;
-    private List<NewsItem> banners;
+    private List<Banner> banners;
+    public String type;
+
 
     @Override
     protected int getLayoutResource() {
@@ -65,32 +65,23 @@ public class MainChildFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 super.onRefresh();
-                Log.d("zajiaxiaozi", "onRefresh");
-
             }
 
             @Override
             public void onRefresh(boolean isPullDown) {
                 super.onRefresh(isPullDown);
-                Log.d("zajiaxiaozi", "onRefreshisPullDown");
                 loadData(LoadMode.NOMAL);
-
-
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
-                Log.d("zajiaxiaozi", "onLoadMore");
                 loadData(LoadMode.PULL_REFRSH);
-
             }
 
             @Override
             public void onRelease(float direction) {
                 super.onRelease(direction);
-                Log.d("zajiaxiaozi", "onRelease");
-
             }
 
             @Override
@@ -105,7 +96,6 @@ public class MainChildFragment extends BaseFragment {
         recMain.setLayoutManager(new LinearLayoutManager(getContext()));
         recMain.setAdapter(adapter);
         loadData(LoadMode.NOMAL);
-//        loadBannder();
         getIndexBanner();
 
     }
@@ -113,66 +103,30 @@ public class MainChildFragment extends BaseFragment {
 
     public static BaseFragment getInstance(String s) {
         MainChildFragment fragment = new MainChildFragment();
+        fragment.type = s;
         return fragment;
     }
 
-
-    /**
-     * 下载banner
-     */
-    private void loadBannder() {
-        OkHttpUtils.get().url(HostConstants.NEWSLIST).build().execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e) {
-
-            }
-
-            @Override
-            public void onBefore(Request request) {
-                super.onBefore(request);
-            }
-
-            @Override
-            public void onAfter() {
-                super.onAfter();
-
-            }
-
-            @Override
-            public void onResponse(String response) {
-
-                try {
-                    List<NewsItem> newsItems = GsonUtil.stringToArray(response, NewsItem[].class);
-                    banners.clear();
-                    banners.addAll(newsItems);
-                    adapter.notifyDataSetChanged();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-    }
 
     /**
      * 下载中央数据
      *
      * @param loadMode
      */
-    private int page = 0;
+    private int page = 1;
 
     private void loadData(final LoadMode loadMode) {
         if (loadMode == LoadMode.NOMAL) {
 
         }
         if (loadMode != LoadMode.UP_REFRESH) {
-            page = 0;
+            page = 1;
         }
-        OkHttpUtils.get()
+        OkHttpUtils.post()
                 .url(HostConstants.NEWSLIST)
-//                .addParams("token", user.getToken())
-//                .addParams("id", user.getId())
+                .addParams("type", type)
+                .addParams("pageSize", "20")
+                .addParams("pageIndex", page + "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -199,15 +153,21 @@ public class MainChildFragment extends BaseFragment {
 
                     @Override
                     public void onResponse(String response) {
-
                         try {
-                            List<NewsItem> newsItems = GsonUtil.stringToArray(response, NewsItem[].class);
-                            if (loadMode != LoadMode.UP_REFRESH) {
-                                dataList.clear();
-                                page++;
+                            NewsItemResponse newsItemResponse = GsonUtil.changeGsonToBean(response, NewsItemResponse.class);
+
+                            if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
+
+                                List<NewsItem> result = newsItemResponse.getResult();
+                                if (loadMode != LoadMode.UP_REFRESH) {
+                                    dataList.clear();
+                                    page++;
+                                }
+                                dataList.addAll(result);
+                                adapter.notifyDataSetChanged();
                             }
-                            dataList.addAll(newsItems);
-                            adapter.notifyDataSetChanged();
+
+
                         } catch (Exception e) {
                             e.printStackTrace();
 
@@ -217,13 +177,15 @@ public class MainChildFragment extends BaseFragment {
                 });
     }
 
+
     /**
      * 获取banner表
      */
-    private void getIndexBanner(){
-        startProgressDialog();
+    private void getIndexBanner() {
+
         OkHttpUtils.post()
                 .url(HostConstants.GET_INDEX_BANNDER)
+                .addParams("type", type)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -238,23 +200,27 @@ public class MainChildFragment extends BaseFragment {
             @Override
             public void onAfter() {
                 super.onAfter();
-                stopProgressDialog();
+
 
             }
 
             @Override
             public void onResponse(String response) {
                 BannerResponse bannerResponse = GsonUtil.changeGsonToBean(response, BannerResponse.class);
+
                 if (bannerResponse != null) {
                     if (isOkCode(bannerResponse.getCode(), bannerResponse.getMessage())) {
                         // 成功
-
+                        banners.clear();
+                        banners.addAll(bannerResponse.getResult());
+                        adapter.notifyDataSetChanged();
                     }
                 }
             }
         });
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

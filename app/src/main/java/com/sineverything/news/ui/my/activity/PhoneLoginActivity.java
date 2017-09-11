@@ -47,7 +47,6 @@ public class PhoneLoginActivity extends BaseActivity {
         PlatformConfig.setWeixin("123123", "123412341234");
     }
 
-
     public static void startAction(Context context) {
         Intent intent = new Intent(context, PhoneLoginActivity.class);
         context.startActivity(intent);

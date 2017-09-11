@@ -8,6 +8,7 @@ import com.jaydenxiao.common.commonwidget.NormalTitleBar;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.service.ChildMenu;
 import com.sineverything.news.bean.service.ServiceMenu;
+import com.sineverything.news.ui.service.activity.ServiceListActivity;
 import com.sineverything.news.ui.service.adapter.ServiceAdapter;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class ServiceFragment extends BaseFragment {
     private ServiceAdapter adapter;
     private List<ServiceMenu> dataList;
 
-
+    //    SERVICE_INFO_LIST
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_service;
@@ -104,8 +105,55 @@ public class ServiceFragment extends BaseFragment {
 
         adapter = new ServiceAdapter(dataList);
         recService.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter.setCallBack(new ServiceAdapter.CallBack() {
+
+            @Override
+            public void call(String type, String name) {
+                ServiceListActivity.startAction(getActivity(),type,name);
+            }
+        });
         recService.setAdapter(adapter);
     }
-
-
+//
+//    /**
+//     *
+//     */
+//    private void  getServiceData(){
+//
+//
+//
+//        OkHttpUtils.post()
+//                .url(HostConstants.ORDER_SUBMIT)
+//                .addParams("userId", user.getId())
+//                .addParams("token", user.getToken())
+//                .build().execute(new StringCallback() {
+//            @Override
+//            public void onError(Call call, Exception e) {
+//
+//            }
+//
+//            @Override
+//            public void onBefore(Request request) {
+//                super.onBefore(request);
+//            }
+//
+//            @Override
+//            public void onAfter() {
+//                super.onAfter();
+//                stopProgressDialog();
+//
+//            }
+//
+//            @Override
+//            public void onResponse(String response) {
+//                GoodsDetailsResponse detailsResponse = GsonUtil.changeGsonToBean(response, GoodsDetailsResponse.class);
+//                if (detailsResponse != null) {
+//                    if (isOkCode(detailsResponse.getCode(), detailsResponse.getMessage())) {
+//                        GoodsDetails result = detailsResponse.getResult();
+//
+//                    }
+//                }
+//            }
+//        });
+//    }
 }

@@ -21,4 +21,11 @@ public class MenuResponse extends Response {
     public void setResult(List<MenuItem> result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "MenuResponse{" +
+                "result=" + result +
+                '}';
+    }
 }

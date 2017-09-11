@@ -2,11 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/roov_view"
     android:orientation="vertical">
 
-<include layout="@layout/layout_headview"></include>
 
+    <com.jaydenxiao.common.commonwidget.NormalTitleBar
+        android:id="@+id/nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jaydenxiao.common.commonwidget.NormalTitleBar>
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -30,6 +35,7 @@
                     android:scrollbars="none" />
                 <com.jaydenxiao.common.commonwidget.details.DetailListView
                     android:id="@+id/list_view"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

@@ -6,18 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.jaydenxiao.common.base.BaseActivity;
-import com.jaydenxiao.common.okhttp.LoadMode;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
 import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
-import com.sineverything.news.bean.commodity.GoodsResponse;
 import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.bean.commodity.MenuResponse;
 import com.sineverything.news.comm.MyItemClickListener;
@@ -69,7 +66,8 @@ public class ClassifyActivity extends BaseActivity {
         menuAdapter.setItemClickListener(new MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                setFragmentByType(postion + "");
+
+                setFragmentByType(postion);
             }
         });
 
@@ -77,13 +75,10 @@ public class ClassifyActivity extends BaseActivity {
     }
 
 
-
-
-
-
-    private void setFragmentByType(String type) {
+    private void setFragmentByType(int postion) {
+        MenuItem item = menuList.get(postion);
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_menu_content, ClassifyFragment.getInstance(type));
+        fragmentTransaction.replace(R.id.layout_menu_content, ClassifyFragment.getInstance(item.getId()));
         fragmentTransaction.commit();
 
     }
@@ -95,13 +90,12 @@ public class ClassifyActivity extends BaseActivity {
     }
 
 
-
     /**
      * 一级菜单
      */
     private void loadMenu() {
         startProgressDialog();
-        OkHttpUtils.post().url(HostConstants.INDEX_HOTS)
+        OkHttpUtils.post().url(HostConstants.LEFT_CATEGOGORIES)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -123,11 +117,19 @@ public class ClassifyActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 MenuResponse menuResponse = GsonUtil.changeGsonToBean(response, MenuResponse.class);
+
+
                 if (menuResponse != null) {
                     if (isOkCode(menuResponse.getCode(), menuResponse.getMessage())) {
                         // 成功
                         menuList.clear();
                         menuList.addAll(menuResponse.getResult());
+
+                        if (menuList.size() > 0) {
+                            MenuItem item = menuList.get(0);
+                            setFragmentByType(0);
+                        }
+
                         menuAdapter.notifyDataSetChanged();
                     }
                 }

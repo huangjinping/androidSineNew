@@ -13,6 +13,7 @@ public class MenuItem extends BaseBean {
     private String id;
     private String className;
     private String appIcon;
+    private int defaultId;
 
     public String getId() {
         return id;
@@ -36,5 +37,13 @@ public class MenuItem extends BaseBean {
 
     public void setAppIcon(String appIcon) {
         this.appIcon = appIcon;
+    }
+
+    public int getDefaultId() {
+        return defaultId;
+    }
+
+    public void setDefaultId(int defaultId) {
+        this.defaultId = defaultId;
     }
 }

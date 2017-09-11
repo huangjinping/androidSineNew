@@ -11,14 +11,32 @@ import java.util.List;
 
 public class Order extends BaseBean {
 
-    private String id;
-    private String addTime;
-    private String  totalPrice;
-    private String orderStatus;
-    private String  orderStatusDesc;
-    private String payTime;
-    private String  finishTime;
+    
     private List<GoodsInfo> goodsInfo;
+
+    /**
+     * id : 88
+     * remarks : null
+     * createDate : null
+     * updateDate : null
+     * addTime : 2017-08-26 07:47
+     * totalPrice : 0.10
+     * orderStatus : 20
+     * orderStatusDesc : 待发货
+     * payTime : 2017-08-26 07:48:16
+     * finishTime : null
+     */
+
+    private String id;
+    private String remarks;
+    private String createDate;
+    private String updateDate;
+    private String addTime;
+    private String totalPrice;
+    private String orderStatus;
+    private String orderStatusDesc;
+    private String payTime;
+    private String finishTime;
 
     public String getId() {
         return id;
@@ -26,6 +44,30 @@ public class Order extends BaseBean {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
     }
 
     public String getAddTime() {

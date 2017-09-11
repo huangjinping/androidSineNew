@@ -1,76 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:orientation="vertical">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="共3建商品"
-            />
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
         <TextView
+            style="@style/txt_item_ul"
+            android:id="@+id/txt_goodsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="交易成功"
+            android:text="共3建商品" />
+
+        <TextView
+            android:id="@+id/txt_orderStatus"
+            style="@style/txt_item_ul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            />
+            android:text="交易成功" />
 
     </RelativeLayout>
+
+    <ImageView
+
+        style="@style/line"
+       />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_order_child"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:padding="10dp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
         android:gravity="right"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="合计"
             android:layout_alignParentRight="true"
-            />
+            android:layout_marginRight="10dp"
+            android:text="合计"
+            android:textSize="16sp" />
+
         <TextView
+            android:id="@+id/txt_totalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥399"
-            android:textSize="18sp"
+            android:gravity="center"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:text="￥399"
             android:textColor="@color/red"
-            android:gravity="center"
-            />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="（含运费12元）"
             android:layout_alignParentRight="true"
+            android:text="（含运费12元）"
+            android:visibility="gone"
+
             />
 
     </LinearLayout>
-    <RelativeLayout
+
+    <ImageView
+        style="@style/line"
+        />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:padding="10dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:padding="5dp">
 
         <TextView
+            style="@style/btn_item_li"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="删除订单"
             android:layout_alignParentRight="true"
-            />
+            android:background="@drawable/shape_orange_redis3"
 
-    </RelativeLayout>
+            android:text="提醒发货"
+            android:textColor="@color/orange" />
+
+        <TextView
+            style="@style/btn_item_li"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_gray_redis3"
+
+            android:text="删除订单"
+            android:textColor="@color/light_gray" />
+    </LinearLayout>
 </LinearLayout>

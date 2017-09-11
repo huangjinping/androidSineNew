@@ -10,17 +10,18 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
     <application
         android:name=".app.AppApplication"
         android:allowBackup="true"
@@ -31,12 +32,16 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".SplashActivity">
+
+        </activity>
+        <activity
+            android:name=".ui.main.activity.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.activity.MainActivity"></activity>
         <activity android:name=".ui.main.activity.NewsDetailsActivity"></activity>
         <activity android:name=".ui.main.activity.NewsDetailsActivity1"></activity>
         <activity android:name=".ui.main.activity.NewsPhotoDetailActivity"></activity>
@@ -58,8 +63,7 @@
         <activity android:name=".ui.commodity.SearchCommodityActivity"></activity>
         <activity android:name=".ui.order.activity.OrderListActivity"></activity>
 
-        <activity android:name=".ui.my.activity.SelectAreaActivity">
-        </activity>
+        <activity android:name=".ui.my.activity.SelectAreaActivity"></activity>
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -72,27 +76,49 @@
             android:exported="true"
             android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".ui.my.activity.LoginActivity"
+        <activity
+            android:name=".ui.my.activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
-            >
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".ui.order.activity.OrderDetailsActivity"
+        <activity
+            android:name=".ui.order.activity.OrderDetailsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
-            >
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.my.activity.RegisterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.service.activity.ServiceListActivity">
+
         </activity>
 
+        <activity android:name=".ui.order.activity.PaymentActivity">
 
+        </activity>
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+
+        <activity android:name="com.umeng.facebook.FacebookActivity"></activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"></action>
+
                 <category android:name="android.intent.category.DEFAULT"></category>
                 <category android:name="android.intent.category.BROWSABLE"></category>
             </intent-filter>
@@ -100,17 +126,15 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="58c3d9fbe88bad7394000131">
-        </meta-data>
+            android:value="58c3d9fbe88bad7394000131"></meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Umeng">
-        </meta-data>
-        <activity android:name="com.tencent.connect.common.AssistActivity"
+            android:value="Umeng"></meta-data>
+
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".ui.commodity.ClassifyActivity"></activity>
     </application>
 </manifest>

@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Classify;
+import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.comm.MyItemClickListener;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class HomeTopMenuAdapter  extends RecyclerView.Adapter<HomeTopMenuAdapter
 
 
     private Context mContext;
-    private List<Classify> mList;
+    private List<MenuItem> mList;
 
     public void setmListener(MyItemClickListener mListener) {
         this.mListener = mListener;
@@ -33,16 +35,16 @@ public class HomeTopMenuAdapter  extends RecyclerView.Adapter<HomeTopMenuAdapter
 
     private MyItemClickListener mListener;
 
-    public List<Classify> getmList() {
+    public List<MenuItem> getmList() {
         return mList;
     }
 
-    public void setmList(List<Classify> mList) {
+    public void setmList(List<MenuItem> mList) {
         this.mList = mList;
     }
 
 
-    public HomeTopMenuAdapter(Context context, List<Classify> mCList) {
+    public HomeTopMenuAdapter(Context context, List<MenuItem> mCList) {
 
         this.mList = mCList;
         this.mContext = context;
@@ -60,9 +62,19 @@ public class HomeTopMenuAdapter  extends RecyclerView.Adapter<HomeTopMenuAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        Drawable micon = mContext.getResources().getDrawable(mList.get(position).getIcon());
-        viewHolder.ivPic.setImageDrawable(micon);
-        viewHolder.tvTitle.setText(mList.get(position).getTitle());
+        MenuItem item = mList.get(position);
+
+
+        if (item.getDefaultId()!=0){
+            Drawable micon = mContext.getResources().getDrawable(mList.get(position).getDefaultId());
+            viewHolder.ivPic.setImageDrawable(micon);
+        }else {
+            ImageLoaderUtils.display(viewHolder.ivPic.getContext(),viewHolder.ivPic,item.getAppIcon());
+        }
+        viewHolder.tvTitle.setText(mList.get(position).getClassName());
+
+
+
         //设置监听
         if (mListener != null) {
             viewHolder.llRoot.setOnClickListener(new View.OnClickListener() {
@@ -98,5 +110,4 @@ public class HomeTopMenuAdapter  extends RecyclerView.Adapter<HomeTopMenuAdapter
         }
 
     }
-
 }

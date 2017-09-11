@@ -1,54 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <com.jaydenxiao.common.view.details.NoScrollListView
-            android:divider="@color/grey_normal_bg"
-            android:dividerHeight="@dimen/spacing_tiny"
             android:id="@+id/nlv_good_detial_imgs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:divider="@color/grey_normal_bg"
+            android:dividerHeight="@dimen/spacing_tiny"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <WebView
+                android:id="@+id/web_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
+        </LinearLayout>
 
         <TextView
-            android:background="@drawable/list_gray_item"
-            android:drawableRight="@drawable/rightarrow"
-            android:text="安全交易"
-            android:padding="@dimen/spacing_small"
+            android:id="@+id/txt_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <include layout="@layout/layout_line"/>
+
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_gray_item"
+            android:visibility="gone"
+            android:drawableRight="@drawable/rightarrow"
+            android:padding="@dimen/spacing_small"
+            android:text="安全交易" />
+
+        <include layout="@layout/layout_line" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/list_gray_item"
             android:drawableRight="@drawable/rightarrow"
+            android:padding="@dimen/spacing_small"
             android:text="免责声明"
-            android:padding="@dimen/spacing_small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <include layout="@layout/layout_line"/>
+
+            android:visibility="gone" />
+
+        <include layout="@layout/layout_line" />
+
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/list_gray_item"
             android:drawableRight="@drawable/rightarrow"
+            android:padding="@dimen/spacing_small"
+
             android:text="交易担保"
-            android:padding="@dimen/spacing_small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <include layout="@layout/layout_line"/>
+            android:visibility="gone" />
+
+        <include layout="@layout/layout_line" />
+
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/list_gray_item"
             android:drawableRight="@drawable/rightarrow"
-            android:text="我要入驻"
             android:padding="@dimen/spacing_small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <include layout="@layout/layout_line"/>
+            android:text="我要入驻"
+            android:visibility="gone" />
+
+        <include layout="@layout/layout_line" />
 
 
         <RelativeLayout

@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
 
+    <com.sineverything.news.comm.widget.MultiStateView
+        android:id="@+id/multiStateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:msv_emptyView="@layout/layout_multistateview_order_empty_view"
+        app:msv_errorView="@layout/layout_multistateview_error_view"
+        app:msv_loadingView="@layout/layout_multistateview_loading_view"
+        app:msv_viewState="content">
 
-    <com.andview.refreshview.XRefreshView
-        android:id="@+id/xr_freshview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rec_order_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-    </com.andview.refreshview.XRefreshView>
+        <com.andview.refreshview.XRefreshView
+            android:id="@+id/xr_freshview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_order_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </com.andview.refreshview.XRefreshView>
+    </com.sineverything.news.comm.widget.MultiStateView>
 </LinearLayout>

@@ -47,7 +47,7 @@ public class CommodityListAdapter extends RecyclerView.Adapter<RecyclerView.View
             viewHolder.txt_goodsName.setText(goods.getGoodsName());
         }
         if (!TextUtils.isEmpty(goods.getGoodsPrice())) {
-            viewHolder.txt_goodsPrice.setText(goods.getGoodsPrice());
+            viewHolder.txt_goodsPrice.setText("$s"+goods.getGoodsPrice());
         }
         if (!TextUtils.isEmpty(goods.getGoodsSaleNum())) {
             viewHolder.txt_goodsSaleNum.setText(goods.getGoodsSaleNum() + "销量");
@@ -56,12 +56,9 @@ public class CommodityListAdapter extends RecyclerView.Adapter<RecyclerView.View
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                CommodityDetailsActivity.startAction(v.getContext(),goods.getGoodsId());
+                CommodityDetailsActivity.startAction(v.getContext(), goods);
             }
         });
-
-
     }
 
     @Override

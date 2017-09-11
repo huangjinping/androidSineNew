@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.cameroon.banner.loader.ImageLoader;
+import com.sineverything.news.bean.commodity.MenuItem;
+import com.sineverything.news.bean.main.Banner;
 import com.sineverything.news.bean.main.NewsItem;
 
 /**
@@ -25,12 +27,24 @@ public class GlideImageLoader extends ImageLoader {
          传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
          切记不要胡乱强转！
          */
-        NewsItem newsItem= (NewsItem) path;
 
-        Log.d("zajiaxiaozi","======"+newsItem.getPic());
+        if (path instanceof NewsItem){
+            NewsItem newsItem= (NewsItem) path;
+            Glide.with(context).load(newsItem.getCover()).into(imageView);
+        }
+        Log.d("hjp1",path.toString());
+        if (path instanceof String){
+                Log.d("hjp2",path.toString());
+            Glide.with(context).load(path.toString()).into(imageView);
+        }
+        if (path instanceof Banner){
+            Banner item= (Banner) path;
+            Glide.with(context).load(item.getCover()).into(imageView);
+
+        }
+
 
         //Glide 加载图片简单用法
-        Glide.with(context).load(newsItem.getPic()).into(imageView);
 
         //Picasso 加载图片简单用法
 

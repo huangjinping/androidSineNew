@@ -14,6 +14,7 @@ import com.sineverything.news.ui.my.activity.HelpCenterActivity;
 import com.sineverything.news.ui.my.activity.LoginActivity;
 import com.sineverything.news.ui.my.activity.PhoneLoginActivity;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
+import com.sineverything.news.ui.order.activity.OrderListActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -105,6 +106,6 @@ public class MyFragment extends BaseFragment {
 
     @OnClick(R.id.rl_order_list)
     public void onOrderList() {
-        ClassifyActivity.startAction(getActivity());
+        OrderListActivity.startAction(getActivity());
     }
 }

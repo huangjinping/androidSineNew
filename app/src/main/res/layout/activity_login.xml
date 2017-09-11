@@ -49,6 +49,7 @@
                 android:background="@color/transparent"
                 android:hint="请输入手机号"
                 android:inputType="phone"
+                android:text=""
                 android:maxLength="11"
                 android:paddingLeft="10dp" />
         </RelativeLayout>
@@ -73,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:hint="请输入登录密码"
+                android:text=""
                 android:inputType="phone"
                 android:paddingLeft="10dp"
 

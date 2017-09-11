@@ -18,9 +18,13 @@ import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.GoodsResponse;
+import com.sineverything.news.bean.commodity.MenuItem;
+import com.sineverything.news.bean.commodity.MenuResponse;
 import com.sineverything.news.comm.MyItemClickListener;
 import com.sineverything.news.ui.commodity.ClassifyActivity;
 import com.sineverything.news.ui.commodity.CommodityActivity;
+import com.sineverything.news.ui.commodity.CommodityDetailsActivity;
+import com.sineverything.news.ui.commodity.SearchCommodityActivity;
 import com.sineverything.news.ui.commodity.adapter.CommodityAdapter;
 import com.sineverything.news.ui.my.activity.SelectAreaActivity;
 
@@ -53,6 +57,8 @@ public class CommodityFragment extends BaseFragment {
     private List<Goods> dataList;
     private CommodityAdapter adapter;
 
+    private List<MenuItem> menuList;
+
 
     public static BaseFragment getInstance() {
         CommodityFragment fragment = new CommodityFragment();
@@ -73,6 +79,8 @@ public class CommodityFragment extends BaseFragment {
     @Override
     protected void initView() {
         dataList = new ArrayList<>();
+        menuList = new ArrayList<>();
+
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -83,15 +91,24 @@ public class CommodityFragment extends BaseFragment {
             }
         });
         recCommodity.setLayoutManager(layoutManager);
-        adapter = new CommodityAdapter(dataList);
+        adapter = new CommodityAdapter(menuList, dataList);
         adapter.setItemHeaderClickListener(new MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
                 if (postion == 7) {
                     ClassifyActivity.startAction(getActivity());
                 } else {
-                    SelectAreaActivity.startAction(getActivity());
+                    MenuItem item = menuList.get(postion);
+                    CommodityActivity.startActionWithId(getActivity(),item.getId());
                 }
+            }
+        });
+
+        adapter.setItemClickListener(new MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                Goods goods = dataList.get(postion);
+                CommodityDetailsActivity.startAction(getActivity(), goods);
             }
         });
         recCommodity.setAdapter(adapter);
@@ -112,7 +129,7 @@ public class CommodityFragment extends BaseFragment {
                 super.onRefresh(isPullDown);
                 loadGoods(LoadMode.NOMAL);
 
-
+                loadleftCategories();
             }
 
             @Override
@@ -133,21 +150,26 @@ public class CommodityFragment extends BaseFragment {
                 super.onHeaderMove(offset, offsetY);
             }
         });
+
+        loadGoods(LoadMode.NOMAL);
+        loadleftCategories();
+
     }
 
 
     @OnClick(R.id.layout_search)
     public void onSearch() {
-        CommodityActivity.startAction(getActivity());
+        SearchCommodityActivity.startAction(getContext());
     }
 
 
     /**
-     * 文件的
+     * 一级菜单
      */
-    private void loadIndexHots() {
-        startProgressDialog();
-        OkHttpUtils.post().url(HostConstants.INDEX_HOTS)
+    private void loadleftCategories() {
+
+        OkHttpUtils.post()
+                .url(HostConstants.INDEX_HOTS)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -162,19 +184,32 @@ public class CommodityFragment extends BaseFragment {
             @Override
             public void onAfter() {
                 super.onAfter();
-                stopProgressDialog();
+
 
             }
 
             @Override
             public void onResponse(String response) {
-                Log.d("okhttp", response);
+                MenuResponse menuResponse = GsonUtil.changeGsonToBean(response, MenuResponse.class);
+                if (menuResponse != null) {
+                    if (isOkCode(menuResponse.getCode(), menuResponse.getMessage())) {
+                        // 成功
+                        List<MenuItem> result = menuResponse.getResult();
+                        menuList.clear();
+                        menuList.addAll(result);
+                        MenuItem item = new MenuItem();
+                        item.setClassName("分类");
+                        item.setDefaultId(R.mipmap.menu_8);
+                        menuList.add(item);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
             }
         });
     }
 
 
-    private int page = 0;
+    private int page = 1;
 
     /**
      * 文件的
@@ -185,12 +220,12 @@ public class CommodityFragment extends BaseFragment {
 
         }
         if (loadMode != LoadMode.UP_REFRESH) {
-            page = 0;
+            page = 1;
         }
         startProgressDialog();
 
         OkHttpUtils.post()
-                .url(HostConstants.INDEX_HOTS)
+                .url(HostConstants.RECOMMDEND_GOODS)
                 .addParams("pageSize", "30")
                 .addParams("pageIndex", page + "")
                 .build().execute(new StringCallback() {
@@ -249,7 +284,6 @@ public class CommodityFragment extends BaseFragment {
             }
         });
     }
-
 
 
 }

@@ -67,7 +67,7 @@ public class ShopCarActivity extends BaseActivity {
 
     @OnClick(R.id.txt_settlement)
     public void toPay() {
-        ConfirmOrderActivity.startAction(this);
+//        ConfirmOrderActivity.startAction(this);
 
     }
 }

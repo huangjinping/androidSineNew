@@ -21,11 +21,9 @@
     </style>
 
     <style name="line">
-        <item name="android:layout_marginRight">10dp</item>
-        <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/gray_background</item>
-        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_height">0.2dp</item>
     </style>
 
     <style name="input_comm">
@@ -41,19 +39,21 @@
     </style>
 
 
-
     <style name="blackTextStyle">
         <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="colorPrimaryTextStyle">
         <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+
     <style name="whiteTextStyleTitle">
         <item name="android:textSize">@dimen/font_large</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="greyTextStyleSmall">
         <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textColor">@color/grey_text_color_normal</item>
@@ -63,17 +63,50 @@
         <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="blackTextStyleSmall">
         <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
     <style name="greyTextStyleSmaller">
         <item name="android:textSize">@dimen/font_smaller</item>
         <item name="android:textColor">@color/grey_text_color_normal</item>
     </style>
+
     <style name="colorPrimaryTextStyleSmall">
         <item name="android:textSize">@dimen/font_small</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    
+    <style name="txt_item_ul">
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="txt_item_li" parent="txt_item_ul">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="btn_item_li">
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+
+    <style name="submitButton">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/shape_redus_maincolor</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:layout_height">40dp</item>
+
     </style>
 
 </resources>

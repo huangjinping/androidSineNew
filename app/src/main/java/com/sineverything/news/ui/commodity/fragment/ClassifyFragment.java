@@ -3,6 +3,7 @@ package com.sineverything.news.ui.commodity.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.jaydenxiao.common.base.BaseFragment;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
@@ -10,8 +11,12 @@ import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.bean.commodity.MenuResponse;
+import com.sineverything.news.comm.MyItemClickListener;
+import com.sineverything.news.ui.commodity.CommodityActivity;
+import com.sineverything.news.ui.commodity.CommodityDetailsActivity;
 import com.sineverything.news.ui.commodity.adapter.ClassifyContentAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +32,6 @@ import okhttp3.Request;
  */
 
 public class ClassifyFragment extends BaseFragment {
-
 
     @Bind(R.id.rec_content)
     RecyclerView recContent;
@@ -57,10 +61,19 @@ public class ClassifyFragment extends BaseFragment {
         dataList = new ArrayList<>();
         mAdapter = new ClassifyContentAdapter(dataList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                return position == 0 ? 3 : 1;
+//            }
+//        });
+
+        mAdapter.setItemClickListener(new MyItemClickListener() {
             @Override
-            public int getSpanSize(int position) {
-                return position == 0 ? 3 : 1;
+            public void onItemClick(View view, int postion) {
+                MenuItem goods = dataList.get(postion);
+                CommodityActivity.startActionWithId(getActivity(),goods.getId());
+
             }
         });
         recContent.setLayoutManager(gridLayoutManager);
@@ -74,7 +87,7 @@ public class ClassifyFragment extends BaseFragment {
     private void loadChildMenu(String classId) {
         startProgressDialog();
         OkHttpUtils.post()
-                .url(HostConstants.INDEX_HOTS)
+                .url(HostConstants.CATEGORIES_BY_PID)
                 .addParams("classId", classId)
                 .build().execute(new StringCallback() {
             @Override

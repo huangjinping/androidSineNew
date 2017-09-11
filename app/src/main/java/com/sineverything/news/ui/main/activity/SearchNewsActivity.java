@@ -15,13 +15,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.andview.refreshview.XRefreshView;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.okhttp.LoadMode;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
 import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.main.NewsItem;
+import com.sineverything.news.bean.main.NewsItemResponse;
 import com.sineverything.news.ui.main.adpater.SearchAdapter;
 
 import java.util.ArrayList;
@@ -39,18 +42,18 @@ import okhttp3.Request;
 
 public class SearchNewsActivity extends BaseActivity {
 
-
     @Bind(R.id.ic_left_icon)
     ImageView icLeftIcon;
     @Bind(R.id.txt_action)
     TextView txtAction;
     @Bind(R.id.rl_search)
     RecyclerView rlSearch;
-
     List<NewsItem> dataList;
     SearchAdapter searchAdapter;
     @Bind(R.id.edt_search)
     EditText edtSearch;
+    @Bind(R.id.xr_freshview)
+    XRefreshView xrFreshview;
 
     @Override
     public int getLayoutId() {
@@ -78,7 +81,7 @@ public class SearchNewsActivity extends BaseActivity {
                     }
                     // TODO: 16/4/7  搜索现象
 
-                    loadData();
+                    loadData(LoadMode.NOMAL);
 
                     ((InputMethodManager) edtSearch.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                             .hideSoftInputFromWindow(
@@ -111,13 +114,42 @@ public class SearchNewsActivity extends BaseActivity {
         txtAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData();
+                loadData(LoadMode.NOMAL);
+            }
+        });
+
+
+        xrFreshview.setPullRefreshEnable(true);
+        xrFreshview.setPullLoadEnable(true);
+        xrFreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
+            @Override
+            public void onRefresh() {
+                super.onRefresh();
+            }
+
+            @Override
+            public void onRefresh(boolean isPullDown) {
+                super.onRefresh(isPullDown);
+                loadData(LoadMode.NOMAL);
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                super.onLoadMore(isSilence);
+                loadData(LoadMode.PULL_REFRSH);
+            }
+
+            @Override
+            public void onRelease(float direction) {
+                super.onRelease(direction);
+            }
+
+            @Override
+            public void onHeaderMove(double offset, int offsetY) {
+                super.onHeaderMove(offset, offsetY);
             }
         });
     }
-
-
-
 
 
     public static void startAction(Context context) {
@@ -132,13 +164,25 @@ public class SearchNewsActivity extends BaseActivity {
      *
      * @param
      */
-    private void loadData() {
-        if (TextUtils.isEmpty(edtSearch.getText().toString())) {
+    private int page = 1;
+
+    private void loadData(final LoadMode loadMode) {
+        String search = edtSearch.getText().toString().trim();
+        if (TextUtils.isEmpty(search)) {
             return;
         }
 
-        OkHttpUtils.get()
-                .url(HostConstants.SEARCH + edtSearch.getText().toString())
+        if (loadMode == LoadMode.NOMAL) {
+
+        }
+        if (loadMode != LoadMode.UP_REFRESH) {
+            page = 1;
+        }
+        OkHttpUtils.post()
+                .url(HostConstants.SEARCH)
+                .addParams("searchValue", search)
+                .addParams("pageSize", 30 + "")
+                .addParams("pageIndex", page + "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -151,6 +195,13 @@ public class SearchNewsActivity extends BaseActivity {
                     public void onAfter() {
                         super.onAfter();
                         stopProgressDialog();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                xrFreshview.stopRefresh();
+                                xrFreshview.stopLoadMore();
+                            }
+                        });
                     }
 
                     @Override
@@ -161,10 +212,20 @@ public class SearchNewsActivity extends BaseActivity {
                     public void onResponse(String response) {
 
                         try {
-                            List<NewsItem> newsItems = GsonUtil.stringToArray(response, NewsItem[].class);
-                            dataList.clear();
-                            dataList.addAll(newsItems);
-                            searchAdapter.notifyDataSetChanged();
+                            NewsItemResponse newsItemResponse = GsonUtil.changeGsonToBean(response, NewsItemResponse.class);
+
+                            if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
+
+                                List<NewsItem> result = newsItemResponse.getResult();
+                                if (loadMode != LoadMode.UP_REFRESH) {
+                                    dataList.clear();
+                                    page++;
+                                }
+                                dataList.addAll(result);
+                                searchAdapter.notifyDataSetChanged();
+                            }
+
+
                         } catch (Exception e) {
                             e.printStackTrace();
 
@@ -172,6 +233,11 @@ public class SearchNewsActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    @OnClick(R.id.txt_action)
+    public void onclick() {
+        finish();
     }
 
 

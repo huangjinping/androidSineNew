@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_layout)
     CommonTabLayout tabLayout;
 
-    private String[] mTitles = {"新闻", "商城", "服务", "我的"};
+    private String[] mTitles = {"新闻", "商城", "同城", "我的"};
     private int[] mIconUnselectIds = {
             R.mipmap.ic_home_normal, R.mipmap.ic_girl_normal, R.mipmap.ic_video_normal, R.mipmap.ic_care_normal};
 

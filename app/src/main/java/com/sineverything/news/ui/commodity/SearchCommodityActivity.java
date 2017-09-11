@@ -2,8 +2,12 @@ package com.sineverything.news.ui.commodity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jaydenxiao.common.base.BaseActivity;
@@ -16,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * author Created by harrishuang on 2017/8/15.
@@ -27,8 +32,15 @@ public class SearchCommodityActivity extends BaseActivity {
 
     @Bind(R.id.tag_layout)
     TagFlowLayout tagLayout;
+    @Bind(R.id.ic_left_icon)
+    ImageView icLeftIcon;
+    @Bind(R.id.edt_search)
+    EditText edtSearch;
+    @Bind(R.id.layout_search)
+    LinearLayout layoutSearch;
+    @Bind(R.id.txt_action)
+    TextView txtAction;
     private LayoutInflater mInflater;
-
     private List<String> dataList;
 
     @Override
@@ -38,6 +50,7 @@ public class SearchCommodityActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
+
 
     }
 
@@ -58,7 +71,9 @@ public class SearchCommodityActivity extends BaseActivity {
         tagLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int i, FlowLayout flowLayout) {
-                showLongToast(dataList.get(i));
+
+                CommodityActivity.startActionWithKeywords(mContext, dataList.get(i));
+
                 return false;
             }
         });
@@ -71,6 +86,22 @@ public class SearchCommodityActivity extends BaseActivity {
                 return tv;
             }
         });
+        edtSearch.setEnabled(true);
+        txtAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String trim = edtSearch.getText().toString().trim();
+                if (!TextUtils.isEmpty(trim)) {
+                    CommodityActivity.startActionWithKeywords(mContext, trim);
+                }
+            }
+        });
+
+    }
+
+    @OnClick(R.id.ic_left_icon)
+    public void onBack(){
+        finish();
     }
 
     public static void startAction(Context context) {

@@ -18,6 +18,8 @@ public class OrderDetails extends BaseBean {
     private String payTime;
     private String finishTime;
     private List<GoodsInfo> goodsInfo;
+    private String orderId;
+
 
     public String getAddTime() {
         return addTime;
@@ -73,5 +75,13 @@ public class OrderDetails extends BaseBean {
 
     public void setGoodsInfo(List<GoodsInfo> goodsInfo) {
         this.goodsInfo = goodsInfo;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

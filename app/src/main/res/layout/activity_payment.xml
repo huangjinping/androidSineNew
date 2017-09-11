@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+    <com.jaydenxiao.common.commonwidget.NormalTitleBar
+        android:id="@+id/nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jaydenxiao.common.commonwidget.NormalTitleBar>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="200dp"
+          android:orientation="vertical"
+
+          android:background="@color/white"
+          android:gravity="center"
+          >
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="订单金额"
+              />
+
+          <TextView
+              android:id="@+id/txt_price"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="订单金额"
+              tools:text="$300"
+              android:textSize="18sp"
+              android:layout_margin="10dp"
+              android:textColor="@color/black"
+              />
+      </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txt_weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付宝支付"
+            android:textColor="@color/black"
+            />
+
+        <ImageView
+            android:src="@mipmap/ic_selected"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/submitButton"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="支付"
+        />
+    
+    
+    
+</LinearLayout>
