@@ -2,11 +2,16 @@ package com.sineverything.news.ui.commodity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
@@ -28,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -51,6 +57,20 @@ public class CommodityActivity extends BaseActivity {
     RecyclerView recCommodityList;
     @Bind(R.id.xr_freshview)
     XRefreshView xrFreshview;
+    @Bind(R.id.cb_place)
+    CheckBox cb1;
+    @Bind(R.id.ll_place_tab)
+    LinearLayout llPlaceTab;
+    @Bind(R.id.cb_type)
+    CheckBox cb2;
+    @Bind(R.id.ll_type)
+    LinearLayout llType;
+    @Bind(R.id.cb_time)
+    CheckBox cb3;
+    @Bind(R.id.ll_time)
+    LinearLayout llTime;
+    @Bind(R.id.ll_stay_visit_selsect)
+    LinearLayout llStayVisitSelsect;
     private String[] mTitles = {"综合", "销量", "价格"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private List<Goods> dataList;
@@ -65,6 +85,10 @@ public class CommodityActivity extends BaseActivity {
             R.mipmap.edit_search_down, R.mipmap.edit_search_down};
     private String classId = "";
     private String keywords = "";
+
+
+    private String orderBy;
+    private  String orderType;
 
 
     @Override
@@ -82,7 +106,7 @@ public class CommodityActivity extends BaseActivity {
     public void initView() {
         Intent intent = getIntent();
         classId = intent.getStringExtra("classId");
-        keywords=intent.getStringExtra("keywords");
+        keywords = intent.getStringExtra("keywords");
         edtSearch.setText(keywords);
 
         String[] title = {"综合", "销量", "价格"};
@@ -132,6 +156,7 @@ public class CommodityActivity extends BaseActivity {
             }
         });
         loadGoods(LoadMode.NOMAL);
+        initButton();
 
     }
 
@@ -173,8 +198,11 @@ public class CommodityActivity extends BaseActivity {
                 .url(HostConstants.RECOMMDEND_GOODS)
                 .addParams("pageSize", "30")
                 .addParams("pageIndex", page + "")
-                .addParams("keywords",keywords)
+                .addParams("keywords", keywords)
                 .addParams("classId", classId)
+                .addParams("orderBy", orderBy)
+                .addParams("orderType", orderType)
+
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -231,9 +259,75 @@ public class CommodityActivity extends BaseActivity {
             }
         });
     }
+
     @OnClick(R.id.ic_left_icon)
-    public void onBack(){
+    public void onBack() {
         finish();
     }
 
+
+
+    private void initButton(){
+        // cb1操作
+        cb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                // 将其他的cb设置为未选中,将自己设置为选中
+
+                Log.d("hjp","cb1");
+                cb2.setChecked(false);
+                cb3.setChecked(false);
+                orderBy="wellEvaluate";
+                if (b){
+                    orderType="asc";
+                }else {
+                    orderType="desc";
+                }
+
+                loadGoods(LoadMode.NOMAL);
+
+            }
+        });
+
+        // cb2操作
+        cb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                // 将其他的cb设置为未选中,将自己设置为选中
+                Log.d("hjp","cb2");
+
+                cb1.setChecked(false);
+                cb3.setChecked(false);
+                orderBy="saleNum";
+                if (b){
+                    orderType="asc";
+                }else {
+                    orderType="desc";
+                }
+
+                loadGoods(LoadMode.NOMAL);
+
+            }
+        });
+        // cb3操作
+        cb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                // 将其他的cb设置为未选中,将自己设置为选中
+                Log.d("hjp","cb3");
+
+                cb1.setChecked(false);
+                cb2.setChecked(false);
+                orderBy="price";
+                if (b){
+                    orderType="asc";
+                }else {
+                    orderType="desc";
+                }
+
+                loadGoods(LoadMode.NOMAL);
+
+            }
+        });
+    }
 }

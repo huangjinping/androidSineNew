@@ -3,7 +3,6 @@ package com.sineverything.news.ui.order.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -28,7 +27,6 @@ import com.sineverything.news.comm.UserManager;
 import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -85,7 +83,7 @@ public class PaymentActivity extends BaseActivity {
                 finish();
             }
         });
-        txtPrice.setText("$" + totalAmount);
+        txtPrice.setText("S$" + totalAmount);
     }
 
 
@@ -130,7 +128,7 @@ public class PaymentActivity extends BaseActivity {
 
     private void payment(final String orderInfo) {
 
-        Log.d("okhttp",orderInfo);
+        Log.d("okhttp", orderInfo);
         Runnable payRunnable = new Runnable() {
             @Override
             public void run() {
@@ -166,6 +164,7 @@ public class PaymentActivity extends BaseActivity {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         showLongToast("支付成功");
+                        PaymentResultActivity.startAction(PaymentActivity.this);
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         showLongToast("支付失败");
@@ -179,7 +178,6 @@ public class PaymentActivity extends BaseActivity {
 
         ;
     };
-
 
 
 }

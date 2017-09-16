@@ -88,8 +88,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onItemClick(View view, int postion) {
                     if (callBack != null) {
-                        Classify classify = mClassify.get(position);
-                        callBack.call(mClassify.get(position).getType(),classify.getTitle());
+                        Classify classify = mClassify.get(postion);
+                        callBack.call(mClassify.get(postion).getType(),classify.getTitle());
                     }
                 }
             });
@@ -103,6 +103,10 @@ public class ServiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewholder.txt_service_title.setText(serviceMenu.getTitle());
             viewholder.img_icon.setImageResource(serviceMenu.getIcon());
             List<ChildMenu> list = serviceMenu.getList();
+
+            setOnclick(viewholder.layout_service_menu, serviceMenu.getType(),serviceMenu.getTitle());
+
+
             if (list.size() == 3) {
                 ChildMenu childMenu = list.get(0);
                 viewholder.txt_child_menu1.setText(childMenu.getTitle());

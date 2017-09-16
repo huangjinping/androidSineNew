@@ -13,7 +13,7 @@
         android:padding="10dp"
         android:orientation="vertical">
 
-        <ImageView
+        <com.jaydenxiao.common.view.SquareImageView
             android:id="@+id/img_item"
             android:layout_width="match_parent"
             android:layout_height="200dp"

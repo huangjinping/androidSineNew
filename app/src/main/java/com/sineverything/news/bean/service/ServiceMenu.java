@@ -15,6 +15,15 @@ public class ServiceMenu  extends BaseBean{
     private String title;
     private int backgroundColor;
     private List<ChildMenu> list;
+    private String type;
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 
     public int getIcon() {
         return icon;

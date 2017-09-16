@@ -15,7 +15,7 @@
         <com.cameroon.banner.Banner
             android:id="@+id/ban_good_detai"
             android:layout_width="match_parent"
-            android:layout_height="350dp"></com.cameroon.banner.Banner>
+            android:layout_height="550dp"></com.cameroon.banner.Banner>
 
 
         <ImageView
@@ -36,7 +36,6 @@
 
             <TextView
                 android:id="@+id/txt_goodsName"
-                style="@style/blackTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -65,6 +64,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/spacing_tinyer">
 
                     <TextView
@@ -74,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/spacing_tinyer"
                         android:paddingRight="@dimen/spacing_tinyer"
+                        android:visibility="gone"
                         android:text="159" />
 
                     <View
@@ -90,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_tinyer"
+                android:visibility="invisible"
                 android:orientation="horizontal">
 
                 <TextView
@@ -128,6 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:padding="@dimen/spacing_small">
 
             <TextView
@@ -178,6 +181,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:padding="@dimen/spacing_small">
 
             <TextView
@@ -200,6 +204,7 @@
             android:id="@+id/rl_good_detail_jin"
             android:padding="@dimen/spacing_small"
             android:layout_marginTop="@dimen/spacing_tinyer"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -230,6 +235,7 @@
             android:background="@drawable/list_gray_item"
             android:id="@+id/tv_good_detail_cate"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/rightarrow"
             android:padding="@dimen/spacing_small"
@@ -243,6 +249,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="vertical"
             android:padding="@dimen/spacing_small">
 

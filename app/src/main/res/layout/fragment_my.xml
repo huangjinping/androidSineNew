@@ -75,6 +75,7 @@
 
 
                 <TextView
+                    android:id="@+id/txt_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
@@ -262,6 +263,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:visibility="gone"
                     android:padding="10dp">
 
                     <TextView
@@ -280,13 +282,13 @@
                         android:src="@drawable/ic_arrow_right" />
                 </RelativeLayout>
 
-                <TextView style="@style/line"></TextView>
 
 
                 <RelativeLayout
                     android:id="@+id/rl_help_center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:background="@color/white"
                     android:padding="10dp">
 
@@ -306,13 +308,13 @@
                         android:src="@drawable/ic_arrow_right" />
                 </RelativeLayout>
 
-                <TextView style="@style/line"></TextView>
 
                 <RelativeLayout
                     android:id="@+id/rl_feed_back"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:visibility="gone"
                     android:padding="10dp">
 
                     <TextView
@@ -331,7 +333,6 @@
                         android:src="@drawable/ic_arrow_right" />
                 </RelativeLayout>
 
-                <TextView style="@style/line"></TextView>
 
                 <RelativeLayout
                     android:id="@+id/rl_about"
@@ -347,6 +348,32 @@
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="8dp"
                         android:text="关于新加坡万事通"
+                        android:textColor="?attr/dayNightTwoTextColor" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_arrow_right" />
+                </RelativeLayout>
+
+
+                <TextView style="@style/line"></TextView>
+
+                <RelativeLayout
+                    android:id="@+id/rl_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:text="关于"
                         android:textColor="?attr/dayNightTwoTextColor" />
 
                     <ImageView

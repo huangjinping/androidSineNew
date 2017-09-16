@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +16,7 @@ import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.main.RegisterResponse;
+import com.sineverything.news.bean.main.User;
 import com.sineverything.news.comm.UserManager;
 import com.sineverything.news.ui.main.activity.MainActivity;
 
@@ -65,12 +65,17 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         txtFastRegister.setText(Html.fromHtml("<U>快速注册</U>"));
+
+        User user = UserManager.getUser(this);
+        if (user != null && TextUtils.isEmpty(user.getLoginName())) {
+            edtLoginName.setText(user.getLoginName());
+        }
     }
 
 
     @OnClick(R.id.btn_login)
     public void onLogin() {
-        String name = edtLoginName.getText().toString().trim();
+        final String name = edtLoginName.getText().toString().trim();
         if (TextUtils.isEmpty(name)) {
             showLongToast("请输入手机号");
             return;
@@ -107,17 +112,18 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(String response) {
                 RegisterResponse registerReponse = GsonUtil.changeGsonToBean(response, RegisterResponse.class);
                 if (isOkCode(registerReponse.getCode(), registerReponse.getMessage())) {
-                    UserManager.saveUser(mContext,registerReponse.getResult());
-                    toMain();
+                    User result = registerReponse.getResult();
+                    result.setLoginName(name);
+                    UserManager.saveUser(mContext, registerReponse.getResult());
+                    finish();
                     return;
                 }
             }
         });
     }
 
-
     private void toMain() {
-        Intent intent=new Intent(mContext, MainActivity.class);
+        Intent intent = new Intent(mContext, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -127,5 +133,10 @@ public class LoginActivity extends BaseActivity {
         RegisterActivity.startAction(this);
     }
 
+
+    @OnClick((R.id.img_cancel))
+    public void onBack() {
+        finish();
+    }
 
 }

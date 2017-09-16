@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.jaydenxiao.common.base.BaseActivity;
@@ -55,6 +56,12 @@ public class OrderListActivity extends BaseActivity {
     @Override
     public void initView() {
         navBar.setTitleText("订单");
+        navBar.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         titleList = new ArrayList<>();
         fragmentList = new ArrayList<>();
         titleList = Arrays.asList(title);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -38,8 +38,8 @@ import com.sineverything.news.bean.main.User;
 import com.sineverything.news.comm.GlideImageLoader;
 import com.sineverything.news.comm.ShareProcess;
 import com.sineverything.news.comm.UserManager;
+import com.sineverything.news.ui.commodity.fragment.PreViewBuyFragment;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
-import com.sineverything.news.ui.order.activity.ConfirmOrderActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +120,8 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     Banner ban_good_detai;
     @Bind(R.id.roov_view)
     LinearLayout roovView;
+    @Bind(R.id.layout_duration)
+    LinearLayout layoutDuration;
 
 
     private GoodsDetails goodDetails;
@@ -144,7 +146,13 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
 
     @OnClick(R.id.iv_good_detai_share)
     public void sharePic() {
+
+
+
         process.shotAllView(this, roovView, new View[]{scrollview});
+
+
+
     }
 
     @Override
@@ -309,9 +317,8 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     @OnClick(R.id.tv_good_detail_buy)
     public void onSubmitOrder() {
 
-        ConfirmOrderActivity.startAction(this, goodDetails, goods);
 
-
+        showFragment();
     }
 
     /**
@@ -335,7 +342,7 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         ban_good_detai.setDelayTime(1500);
         ban_good_detai.start();
         tvGoodDetailDiscount.setText(result.getGoodsPrice());
-        txt_storePrice.setText(result.getStorePrice());
+        txt_storePrice.setText("$s" + result.getStorePrice());
 
         Log.d("hjp", "====>>>>>>" + result.getGoodsDetailsMobile());
         web_details.loadData(getHtmlData(result.getGoodsDetailsMobile()), "text/html; charset=UTF-8", null);//这种写法可以正确解码
@@ -347,6 +354,31 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     private String getHtmlData(String bodyHTML) {
         String head = "<head><style>img{max-width: 100%; width:auto; height: auto;}</style></head>";
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
+    }
+
+
+    /**
+     * 开启页面
+     */
+    private void showFragment() {
+        if (goodDetails == null) {
+            return;
+        }
+        PreViewBuyFragment fragment = new PreViewBuyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("goodDetails", goodDetails);
+        bundle.putSerializable("goods", goods);
+
+        fragment.setArguments(bundle);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(
+                R.anim.fragment_up_enter,
+                R.anim.fragment_down_outer,
+                R.anim.fragment_up_enter,
+                R.anim.fragment_down_outer);
+        transaction.replace(R.id.layout_duration, fragment);
+        transaction.addToBackStack("PreViewBuyFragment");
+        transaction.commit();
     }
 
 

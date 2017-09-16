@@ -62,13 +62,89 @@
     </LinearLayout>
 
 
+    <!--筛选栏-->
+    <LinearLayout
+        android:id="@+id/ll_stay_visit_selsect"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        android:background="@color/blue_bar"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <!--筛选地点-->
+        <LinearLayout
+            android:id="@+id/ll_place_tab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/cb_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@null"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/seletor_stock_arrow"
+                android:gravity="center"
+                android:text="综合"
+                android:textColor="@drawable/selector_text_stock"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <!--筛选类型-->
+        <LinearLayout
+            android:id="@+id/ll_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/cb_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@null"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/seletor_stock_arrow"
+                android:gravity="center"
+                android:text="销量"
+                android:textColor="@drawable/selector_text_stock"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <!--筛选时间-->
+        <LinearLayout
+            android:id="@+id/ll_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <CheckBox
+                android:id="@+id/cb_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@null"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/seletor_stock_arrow"
+                android:gravity="center"
+                android:text="价格"
+                android:textColor="@drawable/selector_text_stock"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/layout_filter"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/white"
+        android:visibility="gone"
         tl:tl_bar_color="@color/blue_bar"
-        tl:tl_iconVisible="false"
+        tl:tl_iconGravity="RIGHT"
         tl:tl_indicator_color="@color/transparent"
         tl:tl_indicator_corner_radius="1.5dp"
         tl:tl_indicator_height="3dp"
@@ -83,6 +159,7 @@
         android:id="@+id/xr_freshview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rec_commodity_list"
             android:layout_width="match_parent"

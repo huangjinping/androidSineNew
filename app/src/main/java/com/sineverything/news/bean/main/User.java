@@ -11,23 +11,30 @@ public class User extends BaseBean {
 
 
     /**
-     * nickName : 136******17@phone
-     * id : 90
-     * userName : 13611290917@phone
-     * token : 1iepyfdbd3f3q
+     * nickname : 136******17@phone
+     * id : 96
+     * token : 1jezbudj89o4l
      */
 
-    private String nickName;
+    private String nickname;
     private String id;
-    private String userName;
     private String token;
+    private String loginName;
 
-    public String getNickName() {
-        return nickName;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getId() {
@@ -36,14 +43,6 @@ public class User extends BaseBean {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getToken() {

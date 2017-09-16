@@ -14,6 +14,8 @@
     <color name="background">#efefef</color>
     <color name="gray_bg2">#D9D9D9</color>
     <color name="blue_bar">#4279D6</color>
+    <color name="divider_color">#ffffff</color>
+    <color name="msg_color">#FFFFFFFF</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -25,10 +27,13 @@
     <color name="grey_line_bg">#E4E4E4</color>
     <color name="original_border_color">#F18459</color>
     <color name="grey_normal_bg">#EEEEEE</color>
-
+    <color name="btn_press_color">#2385e1</color>
+    <color name="btn_unpress_color">#3aa0ff</color>
     <color name="service_red">#EB4444</color>
     <color name="service_yellow">#FF9125</color>
     <color name="service_green">#52B651</color>
     <color name="service_blue">#2D7CE1</color>
-
+    <color name="translucence">#c8000000</color>
+    <color name="transparent_quarter">#40000000</color>
+    <color name="red_light">#E84C3D</color>
 </resources>

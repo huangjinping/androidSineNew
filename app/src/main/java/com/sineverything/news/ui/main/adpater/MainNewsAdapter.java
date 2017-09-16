@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.cameroon.banner.Banner;
+import com.cameroon.banner.listener.OnBannerListener;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.main.NewsItem;
 import com.sineverything.news.comm.GlideImageLoader;
@@ -58,7 +59,7 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
-            ViewHeaderHolder headHolder = (ViewHeaderHolder) holder;
+           final ViewHeaderHolder headHolder = (ViewHeaderHolder) holder;
             GlideImageLoader glideImageLoader = new GlideImageLoader();
             headHolder.banner.setImageLoader(glideImageLoader);
             headHolder.banner.setImages(banners);
@@ -66,6 +67,12 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             //设置轮播时间
             headHolder.banner.setDelayTime(1500);
             headHolder.banner.start();
+            headHolder.banner.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int i) {
+                    NewsDetailsActivity.startAction(headHolder.banner.getContext(), banners.get(i).getId() + "");
+                }
+            });
         } else {
             ViewHolder viewHolder = (ViewHolder) holder;
             final NewsItem newsItem = dataList.get(position - 1);

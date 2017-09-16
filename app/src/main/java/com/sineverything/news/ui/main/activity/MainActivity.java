@@ -17,8 +17,10 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.jaydenxiao.common.base.BaseActivity;
 import com.jaydenxiao.common.commonutils.LogUtils;
 import com.sineverything.news.R;
+import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.app.AppConstant;
 import com.sineverything.news.comm.TabEntity;
+import com.sineverything.news.comm.UpdataUtil;
 import com.sineverything.news.ui.commodity.fragment.CommodityFragment;
 import com.sineverything.news.ui.main.fragment.MainFragment;
 import com.sineverything.news.ui.my.fragment.MyFragment;
@@ -39,7 +41,7 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_layout)
     CommonTabLayout tabLayout;
 
-    private String[] mTitles = {"新闻", "商城", "同城", "我的"};
+    private String[] mTitles = {"新闻", "旅游", "同城", "我的"};
     private int[] mIconUnselectIds = {
             R.mipmap.ic_home_normal, R.mipmap.ic_girl_normal, R.mipmap.ic_video_normal, R.mipmap.ic_care_normal};
 
@@ -68,7 +70,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         initTab();
-
+        UpdataUtil mUpdataUtil = new UpdataUtil(this, HostConstants.UPDATE_URL);
+        mUpdataUtil.getVersion();
     }
 
 

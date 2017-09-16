@@ -32,6 +32,11 @@ public class ChildMenu extends BaseBean {
     public ChildMenu() {
     }
 
+    public ChildMenu(String title, String type) {
+        this.title = title;
+        this.type = type;
+    }
+
     public ChildMenu(String title) {
         this.title = title;
     }

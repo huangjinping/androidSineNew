@@ -1,19 +1,20 @@
 package com.sineverything.news;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.os.Bundle;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jaydenxiao.common.base.BaseActivity;
 import com.sineverything.news.ui.main.activity.MainActivity;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 /**
  * author Created by harrishuang on 2017/5/15.
@@ -48,7 +49,7 @@ public class SplashActivity extends BaseActivity {
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(objectAnimator1, objectAnimator2);
         animatorSet.setInterpolator(new AccelerateInterpolator());
-        animatorSet.setDuration(2000);
+        animatorSet.setDuration(4000);
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -57,8 +58,18 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                MainActivity.startAction(SplashActivity.this);
-                finish();
+                RxPermissions rxPermissions = new RxPermissions(SplashActivity.this); // where this is an Activity instance
+                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        if (aBoolean) {
+                            MainActivity.startAction(SplashActivity.this);
+                            finish();
+                        }
+
+                    }
+                });
+
             }
 
             @Override

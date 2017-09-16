@@ -17,6 +17,15 @@ public class Goods extends BaseBean {
     private String goodsClick;
     private String goodsCollect;
     private String wellEvaluate;
+    private String conunt;
+
+    public String getConunt() {
+        return conunt;
+    }
+
+    public void setConunt(String conunt) {
+        this.conunt = conunt;
+    }
 
     public String getGoodsId() {
         return goodsId;

@@ -61,26 +61,19 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (position == (dataList.size() + 1)) {
 
         } else {
-
             int pos = position - 1;
             Goods goods = dataList.get(pos);
             ViewHolder viewholder= (ViewHolder) holder;
-
             ImageLoaderUtils.display(viewholder.img_icon.getContext(),viewholder.img_icon,goods.getGoodsMainPhoto());
-
             if (!TextUtils.isEmpty(goods.getGoodsName())){
                 viewholder.txt_goodsName.setText(goods.getGoodsName());
             }
             if (!TextUtils.isEmpty(goods.getGoodsPrice())){
-                viewholder.txt_storePrice.setText(goods.getGoodsPrice());
+                viewholder.txt_storePrice.setText("S$"+goods.getGoodsPrice());
             }
-            viewholder.txt_goodsCount.setText("x1");
-
+            viewholder.txt_goodsCount.setText("x"+goods.getConunt());
         }
-
     }
-
-
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {

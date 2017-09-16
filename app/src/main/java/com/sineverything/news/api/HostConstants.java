@@ -111,5 +111,7 @@ public interface HostConstants {
     String ORDER_DETAIL = HOME_HOST + "/order/detail";
 
 
+    String UPDATE_URL=HOME_HOST+"/version/check";
+
 
 }

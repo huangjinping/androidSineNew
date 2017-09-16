@@ -3,16 +3,18 @@ package com.sineverything.news.ui.my.fragment;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jaydenxiao.common.base.BaseFragment;
 import com.jaydenxiao.common.commonwidget.NormalTitleBar;
 import com.sineverything.news.R;
-import com.sineverything.news.ui.commodity.ClassifyActivity;
+import com.sineverything.news.bean.main.User;
+import com.sineverything.news.comm.UserManager;
 import com.sineverything.news.ui.my.activity.CollectionActivity;
 import com.sineverything.news.ui.my.activity.FeedbackActivity;
 import com.sineverything.news.ui.my.activity.HelpCenterActivity;
 import com.sineverything.news.ui.my.activity.LoginActivity;
-import com.sineverything.news.ui.my.activity.PhoneLoginActivity;
+import com.sineverything.news.ui.my.activity.SettingActivity;
 import com.sineverything.news.ui.my.activity.ShopCarActivity;
 import com.sineverything.news.ui.order.activity.OrderListActivity;
 
@@ -57,6 +59,10 @@ public class MyFragment extends BaseFragment {
     RelativeLayout rlHelpCenter;
     @Bind(R.id.rl_order_list)
     RelativeLayout rlOrderList;
+    @Bind(R.id.txt_nickname)
+    TextView txtNickname;
+    @Bind(R.id.rl_setting)
+    RelativeLayout rlSetting;
 
     @Override
     protected int getLayoutResource() {
@@ -72,15 +78,46 @@ public class MyFragment extends BaseFragment {
     protected void initView() {
         ntb.setTitleText(R.string.my);
         ntb.setBackVisibility(false);
+        updateName();
+
+    }
+
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        updateName();
+
+    }
+
+    private void updateName() {
+        if (txtNickname != null) {
+            txtNickname.setText("");
+            if (UserManager.isLogin(getActivity())) {
+                User user = UserManager.getUser(getActivity());
+                txtNickname.setText(user.getNickname());
+            }
+        }
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateName();
+
     }
 
     @OnClick(R.id.img_login_phone)
     public void phoneLogin() {
-        LoginActivity.startAction(getActivity());
 
+        if (!UserManager.isLogin(getActivity())) {
+            LoginActivity.startAction(getActivity());
+        }
 //        PhoneLoginActivity.startAction(getActivity());
     }
-
 
     @OnClick(R.id.rl_shop_car)
     public void openShopCar() {
@@ -108,4 +145,12 @@ public class MyFragment extends BaseFragment {
     public void onOrderList() {
         OrderListActivity.startAction(getActivity());
     }
+
+
+    @OnClick(R.id.rl_setting)
+    public void onSetting() {
+        SettingActivity.startAction(getActivity());
+    }
+
+
 }
