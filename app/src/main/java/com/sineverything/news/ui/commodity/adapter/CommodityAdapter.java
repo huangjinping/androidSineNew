@@ -11,15 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
-import com.sineverything.news.bean.commodity.Classify;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.comm.MyItemClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +31,7 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private static final int HEADER = 1;
     private static final int ITEM = 2;
-    private List<MenuItem> mClassify ;
+    private List<MenuItem> mClassify;
 
 
     private MyItemClickListener itemHeaderClickListener;
@@ -50,15 +47,13 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-
     public void setItemHeaderClickListener(MyItemClickListener itemHeaderClickListener) {
         this.itemHeaderClickListener = itemHeaderClickListener;
     }
 
     public CommodityAdapter(List<MenuItem> menuList, List<Goods> dataList) {
         this.dataList = dataList;
-        mClassify=menuList;
-
+        mClassify = menuList;
 
 
     }
@@ -89,17 +84,23 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 mAdapter.setmListener(itemHeaderClickListener);
             }
         } else {
-            ViewHolder viewHolder= (ViewHolder) holder;
-            Context context=viewHolder.img_item.getContext();
-           final int i = position - 1;
+            ViewHolder viewHolder = (ViewHolder) holder;
+            Context context = viewHolder.img_item.getContext();
+            final int i = position - 1;
             Goods goods = dataList.get(i);
-            ImageLoaderUtils.display(context,viewHolder.img_item,goods.getGoodsMainPhoto());
-
-            if (!TextUtils.isEmpty(goods.getGoodsName())){
+            ImageLoaderUtils.display(context, viewHolder.img_item, goods.getGoodsMainPhoto());
+            viewHolder.img_line_left.setVisibility(View.GONE);
+            viewHolder.img_line_right.setVisibility(View.GONE);
+            if (i % 2 == 0) {
+                viewHolder.img_line_right.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.img_line_left.setVisibility(View.VISIBLE);
+            }
+            if (!TextUtils.isEmpty(goods.getGoodsName())) {
                 viewHolder.txt_goodsName.setText(goods.getGoodsName());
             }
-            if (!TextUtils.isEmpty(goods.getGoodsPrice())){
-                viewHolder.txt_goodsPrice.setText("S$"+goods.getGoodsPrice());
+            if (!TextUtils.isEmpty(goods.getGoodsPrice())) {
+                viewHolder.txt_goodsPrice.setText("S$" + goods.getGoodsPrice());
 
             }
 
@@ -107,8 +108,8 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (itemClickListener!=null){
-                        itemClickListener.onItemClick(v,i);
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(v, i);
                     }
                 }
             });
@@ -147,18 +148,20 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
-
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public ImageView img_item;
         public TextView txt_goodsName;
         public TextView txt_goodsPrice;
+        public ImageView img_line_left;
+        public ImageView img_line_right;
+
         public ViewHolder(View rootView) {
             super(rootView);
 
             this.rootView = rootView;
+            this.img_line_left = (ImageView) rootView.findViewById(R.id.img_line_left);
+            this.img_line_right = (ImageView) rootView.findViewById(R.id.img_line_right);
             this.img_item = (ImageView) rootView.findViewById(R.id.img_item);
             this.txt_goodsName = (TextView) rootView.findViewById(R.id.txt_goodsName);
             this.txt_goodsPrice = (TextView) rootView.findViewById(R.id.txt_goodsPrice);

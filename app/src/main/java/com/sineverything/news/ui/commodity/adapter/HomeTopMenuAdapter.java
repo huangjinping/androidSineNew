@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Classify;
@@ -69,7 +70,7 @@ public class HomeTopMenuAdapter  extends RecyclerView.Adapter<HomeTopMenuAdapter
             Drawable micon = mContext.getResources().getDrawable(mList.get(position).getDefaultId());
             viewHolder.ivPic.setImageDrawable(micon);
         }else {
-            ImageLoaderUtils.display(viewHolder.ivPic.getContext(),viewHolder.ivPic,item.getAppIcon());
+            Glide.with(mContext).load(item.getAppIcon()).placeholder(R.mipmap.ic_icon_detault).error(R.mipmap.ic_icon_detault).into(viewHolder.ivPic);
         }
         viewHolder.tvTitle.setText(mList.get(position).getClassName());
 

@@ -1,5 +1,6 @@
 package com.sineverything.news.ui.commodity.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -39,9 +40,15 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder= (ViewHolder) holder;
+        Context context = viewHolder.txt_className.getContext();
         MenuItem item= dataList.get(position);
         if (!TextUtils.isEmpty(item.getClassName())){
             viewHolder.txt_className.setText(item.getClassName());
+        }
+        if (item.isSelected()){
+            viewHolder.txt_className.setTextColor(context.getResources().getColor(R.color.red_light));
+        }else {
+            viewHolder.txt_className.setTextColor(context.getResources().getColor(R.color.menu_color));
         }
         viewHolder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override

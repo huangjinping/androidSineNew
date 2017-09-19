@@ -76,7 +76,7 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
             ViewHolder viewHolder = (ViewHolder) holder;
             final NewsItem newsItem = dataList.get(position - 1);
-            Glide.with(viewHolder.imgNewIcon.getContext()).load(newsItem.getCover()).into(viewHolder.imgNewIcon);
+            Glide.with(viewHolder.imgNewIcon.getContext()).load(newsItem.getCover()).placeholder(R.mipmap.ic_fuzhuang_default).error(R.mipmap.ic_fuzhuang_default).into(viewHolder.imgNewIcon);
 
             if (!TextUtils.isEmpty(newsItem.getTitle())){
                 viewHolder.txtNewTitle.setText(newsItem.getTitle());

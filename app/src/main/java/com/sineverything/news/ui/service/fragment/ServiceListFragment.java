@@ -50,7 +50,6 @@ public class ServiceListFragment extends BaseFragment {
     public static BaseFragment getInstance(String classId) {
         ServiceListFragment fragment = new ServiceListFragment();
         fragment.classId = classId;
-
         return fragment;
     }
 

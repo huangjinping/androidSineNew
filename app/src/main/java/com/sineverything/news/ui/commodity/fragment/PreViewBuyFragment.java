@@ -1,7 +1,10 @@
 package com.sineverything.news.ui.commodity.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -9,15 +12,37 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.andview.refreshview.callback.IFooterCallBack;
 import com.jaydenxiao.common.base.BaseFragment;
 import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
+import com.jaydenxiao.common.okhttp.OkHttpUtils;
+import com.jaydenxiao.common.okhttp.callback.StringCallback;
+import com.jaydenxiao.common.utils.GsonUtil;
+import com.kenya.view.flowlayout.FlowLayout;
+import com.kenya.view.flowlayout.TagAdapter;
+import com.kenya.view.flowlayout.TagFlowLayout;
 import com.sineverything.news.R;
+import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.Response;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.GoodsDetails;
+import com.sineverything.news.bean.commodity.GoodsDetailsResponse;
+import com.sineverything.news.bean.commodity.SpecsChild;
+import com.sineverything.news.bean.commodity.SpecsParent;
+import com.sineverything.news.bean.main.User;
+import com.sineverything.news.comm.UserManager;
+import com.sineverything.news.ui.my.activity.ShopCarActivity;
 import com.sineverything.news.ui.order.activity.ConfirmOrderActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * author Created by harrishuang on 2017/9/12.
@@ -46,7 +71,24 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
     TextView txtCancel;
     @Bind(R.id.layout_content)
     RelativeLayout layoutContent;
+    @Bind(R.id.layout_specifications)
+    LinearLayout layoutSpecifications;
+    private LayoutInflater mInflater;
+    private ViewHolder viewHolder;
+    private User user;
+    public String status;
 
+    public static final String  STATUS_SHAPCART="STATUS_SHAPCART";
+    public static final String  STATUS_COMMODITY="STATUS_COMMODITY";
+
+
+    public static PreViewBuyFragment getInstance(String status) {
+        PreViewBuyFragment preViewBuyFragment = new PreViewBuyFragment();
+        preViewBuyFragment.status = status;
+        return preViewBuyFragment;
+    }
+
+    private List<TagFlowLayout> viewList;
 
     @Override
     protected int getLayoutResource() {
@@ -63,14 +105,84 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initView() {
+        mInflater = LayoutInflater.from(getActivity());
+        viewList = new ArrayList<>();
+        user = UserManager.getUser(getActivity());
         Bundle bundle = getArguments();
         goods = (Goods) bundle.getSerializable("goods");
         goodDetails = (GoodsDetails) bundle.getSerializable("goodDetails");
         ImageLoaderUtils.display(getActivity(), imgProductIcon, goods.getGoodsMainPhoto());
         txtPrice.setText("S$" + goods.getGoodsPrice());
         txtKucun.setText("库存" + goodDetails.getGoodsInventory() + "件");
+        if (goodDetails.getSpecsList() != null) {
+            layoutSpecifications.removeAllViews();
+            for (int i = 0; i < goodDetails.getSpecsList().size(); i++) {
+                SpecsParent specsParent = goodDetails.getSpecsList().get(i);
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_specifications, layoutSpecifications, false);
+                viewHolder = new ViewHolder(view);
+                viewHolder.txt_specsName.setText(specsParent.getSpecsName());
+                viewList.add(viewHolder.tag_specifications);
+                viewHolder.tag_specifications.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+                    @Override
+                    public boolean onTagClick(View view, int i, FlowLayout flowLayout) {
+
+                        return true;
+                    }
+                });
+
+
+                viewHolder.tag_specifications.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+
+                    @Override
+                    public void onSelected(Set<Integer> set) {
+
+
+                    }
+                });
+
+                viewHolder.tag_specifications.setAdapter(new TagAdapter<SpecsChild>(specsParent.getSpecsPros()) {
+
+                    @Override
+                    public View getView(FlowLayout flowLayout, int i, SpecsChild specsChild) {
+                        TextView tv = (TextView) mInflater.inflate(R.layout.tv_specifications,
+                                viewHolder.tag_specifications, false);
+                        Log.d("okhttp", specsChild.toString());
+                        tv.setText(specsChild.getSpecsProName());
+                        return tv;
+                    }
+                });
+                layoutSpecifications.addView(view);
+            }
+        }
     }
 
+
+    /**
+     * 获取数据问题
+     */
+    private String getDataList() {
+
+
+        StringBuffer buffer = new StringBuffer();
+
+        List<SpecsParent> specsList = goodDetails.getSpecsList();
+        for (int i = 0; i < viewList.size(); i++) {
+            Set<Integer> selectedList = viewList.get(i).getSelectedList();
+            if (selectedList != null && selectedList.size() > 0) {
+                String specsProId = specsList.get(i).getSpecsPros().get(selectedList.iterator().next()).getSpecsProId();
+                buffer.append(specsProId);
+                buffer.append(",");
+            }
+        }
+        if (buffer.length() > 0) {
+            buffer.deleteCharAt(buffer.length() - 1);
+        }
+
+        showLongToast(buffer.toString());
+
+
+        return buffer.toString();
+    }
 
     @Override
     public void onClick(View v) {
@@ -79,9 +191,97 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
 
     @OnClick(R.id.btn_enter)
     public void submit() {
-        ConfirmOrderActivity.startAction(getActivity(), goodDetails, goods, Integer.parseInt(idProductNum.getText().toString().trim()));
 
+        getGoodsGsp();
+//
+//        ConfirmOrderActivity.startAction(getActivity(), goodDetails, goods, Integer.parseInt(idProductNum.getText().toString().trim()));
+//
+//
+        addGoodsCart();
     }
+
+
+    /**
+     * 获取
+     */
+    private void getGoodsGsp() {
+        OkHttpUtils.post()
+                .url(HostConstants.GET_GOODS_GSP)
+                .addParams("userId", user.getId())
+                .addParams("goodsId", goodDetails.getGoodsId())
+                .addParams("gspIds", getDataList())
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+            }
+        });
+    }
+
+
+//    userId 用户id
+//    goodsId 商品id
+//    count 商品数量
+//    gsp: 规格属性id 用逗号分隔
+
+    /**
+     * 添加购物车
+     */
+    private void addGoodsCart() {
+        startProgressDialog();
+        OkHttpUtils.post()
+                .url(HostConstants.ADD_GOODSCART)
+                .addParams("userId", user.getId())
+                .addParams("goodsId", goodDetails.getGoodsId())
+                .addParams("count", idProductNum.getText().toString().trim())
+                .addParams("gsp", getDataList())
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                Response response1 = GsonUtil.changeGsonToBean(response, Response.class);
+                if (response1 != null) {
+                    if (isOkCode(response1.getCode(), response1.getMessage())) {
+                        ShopCarActivity.startAction(getActivity());
+                    }
+                }
+            }
+        });
+    }
+
 
     @OnClick(R.id.txt_cancel)
     public void onBack() {
@@ -106,4 +306,30 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
     }
 
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    public class ViewHolder {
+        public View rootView;
+        public TextView txt_specsName;
+        public TagFlowLayout tag_specifications;
+
+        public ViewHolder(View rootView) {
+            this.rootView = rootView;
+            this.txt_specsName = (TextView) rootView.findViewById(R.id.txt_specsName);
+            this.tag_specifications = (TagFlowLayout) rootView.findViewById(R.id.tag_specifications);
+        }
+
+    }
 }

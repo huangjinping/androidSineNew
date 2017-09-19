@@ -45,7 +45,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         ViewHolder viewHolder = (ViewHolder) holder;
         final NewsItem newsItem = dataList.get(position );
-        Glide.with(viewHolder.imgNewIcon.getContext()).load(newsItem.getCover()).into(viewHolder.imgNewIcon);
+        Glide.with(viewHolder.imgNewIcon.getContext()).load(newsItem.getCover()).placeholder(R.mipmap.ic_fuzhuang_default).error(R.mipmap.ic_fuzhuang_default).into(viewHolder.imgNewIcon);
 
         if (!TextUtils.isEmpty(newsItem.getTitle())){
             viewHolder.txtNewTitle.setText(newsItem.getTitle());
@@ -57,6 +57,15 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //        if (!TextUtils.isEmpty(newsItem.getSource())){
 //            viewHolder.txtSource.setText(newsItem.getSource());
 //        }
+
+
+        if (!TextUtils.isEmpty(newsItem.getCreateTime())){
+            viewHolder.txtCreateDate.setText(newsItem.getCreateDate());
+        }
+        if (!TextUtils.isEmpty(newsItem.getSource())){
+            viewHolder.txtSource.setText(newsItem.getSource());
+
+        }
 
         viewHolder.layoutIcon.setOnClickListener(new View.OnClickListener() {
             @Override

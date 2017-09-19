@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TabHost;
 
 import com.andview.refreshview.XRefreshView;
 import com.jaydenxiao.common.base.BaseFragment;
@@ -26,7 +27,7 @@ import com.sineverything.news.ui.commodity.CommodityActivity;
 import com.sineverything.news.ui.commodity.CommodityDetailsActivity;
 import com.sineverything.news.ui.commodity.SearchCommodityActivity;
 import com.sineverything.news.ui.commodity.adapter.CommodityAdapter;
-import com.sineverything.news.ui.my.activity.SelectAreaActivity;
+import com.sineverything.news.ui.commodity.adapter.DividerGridItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,6 @@ public class CommodityFragment extends BaseFragment {
     XRefreshView xrFreshview;
     private List<Goods> dataList;
     private CommodityAdapter adapter;
-
     private List<MenuItem> menuList;
 
 
@@ -99,7 +99,7 @@ public class CommodityFragment extends BaseFragment {
                     ClassifyActivity.startAction(getActivity());
                 } else {
                     MenuItem item = menuList.get(postion);
-                    CommodityActivity.startActionWithId(getActivity(),item.getId());
+                    CommodityActivity.startActionWithId(getActivity(), item.getId());
                 }
             }
         });

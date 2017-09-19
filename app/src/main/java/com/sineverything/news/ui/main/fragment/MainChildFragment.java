@@ -19,6 +19,7 @@ import com.sineverything.news.bean.main.Banner;
 import com.sineverything.news.bean.main.BannerResponse;
 import com.sineverything.news.bean.main.NewsItem;
 import com.sineverything.news.bean.main.NewsItemResponse;
+import com.sineverything.news.ui.commodity.adapter.DividerGridItemDecoration;
 import com.sineverything.news.ui.main.adpater.MainNewsAdapter;
 
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class MainChildFragment extends BaseFragment {
         dataList = new ArrayList<>();
         banners = new ArrayList<>();
         adapter = new MainNewsAdapter(dataList, banners);
+        recMain.addItemDecoration(new DividerGridItemDecoration(getActivity()));
         recMain.setLayoutManager(new LinearLayoutManager(getContext()));
         recMain.setAdapter(adapter);
         loadData(LoadMode.NOMAL);

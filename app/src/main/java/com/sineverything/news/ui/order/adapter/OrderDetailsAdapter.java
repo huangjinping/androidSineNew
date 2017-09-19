@@ -56,7 +56,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof ViewHolder) {
             ViewHolder viewHolder = (ViewHolder) holder;
 
-            if (dataList.size()!=0){
+            if (dataList.size() != 0) {
                 GoodsInfo goodsInfo = dataList.get(position - 1);
                 ImageLoaderUtils.display(viewHolder.img_icon.getContext(), viewHolder.img_icon, goodsInfo.getGoodsMainphotoPath());
 
@@ -67,7 +67,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     viewHolder.txt_goodsCount.setText("x" + goodsInfo.getGoodsCount());
                 }
 
-                if (!TextUtils.isEmpty(goodsInfo.getGoodsName())){
+                if (!TextUtils.isEmpty(goodsInfo.getGoodsName())) {
                     viewHolder.txt_goodsName.setText(goodsInfo.getGoodsName());
                 }
 
@@ -82,11 +82,38 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 footerHolder.txt_orderId.setText(details.getOrderId());
             }
 
-            if (!TextUtils.isEmpty(details.getTotalPrice())){
-                footerHolder.txt_totalPrice.setText("$"+details.getTotalPrice());
+            if (!TextUtils.isEmpty(details.getTotalPrice())) {
+                footerHolder.txt_totalPrice.setText("$" + details.getTotalPrice());
             }
-        }else {
+        } else {
             ViewHeaderHolder headerHolder = (ViewHeaderHolder) holder;
+            String status = details.getOrderStatus();
+//            private String[] title = {"待付款", "代发货", "待收货", "待评价", "已完成", "已取消"};
+//            private String[] status = {"10", "20", "30", "40", "50", "0"};
+
+            if ("10".equals(status)) {
+                headerHolder.img_time_axis.setImageResource(R.mipmap.ic_daifukuan);
+            } else if ("20".equals(status)) {
+                headerHolder.img_time_axis.setImageResource(R.mipmap.ic_daifahuo);
+
+            } else if ("30".equals(status)) {
+
+                headerHolder.img_time_axis.setImageResource(R.mipmap.ic_daishouhuo);
+
+
+            } else if ("40".equals(status)) {
+                headerHolder.img_time_axis.setImageResource(R.mipmap.ic_daimai_wancheng);
+
+
+            } else if ("50".equals(status)) {
+                headerHolder.img_time_axis.setImageResource(R.mipmap.ic_daimai_wancheng);
+
+
+            } else if ("0".equals(status)) {
+                headerHolder.img_time_axis.setImageResource(R.mipmap.ic_daiquxiao);
+
+            }
+
             headerHolder.rootView.setVisibility(View.VISIBLE);
         }
     }
@@ -111,11 +138,13 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static class ViewHeaderHolder extends RecyclerView.ViewHolder {
         public View rootView;
         public TextView txt_phone;
+        public ImageView img_time_axis;
 
         public ViewHeaderHolder(View rootView) {
             super(rootView);
             this.rootView = rootView;
             this.txt_phone = (TextView) rootView.findViewById(R.id.txt_phone);
+            this.img_time_axis = (ImageView) rootView.findViewById(R.id.img_time_axis);
         }
 
     }
@@ -127,7 +156,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public LinearLayout layout_jiaoyi;
         public TextView txt_addTime;
         public TextView txt_totalPrice;
-        
+
 
         public ViewFooterHolder(View rootView) {
             super(rootView);
@@ -136,7 +165,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             this.txt_jiaoyi = (TextView) rootView.findViewById(R.id.txt_jiaoyi);
             this.layout_jiaoyi = (LinearLayout) rootView.findViewById(R.id.layout_jiaoyi);
             this.txt_addTime = (TextView) rootView.findViewById(R.id.txt_addTime);
-            this.txt_totalPrice=(TextView)rootView.findViewById(R.id.txt_totalPrice);
+            this.txt_totalPrice = (TextView) rootView.findViewById(R.id.txt_totalPrice);
         }
     }
 
@@ -149,6 +178,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public TextView txt_storePrice;
         public TextView txt_goodsCount;
         public Button txt_return;
+
 
         public ViewHolder(View rootView) {
             super(rootView);

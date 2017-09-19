@@ -61,24 +61,24 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         }
 
-        if ("10".equals(status)) {
-            viewHolder.txt_status_pay.setVisibility(View.VISIBLE);
-        } else if ("20".equals(status)) {
-            viewHolder.txt_status_remind.setVisibility(View.VISIBLE);
-
-        } else if ("30".equals(status)) {
-            viewHolder.txt_status_receipt.setVisibility(View.VISIBLE);
-
-
-        } else if ("40".equals(status)) {
-
-
-        } else if ("50".equals(status)) {
-
-
-        } else if ("0".equals(status)) {
-
-        }
+//        if ("10".equals(status)) {
+//            viewHolder.txt_status_pay.setVisibility(View.VISIBLE);
+//        } else if ("20".equals(status)) {
+//            viewHolder.txt_status_remind.setVisibility(View.VISIBLE);
+//
+//        } else if ("30".equals(status)) {
+//            viewHolder.txt_status_receipt.setVisibility(View.VISIBLE);
+//
+//
+//        } else if ("40".equals(status)) {
+//
+//
+//        } else if ("50".equals(status)) {
+//
+//
+//        } else if ("0".equals(status)) {
+//
+//        }
 
 
         viewHolder.txt_totalPrice.setText("S$" + order.getTotalPrice());

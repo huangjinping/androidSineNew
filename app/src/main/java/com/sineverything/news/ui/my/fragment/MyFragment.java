@@ -10,6 +10,7 @@ import com.jaydenxiao.common.commonwidget.NormalTitleBar;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.main.User;
 import com.sineverything.news.comm.UserManager;
+import com.sineverything.news.ui.my.activity.AboutUsActivity;
 import com.sineverything.news.ui.my.activity.CollectionActivity;
 import com.sineverything.news.ui.my.activity.FeedbackActivity;
 import com.sineverything.news.ui.my.activity.HelpCenterActivity;
@@ -141,9 +142,21 @@ public class MyFragment extends BaseFragment {
     }
 
 
+
+    @OnClick(R.id.rl_about)
+    public void openAboutUs() {
+        AboutUsActivity.startAction(getActivity());
+    }
+
+
     @OnClick(R.id.rl_order_list)
     public void onOrderList() {
-        OrderListActivity.startAction(getActivity());
+
+        if (UserManager.isLogin(getContext())){
+            OrderListActivity.startAction(getActivity());
+        }else {
+            LoginActivity.startAction(getContext());
+        }
     }
 
 

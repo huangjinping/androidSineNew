@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Goods;
@@ -41,7 +42,10 @@ public class CommodityListAdapter extends RecyclerView.Adapter<RecyclerView.View
         Context context = viewHolder.rootView.getContext();
         final Goods goods = dataList.get(position);
         if (!TextUtils.isEmpty(goods.getGoodsMainPhoto())) {
-            ImageLoaderUtils.display(context, viewHolder.img_commodity_icon, goods.getGoodsMainPhoto());
+
+
+            Glide.with(context).load(goods.getGoodsMainPhoto()).placeholder(R.mipmap.ic_fuzhuang_default).error(R.mipmap.ic_fuzhuang_default).into(viewHolder.img_commodity_icon);
+
         }
         if (!TextUtils.isEmpty(goods.getGoodsName())) {
             viewHolder.txt_goodsName.setText(goods.getGoodsName());

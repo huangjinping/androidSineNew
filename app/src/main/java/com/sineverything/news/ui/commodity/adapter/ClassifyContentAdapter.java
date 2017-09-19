@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andview.refreshview.callback.IFooterCallBack;
+import com.bumptech.glide.Glide;
 import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.MenuItem;
@@ -81,7 +82,8 @@ public class ClassifyContentAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             }
         });
-        ImageLoaderUtils.display(viewHolder.txt_commodity_name.getContext(),viewHolder.img_item,item.getAppIcon());
+
+        Glide.with(viewHolder.txt_commodity_name.getContext()).load(item.getAppIcon()).placeholder(R.mipmap.ic_fuzhuang_default).error(R.mipmap.ic_fuzhuang_default).into(viewHolder.img_item);
 
     }
 

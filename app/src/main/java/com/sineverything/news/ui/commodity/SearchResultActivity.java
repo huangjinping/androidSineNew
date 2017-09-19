@@ -41,17 +41,15 @@ public class SearchResultActivity extends BaseActivity {
     @Override
     public void initView() {
 
-        dataList = new ArrayList<>();
-        for (int i = 0; i <100 ; i++) {
-            dataList.add(new Goods());
-        }
-        adapter = new CommodityListAdapter(dataList);
-        recSearchCommodity.setLayoutManager(new LinearLayoutManager(this));
-        recSearchCommodity.setAdapter(adapter);
     }
 
     public static void startAction(Context context) {
         Intent intent = new Intent(context, SearchResultActivity.class);
         context.startActivity(intent);
+    }
+
+    public static void startActionWithKeywords(Context mContext, String key) {
+
+
     }
 }

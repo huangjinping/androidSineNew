@@ -76,6 +76,11 @@ public class ClassifyActivity extends BaseActivity {
 
 
     private void setFragmentByType(int postion) {
+        for (int i = 0; i <menuList.size() ; i++) {
+            menuList.get(i).setSelected(false);
+        }
+        menuList.get(postion).setSelected(true);
+        menuAdapter.notifyDataSetChanged();
         MenuItem item = menuList.get(postion);
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.layout_menu_content, ClassifyFragment.getInstance(item.getId()));

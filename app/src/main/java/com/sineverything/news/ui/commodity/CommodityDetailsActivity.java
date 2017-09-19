@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -30,6 +29,7 @@ import com.jaydenxiao.common.view.details.StatusBarUtil;
 import com.joanzapata.android.BaseAdapterHelper;
 import com.joanzapata.android.QuickAdapter;
 import com.sineverything.news.R;
+import com.sineverything.news.api.HTMLConstants;
 import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.GoodsDetails;
@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -148,9 +147,7 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     public void sharePic() {
 
 
-
         process.shotAllView(this, roovView, new View[]{scrollview});
-
 
 
     }
@@ -270,8 +267,12 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
 
     @OnClick(R.id.tv_good_detail_shop_cart)
     public void toShopCar() {
-        ShopCarActivity.startAction(this);
+        showFragment(PreViewBuyFragment.STATUS_SHAPCART);
     }
+
+
+
+
 
     /**
      * 一级菜单
@@ -280,7 +281,9 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         startProgressDialog();
         OkHttpUtils.post()
                 .url(HostConstants.GOODS_DETAILS)
-                .addParams("goodsId", goods.getGoodsId())
+//                .addParams("goodsId", goods.getGoodsId())
+                .addParams("goodsId", "347")
+
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
@@ -318,8 +321,14 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     public void onSubmitOrder() {
 
 
-        showFragment();
+        showFragment(PreViewBuyFragment.STATUS_COMMODITY);
+
+
     }
+
+
+
+
 
     /**
      * 商品详情
@@ -344,8 +353,11 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         tvGoodDetailDiscount.setText(result.getGoodsPrice());
         txt_storePrice.setText("$s" + result.getStorePrice());
 
-        Log.d("hjp", "====>>>>>>" + result.getGoodsDetailsMobile());
-        web_details.loadData(getHtmlData(result.getGoodsDetailsMobile()), "text/html; charset=UTF-8", null);//这种写法可以正确解码
+        String local = "file:///android_asset";
+
+        web_details.loadDataWithBaseURL(local, HTMLConstants.head + result.getGoodsDetailsMobile() + HTMLConstants.footer, "text/html", "utf-8", null);
+
+//        web_details.loadData(getHtmlData(result.getGoodsDetailsMobile()), "text/html; charset=UTF-8", null);//这种写法可以正确解码
 //        txt_details.setMovementMethod(ScrollingMovementMethod.getInstance());//滚动
 //        txt_details.setText(Html.fromHtml(result.getGoodsDetailsMobile()));
     }
@@ -360,11 +372,11 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     /**
      * 开启页面
      */
-    private void showFragment() {
+    private void showFragment(String status) {
         if (goodDetails == null) {
             return;
         }
-        PreViewBuyFragment fragment = new PreViewBuyFragment();
+        PreViewBuyFragment fragment =PreViewBuyFragment.getInstance(status);
         Bundle bundle = new Bundle();
         bundle.putSerializable("goodDetails", goodDetails);
         bundle.putSerializable("goods", goods);

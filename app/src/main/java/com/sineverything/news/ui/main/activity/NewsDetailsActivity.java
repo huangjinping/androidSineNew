@@ -27,6 +27,7 @@ import com.jaydenxiao.common.okhttp.OkHttpUtils;
 import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
+import com.sineverything.news.api.HTMLConstants;
 import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.main.Comments;
 import com.sineverything.news.bean.main.NewsDetails;
@@ -422,7 +423,13 @@ public class NewsDetailsActivity extends BaseActivity {
 //                                    "</html>";
 
 
-                            webview.loadDataWithBaseURL(null, htmlData, "text/html", "utf-8", null);
+
+
+                            String local = "file:///android_asset";
+
+//                            web_details.loadDataWithBaseURL(local, HTMLConstants.head + result.getGoodsDetailsMobile() + HTMLConstants.footer, "text/html", "utf-8", null);
+
+                            webview.loadDataWithBaseURL(local, HTMLConstants.head + htmlData + HTMLConstants.footer, "text/html", "utf-8", null);
 
 //                            webview.loadUrl("https://mp.weixin.qq.com/s?__biz=MzA4NjQ0NzgyNg==&mid=218436924&idx=5&sn=91aa86a3fd0edacdfce4409294126bb6&scene=2&from=timeline&isappinstalled=0&key=51248353fdc216d38c036484eb0094880853ff8a1c618edc1398b3990fc7befde427b8509a2241c1a7177b08180be8f45284942ad3b9efda00ec1fac1154c42e7151a023fb8d001cf2187e16da519d8a&ascene=0&uin=MjA3MjkzMDcwMg%3D%3D&devicetype=iMac+MacBookPro12%2C1+OSX+OSX+10.12.1+build(16B2657)&version=12020510&nettype=WIFI&fontScale=100&pass_ticket=84uNFNPhnGm86glbSX2uVURATdkMQ%2FTr2su05WCi2O%2BbAdHDXgzXcMSDXhDpZQCU");
                             Document parse = Jsoup.parse(data);
