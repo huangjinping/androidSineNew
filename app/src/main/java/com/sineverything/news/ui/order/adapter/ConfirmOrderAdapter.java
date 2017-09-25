@@ -68,7 +68,11 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (!TextUtils.isEmpty(goods.getGoodsName())){
                 viewholder.txt_goodsName.setText(goods.getGoodsName());
             }
-            if (!TextUtils.isEmpty(goods.getGoodsPrice())){
+
+
+            if (!TextUtils.isEmpty(goods.getGoodsGspVal())){
+                viewholder.txt_param.setText(goods.getGoodsGspVal());
+            }            if (!TextUtils.isEmpty(goods.getGoodsPrice())){
                 viewholder.txt_storePrice.setText("S$"+goods.getGoodsPrice());
             }
             viewholder.txt_goodsCount.setText("x"+goods.getConunt());

@@ -17,7 +17,7 @@
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="vertical">
 
         <LinearLayout
@@ -30,13 +30,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -62,6 +62,7 @@
                             android:id="@+id/txt_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:padding="5dp"
                             android:text="$s100"
                             android:textColor="@color/red"
                             android:textSize="16sp" />
@@ -77,70 +78,104 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <RelativeLayout
+
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:textSize="16sp"
-                        android:text="购买数量" />
-
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    >
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
 
-                        <TextView
-                            android:id="@+id/txt_reduce"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@color/main_color"
-                            android:gravity="center"
-                            android:text="-"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
+                        <LinearLayout
+                            android:id="@+id/layout_specifications"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            >
 
-                        <EditText
-                            android:id="@+id/id_product_num"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:background="@color/transparent"
-                            android:gravity="center"
-                            android:inputType="numberSigned"
-                            android:maxLength="12"
-                            android:minWidth="30dp"
-                            android:text="1"
-                            android:textSize="20sp" />
 
-                        <TextView
-                            android:id="@+id/txt_add"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@color/main_color"
-                            android:gravity="center"
-                            android:text="+"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
+                        </LinearLayout>
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:text="购买数量"
+                                android:textSize="16sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:background="@drawable/shape_gray_noredis"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/txt_reduce"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:gravity="center"
+                                    android:text="-"
+                                    android:textColor="@color/grey_text_color_normal"
+                                    android:textSize="20sp" />
+                                <ImageView
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    style="@style/line"
+                                    />
+
+
+                                <EditText
+                                    android:id="@+id/id_product_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="30dp"
+                                    android:background="@color/transparent"
+                                    android:gravity="center"
+                                    android:inputType="numberSigned"
+                                    android:maxLength="12"
+                                    android:textColor="@color/grey_text_color_normal"
+                                    android:minWidth="30dp"
+                                    android:text="1"
+                                    android:textSize="20sp" />
+                                <ImageView
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    style="@style/line"
+                                    />
+                                <TextView
+                                    android:id="@+id/txt_add"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:gravity="center"
+                                    android:text="+"
+                                    android:textColor="@color/grey_text_color_normal"
+                                    android:textSize="20sp" />
+
+                            </LinearLayout>
+                        </RelativeLayout>
                     </LinearLayout>
-                </RelativeLayout>
-
+                </ScrollView>
             </LinearLayout>
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_enter"
-            style="@style/submitButton"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
-            android:text="确定" />
+            android:background="@color/main_color"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/txt_cancel"

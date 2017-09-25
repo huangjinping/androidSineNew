@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_blue"
+        android:background="@color/main_color"
         android:orientation="horizontal"
         >
        <LinearLayout
@@ -37,6 +37,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -49,5 +50,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"></com.kenya.view.flowlayout.TagFlowLayout>
 
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ImageView
+            style="@style/line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"></ImageView>
+
+        <ListView
+            android:id="@+id/lisv_seatch_resoult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#c8c7cc"
+            android:dividerHeight="1px"
+            android:paddingLeft="10dp"></ListView>
     </LinearLayout>
 </LinearLayout>

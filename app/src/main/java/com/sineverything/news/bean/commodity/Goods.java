@@ -17,7 +17,25 @@ public class Goods extends BaseBean {
     private String goodsClick;
     private String goodsCollect;
     private String wellEvaluate;
+    private String goodsGspIds;
+    private String goodsGspVal;
     private String conunt;
+
+    public String getGoodsGspIds() {
+        return goodsGspIds;
+    }
+
+    public void setGoodsGspIds(String goodsGspIds) {
+        this.goodsGspIds = goodsGspIds;
+    }
+
+    public String getGoodsGspVal() {
+        return goodsGspVal;
+    }
+
+    public void setGoodsGspVal(String goodsGspVal) {
+        this.goodsGspVal = goodsGspVal;
+    }
 
     public String getConunt() {
         return conunt;

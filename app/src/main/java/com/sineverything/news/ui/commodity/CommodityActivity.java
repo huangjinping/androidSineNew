@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -107,7 +108,10 @@ public class CommodityActivity extends BaseActivity {
         Intent intent = getIntent();
         classId = intent.getStringExtra("classId");
         keywords = intent.getStringExtra("keywords");
-        edtSearch.setText(keywords);
+        if (!TextUtils.isEmpty(keywords)){
+            edtSearch.setText(keywords);
+            edtSearch.setSelection(keywords.length());
+        }
 
         String[] title = {"综合", "销量", "价格"};
         for (int i = 0; i < mTitles.length; i++) {
@@ -187,16 +191,15 @@ public class CommodityActivity extends BaseActivity {
     private void loadGoods(final LoadMode loadMode) {
 
         if (loadMode == LoadMode.NOMAL) {
-
+            startProgressDialog();
         }
         if (loadMode != LoadMode.UP_REFRESH) {
             page = 1;
         }
-        startProgressDialog();
 
         OkHttpUtils.post()
-                .url(HostConstants.RECOMMDEND_GOODS)
-                .addParams("pageSize", "30")
+                .url(HostConstants.GOODS_LIST)
+                .addParams("pageSize", "15")
                 .addParams("pageIndex", page + "")
                 .addParams("keywords", keywords)
                 .addParams("classId", classId)
@@ -206,7 +209,7 @@ public class CommodityActivity extends BaseActivity {
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
-
+                stopProgressDialog();
             }
 
             @Override
@@ -230,7 +233,7 @@ public class CommodityActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-
+                stopProgressDialog();
                 GoodsResponse goodsResponse = GsonUtil.changeGsonToBean(response, GoodsResponse.class);
                 if (goodsResponse != null) {
                     if (isOkCode(goodsResponse.getCode(), goodsResponse.getMessage())) {

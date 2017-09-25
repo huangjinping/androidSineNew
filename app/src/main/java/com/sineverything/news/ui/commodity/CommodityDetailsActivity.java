@@ -39,7 +39,7 @@ import com.sineverything.news.comm.GlideImageLoader;
 import com.sineverything.news.comm.ShareProcess;
 import com.sineverything.news.comm.UserManager;
 import com.sineverything.news.ui.commodity.fragment.PreViewBuyFragment;
-import com.sineverything.news.ui.my.activity.ShopCarActivity;
+import com.sineverything.news.ui.my.activity.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -271,9 +271,6 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     }
 
 
-
-
-
     /**
      * 一级菜单
      */
@@ -281,8 +278,8 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         startProgressDialog();
         OkHttpUtils.post()
                 .url(HostConstants.GOODS_DETAILS)
-//                .addParams("goodsId", goods.getGoodsId())
-                .addParams("goodsId", "347")
+
+                .addParams("goodsId", goods.getGoodsId())
 
                 .build().execute(new StringCallback() {
             @Override
@@ -319,15 +316,8 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
 
     @OnClick(R.id.tv_good_detail_buy)
     public void onSubmitOrder() {
-
-
         showFragment(PreViewBuyFragment.STATUS_COMMODITY);
-
-
     }
-
-
-
 
 
     /**
@@ -373,10 +363,14 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
      * 开启页面
      */
     private void showFragment(String status) {
+        if (!UserManager.isLogin(this)) {
+            LoginActivity.startAction(this);
+            return;
+        }
         if (goodDetails == null) {
             return;
         }
-        PreViewBuyFragment fragment =PreViewBuyFragment.getInstance(status);
+        PreViewBuyFragment fragment = PreViewBuyFragment.getInstance(status);
         Bundle bundle = new Bundle();
         bundle.putSerializable("goodDetails", goodDetails);
         bundle.putSerializable("goods", goods);

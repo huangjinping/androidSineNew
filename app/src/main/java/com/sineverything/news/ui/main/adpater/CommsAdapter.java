@@ -59,15 +59,15 @@ public class CommsAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Comments comments = dataList.get(position);
-        if (!TextUtils.isEmpty(comments.getAuthor_name())) {
-            holder.txtAuthorName.setText(comments.getAuthor_name());
-        }
-        if (!TextUtils.isEmpty(comments.getDate())) {
-            holder.txtDate.setText(comments.getDate());
-        }
-        if (!TextUtils.isEmpty(comments.getContent().getRendered())) {
-            holder.txtRendered.setText(Html.fromHtml(comments.getContent().getRendered()));
-        }
+//        if (!TextUtils.isEmpty(comments.getAuthor_name())) {
+//            holder.txtAuthorName.setText(comments.getAuthor_name());
+//        }
+//        if (!TextUtils.isEmpty(comments.getDate())) {
+//            holder.txtDate.setText(comments.getDate());
+//        }
+//        if (!TextUtils.isEmpty(comments.getContent().getRendered())) {
+//            holder.txtRendered.setText(Html.fromHtml(comments.getContent().getRendered()));
+//        }
 
         return convertView;
     }

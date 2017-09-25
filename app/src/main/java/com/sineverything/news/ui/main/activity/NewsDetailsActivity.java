@@ -4,16 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AbsListView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,19 +23,24 @@ import com.jaydenxiao.common.commonwidget.NormalTitleBar;
 import com.jaydenxiao.common.commonwidget.details.DetailListView;
 import com.jaydenxiao.common.commonwidget.details.DetailScrollView;
 import com.jaydenxiao.common.commonwidget.details.DetailWebView;
+import com.jaydenxiao.common.okhttp.LoadMode;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
 import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HTMLConstants;
 import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.Response;
 import com.sineverything.news.bean.main.Comments;
 import com.sineverything.news.bean.main.NewsDetails;
 import com.sineverything.news.bean.main.NewsDetailsResponse;
 import com.sineverything.news.bean.main.NewsPhotoDetail;
 import com.sineverything.news.bean.main.Picture;
+import com.sineverything.news.bean.main.User;
 import com.sineverything.news.comm.ShareProcess;
+import com.sineverything.news.comm.UserManager;
 import com.sineverything.news.ui.main.adpater.CommsAdapter;
+import com.sineverything.news.ui.my.activity.LoginActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,7 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Request;
@@ -72,7 +76,10 @@ public class NewsDetailsActivity extends BaseActivity {
     NormalTitleBar navBar;
     @Bind(R.id.roov_view)
     LinearLayout roovView;
-
+    @Bind(R.id.edt_comment_content)
+    EditText edtCommentContent;
+    @Bind(R.id.txt_comment_submit)
+    TextView txtCommentSubmit;
     private int mFirstVisibleItem;
     private int mWebViewHeight;
     private int mScreenHeight;
@@ -84,6 +91,8 @@ public class NewsDetailsActivity extends BaseActivity {
     private int mListScrollState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
     private List<Picture> imageList = new ArrayList<Picture>();
     private ShareProcess process;
+    private User user;
+    private String id;
 
     @Override
     public int getLayoutId() {
@@ -97,13 +106,15 @@ public class NewsDetailsActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        user = UserManager.getUser(this);
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
-        String id = getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
         process = new ShareProcess(this);
         initWebView();
         initListView();
         initScrollView();
         loadData(id);
+        loadComments(LoadMode.PULL_REFRSH);
     }
 
     public static void startAction(Context context, String id) {
@@ -111,9 +122,6 @@ public class NewsDetailsActivity extends BaseActivity {
         intent.putExtra("id", id);
         context.startActivity(intent);
     }
-
-
-
 
 
     private void initWebView() {
@@ -423,8 +431,6 @@ public class NewsDetailsActivity extends BaseActivity {
 //                                    "</html>";
 
 
-
-
                             String local = "file:///android_asset";
 
 //                            web_details.loadDataWithBaseURL(local, HTMLConstants.head + result.getGoodsDetailsMobile() + HTMLConstants.footer, "text/html", "utf-8", null);
@@ -457,11 +463,22 @@ public class NewsDetailsActivity extends BaseActivity {
     }
 
     /**
-     * @param id
+     * 添加评论
      */
-    private void loadComments(String id) {
-        OkHttpUtils.get()
-                .url(HostConstants.COMMENTS + id)
+    private void addComment(String cmsId, String content) {
+        if (!UserManager.isLogin(this)) {
+            LoginActivity.startAction(this);
+            return;
+        }
+        OkHttpUtils.post()
+                .tag(this)
+                .addParams("cmsId", cmsId)
+                .addParams("commentId", "")
+                .addParams("content", content)
+                .addParams("userId", user.getId())
+                .addParams("token", user.getToken())
+                .url(HostConstants.COMMENTS_ADD)
+
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -481,10 +498,11 @@ public class NewsDetailsActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            List<Comments> newsItems = GsonUtil.stringToArray(response, Comments[].class);
-                            commentsList.clear();
-                            commentsList.addAll(newsItems);
-                            commsAdapter.notifyDataSetChanged();
+
+                            Response response1 = GsonUtil.changeGsonToBean(response, Response.class);
+                            if (isOkCode(response1.getCode(), response1.getMessage())) {
+                                loadComments(LoadMode.NOMAL);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
 
@@ -495,6 +513,77 @@ public class NewsDetailsActivity extends BaseActivity {
     }
 
 
+    /**
+     * @param cmsId
+     */
+
+
+    private int page = 1;
+
+    private void loadComments(final LoadMode loadMode) {
+        if (loadMode != LoadMode.UP_REFRESH) {
+            page = 1;
+        }
+        if (loadMode == LoadMode.NOMAL) {
+            startProgressDialog();
+        }
+        OkHttpUtils.post()
+                .tag(this)
+                .addParams("cmsId", id)
+                .url(HostConstants.COMMENTS)
+                .addParams("pageIndex", page + "")
+                .addParams("pageSize", "30")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(Request request) {
+                        super.onBefore(request);
+                    }
+
+                    @Override
+                    public void onAfter() {
+                        super.onAfter();
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+//                             commentsResponse = GsonUtil.changeGsonToBean(response, CommentsResponse.class);
+//                            commentsList.clear();
+//                            commentsList.addAll(newsItems);
+//                            commsAdapter.notifyDataSetChanged();
+
+
+//                            try {
+//                                CommentsResponse newsItemResponse = GsonUtil.changeGsonToBean(response, CommentsResponse.class);
+//                                if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
+//                                    List<NewsItem> result = newsItemResponse.getResult();
+//                                    if (loadMode != LoadMode.UP_REFRESH) {
+//                                        commentsList.clear();
+//                                        page++;
+//                                    }
+//                                    commentsList.addAll(result);
+//                                    commsAdapter.notifyDataSetChanged();
+//                                }
+//
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//
+//                            }
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                });
+    }
 
 
     class MyWebViewClient extends WebViewClient {
@@ -587,8 +676,24 @@ public class NewsDetailsActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 提交
+     */
+    @OnClick(R.id.txt_comment_submit)
+    public void submitCommemt() {
+        if (!UserManager.isLogin(this)) {
+            LoginActivity.startAction(this);
+            return;
+        }
+        String commentContent = edtCommentContent.getText().toString().trim();
+        if (!TextUtils.isEmpty(commentContent)) {
+            addComment(id, commentContent);
+        }
+    }
+
 
     private void appendListView() {
+        loadComments(LoadMode.UP_REFRESH);
 //        Toast.makeText(getApplicationContext(), "正在加载更多", Toast.LENGTH_SHORT).show();
 //        int count = list.size();
 //        for (int i = count; i < 20 + count; i++) {
@@ -598,5 +703,11 @@ public class NewsDetailsActivity extends BaseActivity {
 //            list.add(map);
 //        }
 //        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        OkHttpUtils.getInstance().cancelTag(this);
     }
 }

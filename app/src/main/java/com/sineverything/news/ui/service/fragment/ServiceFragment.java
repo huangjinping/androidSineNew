@@ -94,7 +94,7 @@ public class ServiceFragment extends BaseFragment {
 
         {
             ServiceMenu serviceMenu = new ServiceMenu();
-            serviceMenu.setIcon(R.mipmap.ic_service_icon2);
+            serviceMenu.setIcon(R.mipmap.ic_service_icon3);
             serviceMenu.setTitle("房产");
             serviceMenu.setType("245");
             serviceMenu.setBackgroundColor(R.color.service_blue);

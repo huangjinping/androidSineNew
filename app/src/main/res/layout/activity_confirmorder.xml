@@ -47,10 +47,11 @@
             android:gravity="center"
             />
         <TextView
+
             android:id="@+id/txt_submit"
+            android:background="@color/main_color"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/red"
             android:gravity="center"
             android:text="提交订单"
             android:textSize="18sp"

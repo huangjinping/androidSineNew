@@ -10,13 +10,16 @@
     <!--87%white-->
     <color name="progress_bar_unfinished">#D4D4D4</color>
 
-    <color name="gray_background">#c1c1c1</color>
+    <color name="gray_background">#F5F5F5</color>
+    <color name="line">#f0f0f0</color>
     <color name="background">#efefef</color>
     <color name="gray_bg2">#D9D9D9</color>
     <color name="blue_bar">#4279D6</color>
     <color name="divider_color">#ffffff</color>
     <color name="msg_color">#FFFFFFFF</color>
 
+
+    <color name="menu_color">#666666</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>

@@ -20,10 +20,6 @@ public interface HostConstants {
 //    String NEWDETAILS="http://tong.mayslife.com/wp-json/wp/v2/posts/";
 
 
-    /**
-     * 访问
-     */
-    String COMMENTS = "http://tong.mayslife.com/wp-json/wp/v2/comments/?post=";
 
 
     String HOME_HOST = "http://47.94.58.196:8080/hd-merchant-app/mobile";
@@ -51,10 +47,10 @@ public interface HostConstants {
     /**
      * 一级菜单
      */
-    String  LEFT_CATEGOGORIES=HOME_HOST+"/goods/left-categories";
+    String LEFT_CATEGOGORIES = HOME_HOST + "/goods/left-categories";
 
 
-    String CATEGORIES_BY_PID=HOME_HOST+"/goods/categories-by-pid";
+    String CATEGORIES_BY_PID = HOME_HOST + "/goods/categories-by-pid";
     /**
      * 获取首页banner
      */
@@ -62,6 +58,11 @@ public interface HostConstants {
 
 
     String RECOMMDEND_GOODS = HOME_HOST + "/index/recommendGoods";
+    /**
+     * 商品列表
+     */
+    String GOODS_LIST = HOME_HOST + "/goods/list";
+
     /**
      * 1.05新闻详情
      */
@@ -85,7 +86,7 @@ public interface HostConstants {
      */
     String ORDER_SUBMIT = HOME_HOST + "/order/submit";
 
-    String   PAYMENT_ALIPAY=HOME_HOST+"/payment/alipay";
+    String PAYMENT_ALIPAY = HOME_HOST + "/payment/alipay";
     /**
      * 首页页面
      */
@@ -111,7 +112,39 @@ public interface HostConstants {
     String ORDER_DETAIL = HOME_HOST + "/order/detail";
 
 
-    String UPDATE_URL=HOME_HOST+"/version/check";
+    String UPDATE_URL = HOME_HOST + "/version/check";
 
+    /**
+     * 加入购物车
+     */
+    String ADD_GOODSCART = HOME_HOST + "/goodscart/addGoodsCart";
+    /**
+     * 6.1获取规格对应的价格和库存
+     */
+    String GET_GOODS_GSP = HOME_HOST + "/goods/getGoodsGsp";
+    /**
+     * 购物车列表
+     */
+    String GOODS_CART_LIST = HOME_HOST + "/goodscart/list";
+    /**
+     * 购物车删除
+     */
+    String GOODS_CART_DELETE = HOME_HOST + "/goodscart/delete";
+    /**
+     * 购物车编辑
+     */
+    String GOODS_CART_EDIT = HOME_HOST + "/goodscart/edit";
+    /**
+     * 购物车下单接口
+     */
+    String ORDER_SUBMIT_CART = HOME_HOST + "/order/submitCart";
+    /**
+     * 访问
+     */
+    String COMMENTS = HOME_HOST+"/cms/comments/list";
+    /**
+     * 访问
+     */
+    String  COMMENTS_ADD =HOME_HOST+"/cms/comments/add";
 
 }

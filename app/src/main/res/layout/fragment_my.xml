@@ -23,7 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@color/gray_background"
+                android:background="@mipmap/ic_login_banner"
                 android:gravity="center"
                 android:orientation="vertical"
 

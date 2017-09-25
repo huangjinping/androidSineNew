@@ -58,18 +58,23 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                RxPermissions rxPermissions = new RxPermissions(SplashActivity.this); // where this is an Activity instance
-                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        if (aBoolean) {
-                            MainActivity.startAction(SplashActivity.this);
-                            finish();
+                try {
+                    RxPermissions rxPermissions = new RxPermissions(SplashActivity.this); // where this is an Activity instance
+                    rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
+                        @Override
+                        public void call(Boolean aBoolean) {
+                            if (aBoolean) {
+                                MainActivity.startAction(SplashActivity.this);
+                                finish();
+                                return;
+                            }
                         }
-
-                    }
-                });
-
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                MainActivity.startAction(SplashActivity.this);
+                finish();
             }
 
             @Override

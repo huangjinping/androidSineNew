@@ -14,6 +14,15 @@ public class MenuItem extends BaseBean {
     private String className;
     private String appIcon;
     private int defaultId;
+    private boolean selected;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
     public String getId() {
         return id;

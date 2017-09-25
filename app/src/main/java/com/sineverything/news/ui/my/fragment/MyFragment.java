@@ -122,7 +122,12 @@ public class MyFragment extends BaseFragment {
 
     @OnClick(R.id.rl_shop_car)
     public void openShopCar() {
-        ShopCarActivity.startAction(getActivity());
+        if (UserManager.isLogin(getContext())){
+            ShopCarActivity.startAction(getActivity());
+        }else {
+            LoginActivity.startAction(getContext());
+        }
+
     }
 
 

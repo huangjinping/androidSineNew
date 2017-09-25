@@ -72,15 +72,13 @@ public class OrderDetailsActivity extends BaseActivity {
         recOrderDetails.setAdapter(detailsAdapter);
 //        status   10 待付款  20 代发货 30 待收货 40 待评价 50 已完成 0 已取消
 
-
-
-
         if (!TextUtils.isEmpty(details.getOrderStatus())) {
             String status = details.getOrderStatus();
             if ("10".equals(status)) {
                 txtPayment.setVisibility(View.VISIBLE);
+
             } else if ("30".equals(status)) {
-                txtReturn.setVisibility(View.VISIBLE);
+//                txtReturn.setVisibility(View.VISIBLE);
             }
         }
         txtPayment.setVisibility(View.VISIBLE);

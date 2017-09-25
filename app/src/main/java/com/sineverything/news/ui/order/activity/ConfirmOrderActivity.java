@@ -14,10 +14,13 @@ import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
+import com.sineverything.news.bean.Response;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.GoodsDetails;
 import com.sineverything.news.bean.commodity.GoodsInfos;
 import com.sineverything.news.bean.main.User;
+import com.sineverything.news.bean.my.Goodscart;
+import com.sineverything.news.bean.my.ShopCarSubmit;
 import com.sineverything.news.bean.order.SubmitOrder;
 import com.sineverything.news.bean.order.SubmitOrderResponse;
 import com.sineverything.news.comm.UserManager;
@@ -56,6 +59,7 @@ public class ConfirmOrderActivity extends BaseActivity {
     private Goods goods;
     private int goodsCount;
     private BigDecimal totalPrice;
+    private ShopCarSubmit shopCarSubmit;
 
     @Override
     public int getLayoutId() {
@@ -80,26 +84,39 @@ public class ConfirmOrderActivity extends BaseActivity {
         });
         Intent intent = getIntent();
         dataList = new ArrayList<>();
-        goodDetails = (GoodsDetails) intent.getSerializableExtra(GoodsDetails.class.getSimpleName());
-        goods = (Goods) intent.getSerializableExtra(Goods.class.getSimpleName());
-        goodsCount = intent.getIntExtra("GoodsCount", 1);
-        goods.setConunt(goodsCount + "");
-        dataList.add(goods);
         adapter = new ConfirmOrderAdapter(dataList);
         recConfirmOrder.setLayoutManager(new LinearLayoutManager(this));
         recConfirmOrder.setAdapter(adapter);
-        BigDecimal b = new BigDecimal(goods.getGoodsPrice());
-        totalPrice = b.multiply(new BigDecimal(goodsCount)).setScale(2, BigDecimal.ROUND_HALF_UP);
-        txtTotalPrice.setText("S$" + totalPrice.toString());
 
-    }
+        if (intent.getSerializableExtra(GoodsDetails.class.getSimpleName()) != null) {
+            goodDetails = (GoodsDetails) intent.getSerializableExtra(GoodsDetails.class.getSimpleName());
+            goods = (Goods) intent.getSerializableExtra(Goods.class.getSimpleName());
+            goodsCount = intent.getIntExtra("GoodsCount", 1);
+            goods.setConunt(goodsCount + "");
+            dataList.add(goods);
 
-    public static void startAction(Context context, GoodsDetails goodDetails, Goods goods, int goodsCount) {
-        Intent intent = new Intent(context, ConfirmOrderActivity.class);
-        intent.putExtra(GoodsDetails.class.getSimpleName(), goodDetails);
-        intent.putExtra(Goods.class.getSimpleName(), goods);
-        intent.putExtra("GoodsCount", goodsCount);
-        context.startActivity(intent);
+            BigDecimal b = new BigDecimal(goods.getGoodsPrice());
+            totalPrice = b.multiply(new BigDecimal(goodsCount)).setScale(2, BigDecimal.ROUND_HALF_UP);
+            txtTotalPrice.setText("S$" + totalPrice.toString());
+        } else if (intent.getSerializableExtra(ShopCarSubmit.class.getSimpleName()) != null) {
+            shopCarSubmit = (ShopCarSubmit) intent.getSerializableExtra(ShopCarSubmit.class.getSimpleName());
+            List<Goodscart> goodscarts = shopCarSubmit.getGoodscarts();
+            for (int i = 0; i < goodscarts.size(); i++) {
+                Goodscart goodscart = goodscarts.get(i);
+                Goods goods = new Goods();
+                goods.setConunt(goodscart.getCount() + "");
+                goods.setGoodsName(goodscart.getGoodsName());
+                goods.setGoodsGspVal(goodscart.getSpecInfo());
+                goods.setGoodsPrice(goodscart.getPrice());
+                goods.setGoodsMainPhoto(goodscart.getMainPhoto());
+                dataList.add(goods);
+            }
+            totalPrice = new BigDecimal(shopCarSubmit.getTotalPrice());
+            txtTotalPrice.setText("S$" + totalPrice.toString());
+
+        }
+        adapter.notifyDataSetChanged();
+
     }
 
 
@@ -118,23 +135,35 @@ public class ConfirmOrderActivity extends BaseActivity {
             return;
         }
 
+        if (shopCarSubmit != null) {
+            submitCartOrder();
+        } else {
+            orderSubmit();
+        }
+    }
 
+    /**
+     * this
+     */
+    private void orderSubmit() {
         startProgressDialog();
-
         GoodsInfos info = new GoodsInfos();
         info.setGoodsCount("1");
         info.setGoodsAllPrice(goodDetails.getStorePrice());
         info.setGoodsId(goodDetails.getGoodsId());
-        info.setGoodsAllPrice(goodDetails.getStorePrice());
+        info.setGoodsPrice(goodDetails.getStorePrice());
+        info.setGoodsGspIds(goods.getGoodsGspIds());
+        info.setGoodsGspVal(goods.getGoodsGspVal());
         List<GoodsInfos> goodsInfos = new ArrayList<>();
         goodsInfos.add(info);
-
-
         OkHttpUtils.post()
                 .url(HostConstants.ORDER_SUBMIT)
                 .addParams("goodsInfos", GsonUtil.createGsonString(goodsInfos))
                 .addParams("totalPrice", totalPrice.toString())
+                .addParams("gspIds", goodDetails.getGspIds())
                 .addParams("payType", "online")
+
+
                 .addParams("userId", user.getId())
                 .addParams("token", user.getToken())
                 .build().execute(new StringCallback() {
@@ -162,6 +191,8 @@ public class ConfirmOrderActivity extends BaseActivity {
                     if (isOkCode(detailsResponse.getCode(), detailsResponse.getMessage())) {
                         SubmitOrder result = detailsResponse.getResult();
                         PaymentActivity.startAction(mContext, result.getOrderId(), totalPrice.toString());
+                        finish();
+
                     }
                 }
             }
@@ -174,5 +205,75 @@ public class ConfirmOrderActivity extends BaseActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+
+
+    public void submitCartOrder() {
+        startProgressDialog();
+        OkHttpUtils.post()
+                .url(HostConstants.ORDER_SUBMIT_CART)
+                .addParams("userId", user.getId())
+                .addParams("token", user.getToken())
+                .addParams("cartIds", shopCarSubmit.getSelectedIds())
+                .addParams("totalPrice", totalPrice.toString())
+                .build().execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e) {
+
+            }
+
+            @Override
+            public void onBefore(Request request) {
+                super.onBefore(request);
+
+            }
+
+            @Override
+            public void onAfter() {
+                super.onAfter();
+                stopProgressDialog();
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                Response response1 = GsonUtil.changeGsonToBean(response, Response.class);
+                if (response1 != null) {
+                    SubmitOrderResponse detailsResponse = GsonUtil.changeGsonToBean(response, SubmitOrderResponse.class);
+                    if (detailsResponse != null) {
+                        if (isOkCode(detailsResponse.getCode(), detailsResponse.getMessage())) {
+                            SubmitOrder result = detailsResponse.getResult();
+                            PaymentActivity.startAction(mContext, result.getOrderId(), totalPrice.toString());
+                            finish();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    //    购物车提交数据
+    public static void startAction(Context context, ShopCarSubmit submit) {
+        Intent intent = new Intent(context, ConfirmOrderActivity.class);
+        intent.putExtra(ShopCarSubmit.class.getSimpleName(), submit);
+
+        context.startActivity(intent);
+    }
+
+    /**
+     * 商品提交数据
+     *
+     * @param context
+     * @param goodDetails
+     * @param goods
+     * @param goodsCount
+     */
+    public static void startAction(Context context, GoodsDetails goodDetails, Goods goods, int goodsCount) {
+        Intent intent = new Intent(context, ConfirmOrderActivity.class);
+        intent.putExtra(GoodsDetails.class.getSimpleName(), goodDetails);
+        intent.putExtra(Goods.class.getSimpleName(), goods);
+        intent.putExtra("GoodsCount", goodsCount);
+        context.startActivity(intent);
+    }
+
 
 }

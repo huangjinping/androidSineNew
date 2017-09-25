@@ -10,45 +10,65 @@
         android:id="@+id/nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></com.jaydenxiao.common.commonwidget.NormalTitleBar>
-    <LinearLayout
 
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        >
+        <LinearLayout
 
-        <com.jaydenxiao.common.commonwidget.details.DetailScrollView
-            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/llContainer"
+            <com.jaydenxiao.common.commonwidget.details.DetailScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <com.jaydenxiao.common.commonwidget.details.DetailWebView
-                    android:id="@+id/webview"
+                <LinearLayout
+                    android:id="@+id/llContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorAccent"
-                    android:scrollbars="none" />
-                <com.jaydenxiao.common.commonwidget.details.DetailListView
-                    android:id="@+id/list_view"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        </com.jaydenxiao.common.commonwidget.details.DetailScrollView>
+                    <com.jaydenxiao.common.commonwidget.details.DetailWebView
+                        android:id="@+id/webview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorAccent"
+                        android:scrollbars="none" />
+                    <com.jaydenxiao.common.commonwidget.details.DetailListView
+                        android:id="@+id/list_view"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvReply"
+            </com.jaydenxiao.common.commonwidget.details.DetailScrollView>
+
+            <TextView
+                android:id="@+id/tvReply"
+                android:layout_width="match_parent"
+                android:layout_height="45dip"
+                android:background="#ffffffff"
+                android:gravity="center"
+                android:text="回复栏"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dip"
-            android:background="#ffffffff"
-            android:gravity="center"
-            android:text="回复栏"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+
+            >
+            <include layout="@layout/layout_input_comment"></include>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
 </LinearLayout>

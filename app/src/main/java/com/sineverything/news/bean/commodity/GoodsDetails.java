@@ -56,7 +56,18 @@ public class GoodsDetails extends BaseBean {
     private String goodsSerial;
     private String goodsName;
     private String goodsFee;
+    private String gspIds;
+
     private List<String> goodsPhotos;
+    private List<SpecsParent> specsList;
+
+    public List<SpecsParent> getSpecsList() {
+        return specsList;
+    }
+
+    public void setSpecsList(List<SpecsParent> specsList) {
+        this.specsList = specsList;
+    }
 
     public String getGoodsSalenum() {
         return goodsSalenum;
@@ -224,5 +235,13 @@ public class GoodsDetails extends BaseBean {
 
     public void setGoodsPhotos(List<String> goodsPhotos) {
         this.goodsPhotos = goodsPhotos;
+    }
+
+    public String getGspIds() {
+        return gspIds;
+    }
+
+    public void setGspIds(String gspIds) {
+        this.gspIds = gspIds;
     }
 }

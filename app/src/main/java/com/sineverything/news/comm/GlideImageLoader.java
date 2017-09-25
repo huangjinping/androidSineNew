@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.cameroon.banner.loader.ImageLoader;
+import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
+import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.bean.main.Banner;
 import com.sineverything.news.bean.main.NewsItem;
@@ -30,16 +32,15 @@ public class GlideImageLoader extends ImageLoader {
 
         if (path instanceof NewsItem){
             NewsItem newsItem= (NewsItem) path;
-            Glide.with(context).load(newsItem.getCover()).into(imageView);
+
+            Glide.with(context).load(newsItem.getCover()).placeholder(R.mipmap.ic_fuzhuang_default).error(R.mipmap.ic_fuzhuang_default).into(imageView);
         }
-        Log.d("hjp1",path.toString());
         if (path instanceof String){
-                Log.d("hjp2",path.toString());
-            Glide.with(context).load(path.toString()).into(imageView);
+            Glide.with(context).load(path.toString()).placeholder(R.mipmap.ic_details_default).error(R.mipmap.ic_details_default).into(imageView);
         }
         if (path instanceof Banner){
             Banner item= (Banner) path;
-            Glide.with(context).load(item.getCover()).into(imageView);
+            Glide.with(context).load(item.getCover()).placeholder(R.mipmap.ic_banner_default).error(R.mipmap.ic_banner_default).into(imageView);
 
         }
 

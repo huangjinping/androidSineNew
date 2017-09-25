@@ -40,16 +40,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.my.activity.WebActivity">
+
+        </activity>
+
         <activity
             android:name=".ui.main.activity.MainActivity"
             android:launchMode="singleTop">
 
         </activity>
-        <activity android:name=".ui.main.activity.NewsDetailsActivity"></activity>
+        <activity android:name=".ui.main.activity.NewsDetailsActivity"
+            android:windowSoftInputMode="adjustResize"
+            ></activity>
         <activity android:name=".ui.main.activity.NewsDetailsActivity1"></activity>
         <activity android:name=".ui.main.activity.NewsPhotoDetailActivity"></activity>
         <activity android:name=".ui.my.activity.PhoneLoginActivity"></activity>
-        <activity android:name=".ui.main.activity.SearchNewsActivity"></activity>
+        <activity android:name=".ui.main.activity.SearchNewsResultActivity"></activity>
         <activity android:name=".ui.main.activity.EditActivity"></activity>
         <activity
             android:name=".ui.commodity.CommodityActivity"
@@ -57,7 +64,9 @@
         <activity android:name=".ui.my.activity.AddressActivity"></activity>
         <activity android:name=".ui.order.activity.ConfirmOrderActivity"></activity>
         <activity android:name=".ui.commodity.CommodityDetailsActivity"></activity>
-        <activity android:name=".ui.my.activity.ShopCarActivity"></activity>
+        <activity android:name=".ui.my.activity.ShopCarActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            ></activity>
         <activity android:name=".ui.my.activity.EditAddressActivity"></activity>
         <activity android:name=".ui.my.activity.CollectionActivity"></activity>
         <activity android:name=".ui.my.activity.FeedbackActivity"></activity>
@@ -67,6 +76,7 @@
         <activity android:name=".ui.order.activity.OrderListActivity"></activity>
 
         <activity android:name=".ui.my.activity.SelectAreaActivity"></activity>
+        <activity android:name=".ui.main.activity.SearchNewsActivity"></activity>
 
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -103,6 +113,8 @@
 
         </activity>
 
+        <activity android:name=".ui.my.activity.AboutUsActivity"></activity>
+
         <activity android:name=".ui.order.activity.PaymentResultActivity"></activity>
         <activity android:name=".ui.service.activity.ServiceListActivity">
 
@@ -121,7 +133,6 @@
 
         <activity android:name="com.umeng.facebook.FacebookActivity"></activity>
 
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -136,6 +147,7 @@
                 <category android:name="android.intent.category.BROWSABLE"></category>
             </intent-filter>
         </activity>
+
 
         <meta-data
             android:name="UMENG_APPKEY"

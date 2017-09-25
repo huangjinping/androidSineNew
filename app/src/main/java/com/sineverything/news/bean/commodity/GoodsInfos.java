@@ -13,6 +13,24 @@ public class GoodsInfos extends BaseBean {
     private String goodsCount;
     private String goodsPrice;
     private String goodsAllPrice;
+    private String goodsGspIds;
+    private String goodsGspVal;
+
+    public String getGoodsGspIds() {
+        return goodsGspIds;
+    }
+
+    public void setGoodsGspIds(String goodsGspIds) {
+        this.goodsGspIds = goodsGspIds;
+    }
+
+    public String getGoodsGspVal() {
+        return goodsGspVal;
+    }
+
+    public void setGoodsGspVal(String goodsGspVal) {
+        this.goodsGspVal = goodsGspVal;
+    }
 
     public String getGoodsId() {
         return goodsId;

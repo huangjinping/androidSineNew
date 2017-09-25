@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.andview.refreshview.callback.IFooterCallBack;
 import com.jaydenxiao.common.base.BaseFragment;
 import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
@@ -26,7 +25,6 @@ import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.Response;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.GoodsDetails;
-import com.sineverything.news.bean.commodity.GoodsDetailsResponse;
 import com.sineverything.news.bean.commodity.SpecsChild;
 import com.sineverything.news.bean.commodity.SpecsParent;
 import com.sineverything.news.bean.main.User;
@@ -78,10 +76,11 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
     private User user;
     public String status;
 
-    public static final String  STATUS_SHAPCART="STATUS_SHAPCART";
-    public static final String  STATUS_COMMODITY="STATUS_COMMODITY";
+    public static final String STATUS_SHAPCART = "STATUS_SHAPCART";
+    public static final String STATUS_COMMODITY = "STATUS_COMMODITY";
 
-
+    String goodsGspIds = "";
+    String goodsGspVal = "";
     public static PreViewBuyFragment getInstance(String status) {
         PreViewBuyFragment preViewBuyFragment = new PreViewBuyFragment();
         preViewBuyFragment.status = status;
@@ -156,15 +155,35 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
         }
     }
 
+    /**
+     * 是否选择了规格
+     *
+     * @return
+     */
+    private boolean isSelectedGsp() {
+        List<SpecsParent> specsList = goodDetails.getSpecsList();
+
+        for (int i = 0; i < viewList.size(); i++) {
+            Set<Integer> selectedList = viewList.get(i).getSelectedList();
+            if (selectedList != null && selectedList.size() > 0) {
+
+            } else {
+                showLongToast("请选择" + specsList.get(i).getSpecsName());
+                return false;
+
+            }
+        }
+
+        return true;
+
+    }
+
 
     /**
      * 获取数据问题
      */
-    private String getDataList() {
-
-
+    private String getGspListString() {
         StringBuffer buffer = new StringBuffer();
-
         List<SpecsParent> specsList = goodDetails.getSpecsList();
         for (int i = 0; i < viewList.size(); i++) {
             Set<Integer> selectedList = viewList.get(i).getSelectedList();
@@ -177,8 +196,34 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
         if (buffer.length() > 0) {
             buffer.deleteCharAt(buffer.length() - 1);
         }
+        return buffer.toString();
+    }
 
-        showLongToast(buffer.toString());
+
+    /**
+     * 获取数据问题
+     */
+    private String getGspNameList() {
+
+
+        StringBuffer buffer = new StringBuffer();
+
+        List<SpecsParent> specsList = goodDetails.getSpecsList();
+        for (int i = 0; i < viewList.size(); i++) {
+            SpecsParent specsParent = specsList.get(i);
+            Set<Integer> selectedList = viewList.get(i).getSelectedList();
+            if (selectedList != null && selectedList.size() > 0) {
+                String specsProName = specsList.get(i).getSpecsPros().get(selectedList.iterator().next()).getSpecsProName();
+                buffer.append(specsParent.getSpecsName() + ":" + specsProName);
+                buffer.append(" ");
+            }
+        }
+        if (buffer.length() > 0) {
+            buffer.deleteCharAt(buffer.length() - 1);
+        }
+
+
+//      showLongToast(buffer.toString());
 
 
         return buffer.toString();
@@ -191,13 +236,13 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
 
     @OnClick(R.id.btn_enter)
     public void submit() {
-
+        if (!isSelectedGsp()) {
+            return;
+        }
+        goodsGspIds = getGspListString();
+        goodsGspVal=  getGspNameList();
         getGoodsGsp();
-//
-//        ConfirmOrderActivity.startAction(getActivity(), goodDetails, goods, Integer.parseInt(idProductNum.getText().toString().trim()));
-//
-//
-        addGoodsCart();
+
     }
 
 
@@ -205,15 +250,19 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
      * 获取
      */
     private void getGoodsGsp() {
+
+
+
+        startProgressDialog();
         OkHttpUtils.post()
                 .url(HostConstants.GET_GOODS_GSP)
                 .addParams("userId", user.getId())
                 .addParams("goodsId", goodDetails.getGoodsId())
-                .addParams("gspIds", getDataList())
+                .addParams("gspIds", goodsGspIds)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {
-
+                stopProgressDialog();
             }
 
             @Override
@@ -224,13 +273,27 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onAfter() {
                 super.onAfter();
-                stopProgressDialog();
 
             }
 
             @Override
             public void onResponse(String response) {
+                Response response1 = GsonUtil.changeGsonToBean(response, Response.class);
+                if (isOkCode(response1.getCode(), response1.getMessage())) {
 
+
+                    if (PreViewBuyFragment.STATUS_SHAPCART.equals(status)) {
+                        addGoodsCart();
+
+
+                    } else {
+                        goods.setGoodsGspIds(goodsGspIds);
+                        goods.setGoodsGspVal(goodsGspVal);
+                        ConfirmOrderActivity.startAction(getActivity(), goodDetails, goods, Integer.parseInt(idProductNum.getText().toString().trim()));
+                    }
+                } else {
+                    stopProgressDialog();
+                }
             }
         });
     }
@@ -245,13 +308,15 @@ public class PreViewBuyFragment extends BaseFragment implements View.OnClickList
      * 添加购物车
      */
     private void addGoodsCart() {
-        startProgressDialog();
+
         OkHttpUtils.post()
                 .url(HostConstants.ADD_GOODSCART)
                 .addParams("userId", user.getId())
+                .addParams("token", user.getToken())
                 .addParams("goodsId", goodDetails.getGoodsId())
                 .addParams("count", idProductNum.getText().toString().trim())
-                .addParams("gsp", getDataList())
+                .addParams("gsp", getGspListString())
+                .addParams("gspName", getGspNameList())
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e) {

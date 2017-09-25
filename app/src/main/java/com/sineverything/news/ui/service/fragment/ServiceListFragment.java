@@ -1,11 +1,7 @@
 package com.sineverything.news.ui.service.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.andview.refreshview.XRefreshView;
 import com.jaydenxiao.common.base.BaseFragment;
@@ -24,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -80,7 +75,7 @@ public class ServiceListFragment extends BaseFragment {
             @Override
             public void onRefresh(boolean isPullDown) {
                 super.onRefresh(isPullDown);
-                loadData(LoadMode.NOMAL);
+                loadData(LoadMode.PULL_REFRSH);
             }
 
             @Override
@@ -116,7 +111,12 @@ public class ServiceListFragment extends BaseFragment {
         if (loadMode != LoadMode.UP_REFRESH) {
             page = 1;
         }
+        if (loadMode == LoadMode.NOMAL) {
+            startProgressDialog();
+        }
+
         OkHttpUtils.post()
+                .tag(this)
                 .url(HostConstants.SERVICE_INFO_LIST)
                 .addParams("pageSize", 30 + "")
                 .addParams("pageIndex", page + "")
@@ -126,6 +126,8 @@ public class ServiceListFragment extends BaseFragment {
                     @Override
                     public void onBefore(Request request) {
                         super.onBefore(request);
+
+
                     }
 
                     @Override
@@ -138,6 +140,8 @@ public class ServiceListFragment extends BaseFragment {
                                 xrFreshview.stopLoadMore();
                             }
                         });
+                        stopProgressDialog();
+
                     }
 
                     @Override
@@ -151,9 +155,7 @@ public class ServiceListFragment extends BaseFragment {
 
                         try {
                             NewsItemResponse newsItemResponse = GsonUtil.changeGsonToBean(response, NewsItemResponse.class);
-
                             if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
-
                                 List<NewsItem> result = newsItemResponse.getResult();
                                 if (loadMode != LoadMode.UP_REFRESH) {
                                     dataList.clear();
@@ -162,15 +164,15 @@ public class ServiceListFragment extends BaseFragment {
                                 dataList.addAll(result);
                                 mAdapter.notifyDataSetChanged();
                             }
+                            if (dataList.size() == 0) {
+                                multiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+
+                            } else {
+                                multiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
 
-                        }
-                        if (dataList.size() == 0) {
-                            multiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
-
-                        } else {
-                            multiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
                         }
 
 
@@ -178,6 +180,9 @@ public class ServiceListFragment extends BaseFragment {
                 });
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkHttpUtils.getInstance().cancelTag(this);
+    }
 }
