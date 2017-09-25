@@ -36,6 +36,7 @@
     <color name="light_gray">#808080</color>
     <color name="light_white">#33ffffff</color>
     <color name="chat_tip_color">#FFcccccc</color>
+    <color name="text_gray">#999999</color>
     <color name="blue">#5CA3E5</color>
     <color name="main_blue">#3598db</color>
     <color name="blue_check">#3493d4</color>
@@ -43,6 +44,8 @@
     <color name="toast_stroke_gray">#99d4d4d4</color>
 
     <color name="gray_light">#F5F5F5</color>
+    <color name="black_32">#50000000</color>
+    <color name="delete">#A9A9A9</color>
 
 
     <color name="alpha_05_white">#0DFFFFFF</color>

@@ -175,6 +175,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * 开启浮动加载进度条
      */
     public void startProgressDialog() {
+
+        LoadingDialog.cancelDialogForLoading();
         LoadingDialog.showDialogForLoading(this);
     }
 
@@ -278,6 +280,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
         return false;
     }
+
 
 
 
