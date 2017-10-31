@@ -23,9 +23,22 @@ public class UserManager {
     private static final int LIMITE_LENGTH = 10;
     private static final String SEARCH_HISTORY_NEW = "SEARCH_HISTORY_NEW";
     private static final String SEARCH_HISTORY_SP = "SEARCH_HISTORY_SP";
+    private static final String FIRST = "FIRST";
 
 
+    /**
+     * @param context
+     * @return
+     */
+    public static boolean isFirst(Context context) {
 
+        String first = PreferencesUtils.getString(context, FIRST);
+        if (TextUtils.isEmpty(first)) {
+            PreferencesUtils.putString(context,FIRST, FIRST);
+            return true;
+        }
+        return false;
+    }
     /**
      * 获取信息
      *

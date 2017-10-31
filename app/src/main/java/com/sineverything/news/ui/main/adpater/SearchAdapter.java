@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.main.NewsItem;
+import com.sineverything.news.ui.main.activity.NewsActivity;
 import com.sineverything.news.ui.main.activity.NewsDetailsActivity;
 
 import java.util.List;
@@ -50,10 +51,10 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (!TextUtils.isEmpty(newsItem.getTitle())){
             viewHolder.txtNewTitle.setText(newsItem.getTitle());
         }
-//        if (!TextUtils.isEmpty(newsItem.getCreateDate())){
-//            viewHolder.txtCreateDate.setText(newsItem.getCreateDate());
-//        }
-//
+        if (!TextUtils.isEmpty(newsItem.getCreateTime())){
+            viewHolder.txtCreateDate.setText(newsItem.getCreateTime());
+        }
+
 //        if (!TextUtils.isEmpty(newsItem.getSource())){
 //            viewHolder.txtSource.setText(newsItem.getSource());
 //        }
@@ -70,14 +71,19 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         viewHolder.layoutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewsDetailsActivity.startAction(v.getContext(), newsItem.getId() + "");
+
+
+                NewsActivity.startAction(v.getContext(), newsItem.getId() + "");
+//                NewsDetailsActivity.startAction(v.getContext(), newsItem.getId() + "");
+
             }
         });
         viewHolder.layoutIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                NewsActivity.startAction(v.getContext(), newsItem.getId() + "");
 
-                NewsDetailsActivity.startAction(v.getContext(), newsItem.getId() + "");
+//                NewsDetailsActivity.startAction(v.getContext(), newsItem.getId() + "");
             }
         });
     }

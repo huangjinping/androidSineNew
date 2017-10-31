@@ -23,7 +23,6 @@ import com.sineverything.news.bean.order.OrderListResponse;
 import com.sineverything.news.comm.MyItemClickListener;
 import com.sineverything.news.comm.widget.MultiStateView;
 import com.sineverything.news.ui.order.activity.OrderDetailsActivity;
-import com.sineverything.news.ui.order.activity.PaymentActivity;
 import com.sineverything.news.ui.order.adapter.OrderListAdapter;
 
 import java.util.ArrayList;

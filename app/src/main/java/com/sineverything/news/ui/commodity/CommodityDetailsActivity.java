@@ -18,9 +18,11 @@ import android.widget.TextView;
 
 import com.cameroon.banner.Banner;
 import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.okhttp.LoadMode;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
 import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
+import com.jaydenxiao.common.view.details.CircleImageView;
 import com.jaydenxiao.common.view.details.GradationScrollView;
 import com.jaydenxiao.common.view.details.MyImageLoader;
 import com.jaydenxiao.common.view.details.NoScrollListView;
@@ -34,6 +36,8 @@ import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.GoodsDetails;
 import com.sineverything.news.bean.commodity.GoodsDetailsResponse;
+import com.sineverything.news.bean.main.Comments;
+import com.sineverything.news.bean.main.CommentsResponse;
 import com.sineverything.news.bean.main.User;
 import com.sineverything.news.comm.GlideImageLoader;
 import com.sineverything.news.comm.ShareProcess;
@@ -46,6 +50,9 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import me.leefeng.promptlibrary.PromptButton;
+import me.leefeng.promptlibrary.PromptButtonListener;
+import me.leefeng.promptlibrary.PromptDialog;
 import okhttp3.Call;
 import okhttp3.Request;
 
@@ -121,10 +128,17 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     LinearLayout roovView;
     @Bind(R.id.layout_duration)
     LinearLayout layoutDuration;
-
-
+    @Bind(R.id.img_userPhoto)
+    CircleImageView imgUserPhoto;
+    @Bind(R.id.txt_userNickName)
+    TextView txtUserNickName;
+    @Bind(R.id.txt_time)
+    TextView txtTime;
+    @Bind(R.id.txt_content)
+    TextView txtContent;
+    @Bind(R.id.txt_customer_service)
+    TextView txtCustomerService;
     private GoodsDetails goodDetails;
-
     private QuickAdapter<String> imgAdapter;
     private List<String> imgsUrl;
     private int height;
@@ -132,6 +146,7 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
     private User user;
     private Goods goods;
     private ShareProcess process;
+    private String goodsId;
 
     @Override
     public int getLayoutId() {
@@ -171,10 +186,11 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         initImgDatas();
         initListeners();
         Intent intent = getIntent();
+
         goods = (Goods) intent.getSerializableExtra(Goods.class.getSimpleName());
-
+        goodsId = goods.getGoodsId();
         loadGoodDetails();
-
+        loadComments(LoadMode.NOMAL);
     }
 
     /**
@@ -307,6 +323,8 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
                         GoodsDetails result = detailsResponse.getResult();
                         goodDetails = result;
                         setViewByData(result);
+
+
                     }
                 }
             }
@@ -341,7 +359,7 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         ban_good_detai.setDelayTime(1500);
         ban_good_detai.start();
         tvGoodDetailDiscount.setText(result.getGoodsPrice());
-        txt_storePrice.setText("$s" + result.getStorePrice());
+        txt_storePrice.setText("S$" + result.getStorePrice());
 
         String local = "file:///android_asset";
 
@@ -385,6 +403,94 @@ public class CommodityDetailsActivity extends BaseActivity implements GradationS
         transaction.replace(R.id.layout_duration, fragment);
         transaction.addToBackStack("PreViewBuyFragment");
         transaction.commit();
+    }
+
+
+    @OnClick(R.id.txt_customer_service)
+    public void onCustomerService() {
+        final PromptDialog promptDialog = new PromptDialog(this);
+        promptDialog.showWarnAlert("010-84766590", new PromptButton("取消", new PromptButtonListener() {
+            @Override
+            public void onClick(PromptButton promptButton) {
+                promptDialog.dismiss();
+            }
+        }), new PromptButton("确认", new PromptButtonListener() {
+            @Override
+            public void onClick(PromptButton promptButton) {
+                promptDialog.dismiss();
+                call("010-84766590");
+            }
+        }));
+    }
+
+
+    @OnClick(R.id.tv_talent_detail_open)
+    public void onComments() {
+        CommodityCommentsActivity.startAction(this, goodDetails.getGoodsId());
+    }
+
+
+    /**
+     * @param cmsId
+     */
+    private int page = 1;
+
+    private void loadComments(final LoadMode loadMode) {
+        if (loadMode != LoadMode.UP_REFRESH) {
+            page = 1;
+        }
+        if (loadMode == LoadMode.NOMAL) {
+            startProgressDialog();
+        }
+        OkHttpUtils.post()
+                .tag(this)
+                .addParams("cmsId", goodsId)
+                .url(HostConstants.COMMENTS)
+                .addParams("pageIndex", page + "")
+                .addParams("pageSize", "1")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(Request request) {
+                        super.onBefore(request);
+                    }
+
+                    @Override
+                    public void onAfter() {
+                        super.onAfter();
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e) {
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            CommentsResponse newsItemResponse = GsonUtil.changeGsonToBean(response, CommentsResponse.class);
+                            if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
+                                List<Comments> result = newsItemResponse.getResult();
+                                if (result == null || result.size() == 0) {
+                                    return;
+                                }
+                                Comments comments = result.get(0);
+                                if (!TextUtils.isEmpty(comments.getUserNickName())) {
+                                    txtUserNickName.setText(comments.getUserNickName());
+                                }
+                                if (!TextUtils.isEmpty(comments.getContent())) {
+                                    txtContent.setText(comments.getContent());
+                                }
+                                if (!TextUtils.isEmpty(comments.getTime())) {
+                                    txtTime.setText(comments.getTime());
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                });
     }
 
 

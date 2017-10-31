@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">新加坡万事通</string>
+    <string name="app_name">万事通</string>
     <string name="photo_detail_title" />
     <string name="news_details">新闻详情</string>
     <string name="news_photo_details">图片详情</string>
@@ -7,7 +7,6 @@
     <string name="my">我的</string>
     <string name="city">同城</string>
     <string name="service">服务</string>
-
     <string name="select_type">选择发布类型</string>
 
 </resources>

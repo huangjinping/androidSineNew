@@ -12,6 +12,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
+
+
     signingConfigs {
         key {
             keyAlias 'wanshitong'
@@ -57,14 +64,15 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.1.6'
+    compile 'top.zibin:Luban:1.1.2'
     compile project(':common')
     compile files('libs/umeng_social_net.jar')
-    compile files('libs/SocialSDK_QQ_Full.jar')
+    compile files('libs/SocialSDK_facebook.jar')
     compile files('libs/umeng_social_tool.jar')
     compile files('libs/umeng_social_shareboard.jar')
-    compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
     compile files('libs/SocialSDK_WeiXin_Full.jar')
     compile files('libs/umeng_social_api.jar')
     compile files('libs/umeng_shareboard_widget.jar')
     compile files('libs/open_sdk_r5788_lite.jar')
+    compile files('libs/SocialSDK_QQ_Full.jar')
 }

@@ -1,20 +1,24 @@
-package com.sineverything.news.ui.service.fragment;
+package com.sineverything.news.ui.commodity;
 
-import android.support.v7.widget.LinearLayoutManager;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 
 import com.andview.refreshview.XRefreshView;
-import com.jaydenxiao.common.base.BaseFragment;
+import com.jaydenxiao.common.base.BaseActivity;
+import com.jaydenxiao.common.commonwidget.NormalTitleBar;
 import com.jaydenxiao.common.okhttp.LoadMode;
 import com.jaydenxiao.common.okhttp.OkHttpUtils;
 import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
-import com.sineverything.news.bean.main.NewsItem;
-import com.sineverything.news.bean.main.NewsItemResponse;
+import com.sineverything.news.bean.main.Comments;
+import com.sineverything.news.bean.main.CommentsResponse;
 import com.sineverything.news.comm.widget.MultiStateView;
-import com.sineverything.news.ui.main.adpater.SearchAdapter;
+import com.sineverything.news.ui.commodity.adapter.CommodityCommentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,33 +28,26 @@ import okhttp3.Call;
 import okhttp3.Request;
 
 /**
- * author Created by harrishuang on 2017/9/6.
+ * author Created by harrishuang on 2017/9/27.
  * email : huangjinping@hdfex.com
  */
 
-public class ServiceListFragment extends BaseFragment {
-
-
-    @Bind(R.id.rec_service)
-    RecyclerView recService;
+public class CommodityCommentsActivity extends BaseActivity {
+    @Bind(R.id.nav_bar)
+    NormalTitleBar navBar;
+    @Bind(R.id.rec_order_list)
+    RecyclerView recOrderList;
     @Bind(R.id.xr_freshview)
     XRefreshView xrFreshview;
     @Bind(R.id.multiStateView)
     MultiStateView multiStateView;
-    private List<NewsItem> dataList;
-    private SearchAdapter mAdapter;
-    public String classId;
-
-
-    public static BaseFragment getInstance(String classId) {
-        ServiceListFragment fragment = new ServiceListFragment();
-        fragment.classId = classId;
-        return fragment;
-    }
+    private List<Comments> commentsList;
+    private String id;
+    private CommodityCommentAdapter commentAdapter;
 
     @Override
-    protected int getLayoutResource() {
-        return R.layout.frgment_service_list;
+    public int getLayoutId() {
+        return R.layout.activity_commoditycomments;
     }
 
     @Override
@@ -59,11 +56,18 @@ public class ServiceListFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView() {
-        dataList = new ArrayList<>();
-        mAdapter = new SearchAdapter(dataList);
-        recService.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recService.setAdapter(mAdapter);
+    public void initView() {
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        commentsList = new ArrayList<>();
+        navBar.setTitleText("商品评论");
+        navBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        commentAdapter = new CommodityCommentAdapter(commentsList);
         xrFreshview.setPullRefreshEnable(true);
         xrFreshview.setPullLoadEnable(true);
         xrFreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
@@ -75,19 +79,19 @@ public class ServiceListFragment extends BaseFragment {
             @Override
             public void onRefresh(boolean isPullDown) {
                 super.onRefresh(isPullDown);
-                loadData(LoadMode.PULL_REFRSH);
+                loadComments(LoadMode.NOMAL);
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
-                loadData(LoadMode.PULL_REFRSH);
+                loadComments(LoadMode.PULL_REFRSH);
             }
-
 
             @Override
             public void onRelease(float direction) {
                 super.onRelease(direction);
+
             }
 
             @Override
@@ -95,47 +99,43 @@ public class ServiceListFragment extends BaseFragment {
                 super.onHeaderMove(offset, offsetY);
             }
         });
-        loadData(LoadMode.NOMAL);
+        loadComments(LoadMode.NOMAL);
+
     }
 
-
     /**
-     * 下载中央数据
-     *
-     * @param
+     * @param cmsId
      */
+
+
     private int page = 1;
 
-    private void loadData(final LoadMode loadMode) {
-
+    private void loadComments(final LoadMode loadMode) {
         if (loadMode != LoadMode.UP_REFRESH) {
             page = 1;
         }
         if (loadMode == LoadMode.NOMAL) {
             startProgressDialog();
         }
-
         OkHttpUtils.post()
                 .tag(this)
+                .addParams("cmsId", id)
 
-                .url(HostConstants.SERVICE_INFO_LIST)
-                .addParams("pageSize", 10 + "")
+                .url(HostConstants.COMMENTS)
                 .addParams("pageIndex", page + "")
-                .addParams("classId", classId)
-                .build().connTimeOut(30*1000).writeTimeOut(30*1000).readTimeOut(1*10000)
+                .addParams("pageSize", "30")
+                .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onBefore(Request request) {
                         super.onBefore(request);
-
-
                     }
 
                     @Override
                     public void onAfter() {
                         super.onAfter();
                         stopProgressDialog();
-                        getActivity().runOnUiThread(new Runnable() {
+                        runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 xrFreshview.stopRefresh();
@@ -143,48 +143,49 @@ public class ServiceListFragment extends BaseFragment {
                             }
                         });
 
-
                     }
 
                     @Override
                     public void onError(Call call, Exception e) {
-                        multiStateView.setViewState(MultiStateView.VIEW_STATE_ERROR);
-
                     }
 
                     @Override
                     public void onResponse(String response) {
-
                         try {
-                            NewsItemResponse newsItemResponse = GsonUtil.changeGsonToBean(response, NewsItemResponse.class);
+                            CommentsResponse newsItemResponse = GsonUtil.changeGsonToBean(response, CommentsResponse.class);
                             if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
-                                List<NewsItem> result = newsItemResponse.getResult();
+                                List<Comments> result = newsItemResponse.getResult();
                                 if (loadMode != LoadMode.UP_REFRESH) {
-                                    dataList.clear();
+                                    commentsList.clear();
                                     page++;
                                 }
-                                dataList.addAll(result);
+                                commentsList.addAll(result);
+                                commentAdapter.notifyDataSetChanged();
                             }
-                            if (dataList.size() == 0) {
-                                multiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
 
-                            } else {
-                                multiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
-                            }
                         } catch (Exception e) {
                             e.printStackTrace();
 
                         }
-                        mAdapter.notifyDataSetChanged();
 
+                        if (commentsList.size() == 0) {
+                            multiStateView.setViewState(MultiStateView.VIEW_STATE_EMPTY);
+
+                        } else {
+                            multiStateView.setViewState(MultiStateView.VIEW_STATE_CONTENT);
+                        }
 
                     }
                 });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        OkHttpUtils.getInstance().cancelTag(this);
+    /**
+     * @param context
+     * @param id
+     */
+    public static void startAction(Context context, String id) {
+        Intent intent = new Intent(context, CommodityCommentsActivity.class);
+        intent.putExtra("id", id);
+        context.startActivity(intent);
     }
 }

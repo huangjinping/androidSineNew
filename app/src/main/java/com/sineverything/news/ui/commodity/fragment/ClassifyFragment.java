@@ -11,12 +11,10 @@ import com.jaydenxiao.common.okhttp.callback.StringCallback;
 import com.jaydenxiao.common.utils.GsonUtil;
 import com.sineverything.news.R;
 import com.sineverything.news.api.HostConstants;
-import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.bean.commodity.MenuItem;
 import com.sineverything.news.bean.commodity.MenuResponse;
 import com.sineverything.news.comm.MyItemClickListener;
 import com.sineverything.news.ui.commodity.CommodityActivity;
-import com.sineverything.news.ui.commodity.CommodityDetailsActivity;
 import com.sineverything.news.ui.commodity.adapter.ClassifyContentAdapter;
 
 import java.util.ArrayList;

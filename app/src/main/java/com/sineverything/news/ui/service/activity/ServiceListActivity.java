@@ -61,9 +61,9 @@ public class ServiceListActivity extends BaseActivity {
         type = intent.getStringExtra("type");
         name = intent.getStringExtra("name");
         navBar.setTitleText(name);
-        for (int i = 0; i < title.length; i++) {
+//        for (int i = 0; i < title.length; i++) {
             fragmentList.add(ServiceListFragment.getInstance(type));
-        }
+//        }
         mAdapter = new BaseFragmentAdapter(getSupportFragmentManager(), fragmentList, titleList);
         vipOrder.setAdapter(mAdapter);
         tab_layout_header.setViewPager(vipOrder);

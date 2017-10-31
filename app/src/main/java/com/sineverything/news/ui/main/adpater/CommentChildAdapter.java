@@ -6,12 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.jaydenxiao.common.baserx.RxBus;
-import com.jaydenxiao.common.view.MListView;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.main.Comments;
 
@@ -21,22 +17,22 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * author Created by harrishuang on 2017/5/15.
+ * author Created by harrishuang on 2017/9/26.
  * email : huangjinping@hdfex.com
  */
 
-public class CommsAdapter extends BaseAdapter {
+public class CommentChildAdapter extends BaseAdapter {
+
 
     private Context context;
     private List<Comments> dataList;
 
-    public CommsAdapter(Context context, List<Comments> dataList) {
+    public CommentChildAdapter(Context context, List<Comments> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
 
     ViewHolder holder;
-
 
     @Override
     public int getCount() {
@@ -54,9 +50,9 @@ public class CommsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_commtents, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_child_commtents, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -69,47 +65,14 @@ public class CommsAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(comments.getContent())) {
             holder.txtContent.setText(comments.getContent());
         }
-        if (!TextUtils.isEmpty(comments.getTime())) {
-            holder.txtTime.setText(comments.getTime());
-        }
-        if (comments.getReplys() != null) {
-            CommentChildAdapter commentChildAdapter = new CommentChildAdapter(context, comments.getReplys());
-            holder.lisvChild.setAdapter(commentChildAdapter);
-        }
-
-        holder.layout_rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dataList.size()>position){
-                    RxBus.getInstance().post(Comments.class.getSimpleName(),dataList.get(position));
-                }
-            }
-        });
-
-
         return convertView;
     }
 
-
-
-
     static class ViewHolder {
-        @Bind(R.id.img_userPhoto)
-        ImageView imgUserPhoto;
         @Bind(R.id.txt_userNickName)
         TextView txtUserNickName;
         @Bind(R.id.txt_content)
         TextView txtContent;
-        @Bind(R.id.txt_time)
-        TextView txtTime;
-        @Bind(R.id.txt_Reply)
-        TextView txtReply;
-        @Bind(R.id.layout_rootView)
-        LinearLayout layout_rootView;
-        @Bind(R.id.lisv_child)
-        MListView lisvChild;
-
-
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

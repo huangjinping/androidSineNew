@@ -17,6 +17,7 @@
         android:layout_centerInParent="true"
         tl:tl_indicator_color="@color/main_color"
         tl:tl_textAllCaps="true"
+        android:visibility="gone"
         tl:tl_tab_space_equal="true"
         tl:tl_textSelectColor="@color/main_color"
         tl:tl_textUnselectColor="@color/black"

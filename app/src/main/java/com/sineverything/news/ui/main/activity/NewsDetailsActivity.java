@@ -32,8 +32,10 @@ import com.sineverything.news.api.HTMLConstants;
 import com.sineverything.news.api.HostConstants;
 import com.sineverything.news.bean.Response;
 import com.sineverything.news.bean.main.Comments;
+import com.sineverything.news.bean.main.CommentsResponse;
 import com.sineverything.news.bean.main.NewsDetails;
 import com.sineverything.news.bean.main.NewsDetailsResponse;
+import com.sineverything.news.bean.main.NewsItem;
 import com.sineverything.news.bean.main.NewsPhotoDetail;
 import com.sineverything.news.bean.main.Picture;
 import com.sineverything.news.bean.main.User;
@@ -123,6 +125,12 @@ public class NewsDetailsActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        user=UserManager.getUser(this);
+    }
 
     private void initWebView() {
 
@@ -401,43 +409,8 @@ public class NewsDetailsActivity extends BaseActivity {
                             NewsDetails result = details.getResult();
                             String data = result.getContent();
                             String htmlData = getHtmlData(data);
-
-
-//                            String   data="</style>\n" +
-//                                    "</head>\n" +
-//                                    "<body>\n" +
-//                                    "<div class=\"phone_main\">\n" +
-//                                    "\t<div class=\"deal\">最近有不少学生过来咨询BCA，说你们往期推荐了这么多次BCA的课程和优势，但是这所学校到底是什么样的？设施怎么样？环境好吗？ <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0Ejg9xRTjiy\" /> 那么今天万事通就应广大家长学生的要求，带您走进BCA的校园，看看建筑学院究竟长啥样？ <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgAOcDghs\" /> 学校位于Braddell Road，旁边的巴士站几乎所有的车都可以到大巴窑地铁站，交通非常便利。走进校园抬头就可以看到“BCA ACADEMY”几个大字。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgA35vim8\" /> 这是学校的鸟瞰图，是不是很理工学院？ <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgA2ltPI8\" /> 感受一下来自理工学院的严谨吧！有没有发现学校的建筑布局结构多几何形呢？这些建筑棱角分明，却因绿色植物的点缀更增添了几分活力，两者相得益彰，竟意外的和谐。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0Ejg9zsalsG\" /> 这里的教室是需要老师刷卡进入的。教室整洁，教学设施也全是现代化的一流设备。然而细心的读者可能已经发现了天花板的玄机。什么，你还没发现，那让我们拉近给您看。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgA0iZIBc\" /> 发现了没？天花板并没有“吊顶”，上面的管道、布线一览无遗。原来这是学校故意为之的，为了体现“We use the building to teach Students.”的宗旨，目的是将教室与日常教学结合，变成一个道具，让学生可以更加直观地了解建筑构造和建筑设计。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgAJHlpse\" /> 这是学校的报告厅，如果是在上课期间，旁边的“Lesson in Progress”指示灯就会亮。报告厅椅子暗藏玄机：椅子摆放方式和布局可以让全场的人都能以一个较好的角度看到讲台，同时桌椅后背弯曲角度也符合人体工程学，更加舒适。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgA45tR20\" /> 这是实验教室，学生在这里可以一边听讲，一边自己动手做实验。建筑学课程是一门实践性强的课程，将知识讲解与时机动手相结合，教学效果才能事半功倍。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgA5FFMx6\" /> 这是实验室一角。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgACPfGrY\" /> 学校除了实验室以外，还有一个“Consruction Material Laboratory”，这个实验室里面存放了众多建筑材料，目的是为了让学生可以对各种材料的性能和外观有更深入的了解。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgA6mLKIy\" /> 学校图书馆依旧没有吊顶的天花板，上面各种管道纵横。这样的图书馆也变成了学生观察建筑结构的一个教学场所。里面的图书除了建筑学最新的相关书籍之外，还有其他各个学科最新资料。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgA8Nc0Ia\" /> 学校食阁一角，汇聚各国特色食物，总能从中找到一款适合你的胃。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgAApNeKG\" /> 学校设有篮球场、排球场和足球场，除此之外，还有一个专门的健身房。学习累了可以来这边活动放松一下。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgACO8hYO\" /> 来到学校花园，一些学生正在参加“残疾人体验”，这个项目是为了让学生更好地了解残疾人的真正感受，从而能做出更为合理人性化的设计方案来。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgAHRVh0y\" /> 花园的布置精巧细致，处处透露着建筑布局的精妙，真是一步一景。在这里，学生可以实地观察园林景观布置的玄妙之处。 <img id=\"\" class=\"aligncenter\" src=\"http://si1.go2yd.com/get-image/0EjgAHwyoK0\" /> 如果说前面的建筑是硬线条的理工风，那么花园的设计就足能体现出校方也是有小桥流水人家的细腻一面。\n" +
-//                                    "学院的每一处设计无不体现出建筑的用意和精心，让孩子学在环境中，在环境中学，也正应了他们的那句“Use the building to teach Students”宗旨。 <img id=\"\" src=\"http://si1.go2yd.com/get-image/0EjgAGPsOQq\" /> BCA的各项优势我们在以前推送的文章中有详细的介绍，相关文章阅读\n" +
-//                                    "（新加坡建筑学院（BCA）和理工学院各项指标大PK）\n" +
-//                                    "（感谢BCA让我在新加坡收获了工作和PR，还好我没放弃）\n" +
-//                                    "（为什么新加坡建筑学院（BCA）这么火？（附报名详情））\n" +
-//                                    "我看到好多想来留学的小伙伴已经跃跃欲试了。 <b>好</b><b>消</b><b>息</b><b>！</b><b>BCA本月就有国际学生入学考试</b>，O水准没考好的，还有意向留学新加坡的中国小伙伴，可要抓紧时间了。你离踏上“成功的小径”，只差一个报名的距离：\n" +
-//                                    "<p style=\"text-align:center;\">\n" +
-//                                    "\t<b>7月25日</b>\n" +
-//                                    "</p>\n" +
-//                                    "如果你想了解更多关于新加坡建筑管理学院BCA的信息，或者对于考试有什么疑问，可以长按扫描以下二维码，添加万事通小助手进行一对一咨询（账号：<b>sgtong003</b>）。\n" +
-//                                    "<p style=\"text-align:center;\">\n" +
-//                                    "\t<b>马上长按扫描以下二维码，</b>\n" +
-//                                    "</p>\n" +
-//                                    "<p style=\"text-align:center;\">\n" +
-//                                    "\t<b>添加微信好友报名吧！</b>\n" +
-//                                    "</p>\n" +
-//                                    "<p style=\"text-align:center;\">\n" +
-//                                    "\t<img class=\"alignnone size-full wp-image-3901\" src=\"https://singaporetong.com/wp-content/uploads/2017/05/小助手003的二维码_meitu_2_meitu_3_meitu_4.jpg\" alt=\"\" width=\"200\" height=\"200\" />\n" +
-//                                    "</p></div>\n" +
-//                                    "</div>\n" +
-//                                    "</body>\n" +
-//                                    "</html>";
-
-
                             String local = "file:///android_asset";
-
-//                            web_details.loadDataWithBaseURL(local, HTMLConstants.head + result.getGoodsDetailsMobile() + HTMLConstants.footer, "text/html", "utf-8", null);
-
                             webview.loadDataWithBaseURL(local, HTMLConstants.head + htmlData + HTMLConstants.footer, "text/html", "utf-8", null);
-
-//                            webview.loadUrl("https://mp.weixin.qq.com/s?__biz=MzA4NjQ0NzgyNg==&mid=218436924&idx=5&sn=91aa86a3fd0edacdfce4409294126bb6&scene=2&from=timeline&isappinstalled=0&key=51248353fdc216d38c036484eb0094880853ff8a1c618edc1398b3990fc7befde427b8509a2241c1a7177b08180be8f45284942ad3b9efda00ec1fac1154c42e7151a023fb8d001cf2187e16da519d8a&ascene=0&uin=MjA3MjkzMDcwMg%3D%3D&devicetype=iMac+MacBookPro12%2C1+OSX+OSX+10.12.1+build(16B2657)&version=12020510&nettype=WIFI&fontScale=100&pass_ticket=84uNFNPhnGm86glbSX2uVURATdkMQ%2FTr2su05WCi2O%2BbAdHDXgzXcMSDXhDpZQCU");
                             Document parse = Jsoup.parse(data);
                             Elements elements1 = parse.select("body img");
                             for (Element element : elements1) {
@@ -456,7 +429,11 @@ public class NewsDetailsActivity extends BaseActivity {
                 });
     }
 
-
+    /**
+     * body 数据问题
+     * @param bodyHTML
+     * @return
+     */
     private String getHtmlData(String bodyHTML) {
         String head = "<head><style>img{max-width: 100%; width:auto; height: auto;}</style></head>";
         return "<html>" + head + "<body>" + bodyHTML + "</body></html>";
@@ -484,11 +461,13 @@ public class NewsDetailsActivity extends BaseActivity {
                     @Override
                     public void onBefore(Request request) {
                         super.onBefore(request);
+                        startProgressDialog();
                     }
 
                     @Override
                     public void onAfter() {
                         super.onAfter();
+                        stopProgressDialog();
                     }
 
                     @Override
@@ -530,6 +509,7 @@ public class NewsDetailsActivity extends BaseActivity {
         OkHttpUtils.post()
                 .tag(this)
                 .addParams("cmsId", id)
+
                 .url(HostConstants.COMMENTS)
                 .addParams("pageIndex", page + "")
                 .addParams("pageSize", "30")
@@ -552,29 +532,18 @@ public class NewsDetailsActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-//                             commentsResponse = GsonUtil.changeGsonToBean(response, CommentsResponse.class);
-//                            commentsList.clear();
-//                            commentsList.addAll(newsItems);
-//                            commsAdapter.notifyDataSetChanged();
+                            CommentsResponse newsItemResponse = GsonUtil.changeGsonToBean(response, CommentsResponse.class);
+                            if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
+                                List<Comments> result = newsItemResponse.getResult();
+                                if (loadMode != LoadMode.UP_REFRESH) {
+                                    commentsList.clear();
+                                    page++;
+                                }
+                                commentsList.addAll(result);
+                                commsAdapter.notifyDataSetChanged();
 
-
-//                            try {
-//                                CommentsResponse newsItemResponse = GsonUtil.changeGsonToBean(response, CommentsResponse.class);
-//                                if (isOkCode(newsItemResponse.getCode(), newsItemResponse.getMessage())) {
-//                                    List<NewsItem> result = newsItemResponse.getResult();
-//                                    if (loadMode != LoadMode.UP_REFRESH) {
-//                                        commentsList.clear();
-//                                        page++;
-//                                    }
-//                                    commentsList.addAll(result);
-//                                    commsAdapter.notifyDataSetChanged();
-//                                }
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//
-//                            }
-
+                                Log.d("okhttp",commentsList.toString());
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();

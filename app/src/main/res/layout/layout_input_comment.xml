@@ -18,11 +18,41 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_margin="5dp"
+            android:drawableLeft="@mipmap/ic_edit_comments"
             android:layout_weight="1"
             android:background="@drawable/shape_comment_background"
             android:hint="写评论"
             android:paddingLeft="10dp"
             android:textSize="10sp" />
+
+
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_xiaoxi"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"
+                />
+            <Button
+                android:id="@+id/btn_message_count"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_number_circle"
+                android:lines="1"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+
 
 
         <TextView
@@ -31,5 +61,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="发布" />
+
+
+
     </LinearLayout>
 </LinearLayout>

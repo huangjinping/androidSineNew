@@ -13,11 +13,10 @@
 
         <ImageView
             android:id="@+id/img_item"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@mipmap/ic_girl_normal"
-
-            android:scaleType="fitCenter" />
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/txt_commodity_name"

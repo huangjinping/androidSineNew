@@ -4,35 +4,75 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:id="@+id/layout_rootView"
+    >
 
 
-    <TextView
-        android:id="@+id/txt_author_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:textColor="@color/role_yellow_gray"
-        tools:text="sds" />
+        android:orientation="horizontal"
+        android:padding="5dp">
 
-    <TextView
-        android:id="@+id/txt_rendered"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textColor="@color/black"
-        tools:text="sds" />
+        <ImageView
+            android:id="@+id/img_userPhoto"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@mipmap/ic_login_icon"
 
+            />
 
-    <TextView
-        android:id="@+id/txt_date"
-        android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
 
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="right"
-        android:textColor="@color/gray_background"
-        tools:text="sds"
+            <TextView
+                android:id="@+id/txt_userNickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue_bar"
+                android:textSize="12sp"
+                tools:text="asdasd" />
 
-        />
+            <TextView
+                android:id="@+id/txt_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="adasdadadadasdadadadasdadadadasdadadadasdadadadasdadadadasdadadadasdadadadasdadadadasdadad"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="2011-123-123" />
+
+                <TextView
+                    android:id="@+id/txt_Reply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:padding="5dp"
+                    android:text="-回复" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.jaydenxiao.common.view.MListView
+            android:id="@+id/lisv_child"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></com.jaydenxiao.common.view.MListView>
+    </LinearLayout>
 </LinearLayout>

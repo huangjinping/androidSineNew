@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.jaydenxiao.common.commonutils.ImageLoaderUtils;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.commodity.Goods;
 import com.sineverything.news.ui.commodity.CommodityDetailsActivity;
@@ -51,7 +50,7 @@ public class CommodityListAdapter extends RecyclerView.Adapter<RecyclerView.View
             viewHolder.txt_goodsName.setText(goods.getGoodsName());
         }
         if (!TextUtils.isEmpty(goods.getGoodsPrice())) {
-            viewHolder.txt_goodsPrice.setText("$s"+goods.getGoodsPrice());
+            viewHolder.txt_goodsPrice.setText("$s" + goods.getGoodsPrice());
         }
         if (!TextUtils.isEmpty(goods.getGoodsSaleNum())) {
             viewHolder.txt_goodsSaleNum.setText(goods.getGoodsSaleNum() + "销量");

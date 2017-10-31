@@ -106,10 +106,6 @@ public class ShareProcess {
 
             @Override
             public void onNext(File file) {
-                activity.showLongToast("保存成功了...");
-
-//                shareImage((Activity) context,file);
-
                 Luban.with(context)
                         .load(file)                     //传人要压缩的图片
                         .setCompressListener(new OnCompressListener() { //设置回调

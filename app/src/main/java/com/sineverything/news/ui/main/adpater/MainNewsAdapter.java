@@ -1,7 +1,6 @@
 package com.sineverything.news.ui.main.adpater;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,7 @@ import com.cameroon.banner.listener.OnBannerListener;
 import com.sineverything.news.R;
 import com.sineverything.news.bean.main.NewsItem;
 import com.sineverything.news.comm.GlideImageLoader;
-import com.sineverything.news.ui.main.activity.NewsDetailsActivity;
+import com.sineverything.news.ui.main.activity.NewsActivity;
 
 import java.util.List;
 
@@ -48,10 +47,10 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         View view = null;
         switch (viewType) {
             case HEAD_TYPE:
-                view=  LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_newheader,parent,false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_newheader, parent, false);
                 return new ViewHeaderHolder(view);
             default:
-                view=  LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_newitem,parent,false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_newitem, parent, false);
                 return new ViewHolder(view);
         }
     }
@@ -59,7 +58,7 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
-           final ViewHeaderHolder headHolder = (ViewHeaderHolder) holder;
+            final ViewHeaderHolder headHolder = (ViewHeaderHolder) holder;
             GlideImageLoader glideImageLoader = new GlideImageLoader();
             headHolder.banner.setImageLoader(glideImageLoader);
             headHolder.banner.setImages(banners);
@@ -70,7 +69,10 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             headHolder.banner.setOnBannerListener(new OnBannerListener() {
                 @Override
                 public void OnBannerClick(int i) {
-                    NewsDetailsActivity.startAction(headHolder.banner.getContext(), banners.get(i).getId() + "");
+
+                    NewsActivity.startAction(headHolder.banner.getContext(), banners.get(i).getId() + "");
+
+//                    NewsDetailsActivity.startAction(headHolder.banner.getContext(), banners.get(i).getId() + "");
                 }
             });
         } else {
@@ -78,21 +80,23 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final NewsItem newsItem = dataList.get(position - 1);
             Glide.with(viewHolder.imgNewIcon.getContext()).load(newsItem.getCover()).placeholder(R.mipmap.ic_fuzhuang_default).error(R.mipmap.ic_fuzhuang_default).into(viewHolder.imgNewIcon);
 
-            if (!TextUtils.isEmpty(newsItem.getTitle())){
+            if (!TextUtils.isEmpty(newsItem.getTitle())) {
                 viewHolder.txtNewTitle.setText(newsItem.getTitle());
             }
-            if (!TextUtils.isEmpty(newsItem.getCreateTime())){
+            if (!TextUtils.isEmpty(newsItem.getCreateTime())) {
                 viewHolder.txtCreateDate.setText(newsItem.getCreateTime());
             }
 
-            if (!TextUtils.isEmpty(newsItem.getSource())){
+            if (!TextUtils.isEmpty(newsItem.getSource())) {
                 viewHolder.txtSource.setText(newsItem.getSource());
             }
 
             viewHolder.layoutIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NewsDetailsActivity.startAction(v.getContext(), newsItem.getId() + "");
+//                    NewsDetailsActivity.startAction(v.getContext(), newsItem.getId() + "");
+                    NewsActivity.startAction(v.getContext(), newsItem.getId() + "");
+
                 }
             });
         }
@@ -125,7 +129,7 @@ public class MainNewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    static class ViewHolder  extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.img_new_icon)
         ImageView imgNewIcon;
         @Bind(R.id.txt_new_title)
